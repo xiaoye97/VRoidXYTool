@@ -21,6 +21,7 @@ namespace VRoidXYTool
         private Vector2 svPos;
 
         private float refreshCD;
+        private DirectoryInfo linkDir;
 
         public LinkTextureTool()
         {
@@ -33,7 +34,7 @@ namespace VRoidXYTool
             GUILayout.BeginVertical("纹理链接工具", GUI.skin.window);
             if (LinkTextures.Count > 0)
             {
-                if (GUILayout.Button("一键导出"))
+                if (GUILayout.Button("全部导出"))
                 {
                     OnClickExportLinkTexture();
                 }
@@ -43,6 +44,10 @@ namespace VRoidXYTool
                     GUILayout.BeginHorizontal();
                     GUILayout.Label($"{lt.layer.TranslatedDisplayName}");
                     GUILayout.FlexibleSpace();
+                    if (GUILayout.Button("导出"))
+                    {
+                        ExportTexture(lt);
+                    }
                     GUILayout.Label(lt.LastWriteTime.ToString());
                     GUILayout.EndHorizontal();
                 }
@@ -68,28 +73,32 @@ namespace VRoidXYTool
             }
         }
 
-        /// <summary>
-        /// 一键导出链接纹理
-        /// </summary>
-        public void OnClickExportLinkTexture()
+        private bool CanUseTool()
         {
-            if (XYTool.Inst.CurrentModelFile == null) return;
+            if (XYTool.Inst.CurrentModelFile == null) return false;
             // 获取模型名字
             string modelPath = XYTool.Inst.CurrentModelFile.path;
-            if (string.IsNullOrWhiteSpace(modelPath)) return;
+            if (string.IsNullOrWhiteSpace(modelPath)) return false;
             FileInfo modelFile = new FileInfo(modelPath);
-            if (!modelFile.Exists) return;
+            if (!modelFile.Exists) return false;
             string modelName = modelFile.Name.Replace(".vroid", "");
             //Debug.Log($"模型名字:{modelName}");
-            DirectoryInfo linkDir = new DirectoryInfo($"{Paths.GameRootPath}/LinkTexture/{modelName}");
+            linkDir = new DirectoryInfo($"{Paths.GameRootPath}/LinkTexture/{modelName}");
             if (!linkDir.Exists)
             {
                 linkDir.Create();
             }
-            int count = LinkTextures.Count;
-            for (int i = count - 1; i >= 0; i--)
+            return true;
+        }
+
+        /// <summary>
+        /// 导出链接纹理
+        /// </summary>
+        /// <param name="lt"></param>
+        public void ExportTexture(LinkTexture lt)
+        {
+            if (CanUseTool())
             {
-                var lt = LinkTextures[i];
                 if (lt.layer != null)
                 {
                     GetRasterLayerContentQuery.Result result = XYTool.Inst.CurrentModelFile.engine.Context.ExecuteSyncQuery<GetRasterLayerContentQuery.Result>(new GetRasterLayerContentQuery(lt.layer.Path));
@@ -117,67 +126,72 @@ namespace VRoidXYTool
         }
 
         /// <summary>
+        /// 一键导出链接纹理
+        /// </summary>
+        public void OnClickExportLinkTexture()
+        {
+            if (CanUseTool())
+            {
+                int count = LinkTextures.Count;
+                for (int i = count - 1; i >= 0; i--)
+                {
+                    var lt = LinkTextures[i];
+                    ExportTexture(lt);
+                }
+            }
+        }
+
+        /// <summary>
         /// 刷新当前所有存储的层
         /// </summary>
         public void RefreshAllLayer()
         {
-            if (XYTool.Inst.CurrentModelFile == null) return;
-            // 获取模型名字
-            string modelPath = XYTool.Inst.CurrentModelFile.path;
-            if (string.IsNullOrWhiteSpace(modelPath)) return;
-
-            FileInfo modelFile = new FileInfo(modelPath);
-            if (!modelFile.Exists) return;
-            string modelName = modelFile.Name.Replace(".vroid", "");
-            //Debug.Log($"模型名字:{modelName}");
-            DirectoryInfo linkDir = new DirectoryInfo($"{Paths.GameRootPath}/LinkTexture/{modelName}");
-            if (!linkDir.Exists)
+            if (CanUseTool())
             {
-                linkDir.Create();
-            }
-            // 遍历刷新
-            int count = LinkTextures.Count;
-            for (int i = count - 1; i >= 0; i--)
-            {
-                var lt = LinkTextures[i];
-                if (lt.layer != null)
+                // 遍历刷新
+                int count = LinkTextures.Count;
+                for (int i = count - 1; i >= 0; i--)
                 {
-                    FileInfo texFile = new FileInfo($"{linkDir}/{lt.layer.TranslatedDisplayName}.png");
-                    // 检查是否有一致名字的纹理
-                    if (texFile.Exists)
+                    var lt = LinkTextures[i];
+                    if (lt.layer != null)
                     {
-                        // 如果文件的最后写入时间比记录的要新，则同步纹理
-                        if (texFile.LastWriteTime > lt.LastWriteTime)
+                        FileInfo texFile = new FileInfo($"{linkDir}/{lt.layer.TranslatedDisplayName}.png");
+                        // 检查是否有一致名字的纹理
+                        if (texFile.Exists)
                         {
-                            byte[] fileBytes;
-                            try
+                            // 如果文件的最后写入时间比记录的要新，则同步纹理
+                            if (texFile.LastWriteTime > lt.LastWriteTime)
                             {
-                                fileBytes = File.ReadAllBytes(texFile.FullName);
+                                byte[] fileBytes;
+                                try
+                                {
+                                    fileBytes = File.ReadAllBytes(texFile.FullName);
+                                }
+                                catch (Exception e)
+                                {
+                                    Debug.LogError($"读取纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
+                                    continue;
+                                }
+                                BitmapSize bitmapSize;
+                                UnityEngine.Color[] pixels;
+                                try
+                                {
+                                    Decode(fileBytes, out bitmapSize, out pixels);
+                                }
+                                catch (Exception e)
+                                {
+                                    Debug.LogError($"解析纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
+                                    return;
+                                }
+                                XYTool.Inst.CurrentModelFile.engine.Context.ExecuteSyncCommand(new LoadImageToEditableImageRasterLayerCommand(lt.layer.Path, bitmapSize, pixels));
+                                lt.LastWriteTime = DateTime.Now;
                             }
-                            catch (Exception e)
-                            {
-                                Debug.LogError($"读取纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
-                                continue;
-                            }
-                            BitmapSize bitmapSize;
-                            UnityEngine.Color[] pixels;
-                            try
-                            {
-                                Decode(fileBytes, out bitmapSize, out pixels);
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.LogError($"解析纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
-                                return;
-                            }
-                            XYTool.Inst.CurrentModelFile.engine.Context.ExecuteSyncCommand(new LoadImageToEditableImageRasterLayerCommand(lt.layer.Path, bitmapSize, pixels));
-                            lt.LastWriteTime = DateTime.Now;
                         }
                     }
-                }
-                else
-                {
-                    LinkTextures.RemoveAt(i);
+                    else
+                    {
+                        LinkTextures.RemoveAt(i);
+                    }
                 }
             }
         }

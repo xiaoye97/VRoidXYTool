@@ -11,7 +11,7 @@ namespace VRoidXYTool
     [BepInPlugin("me.xiaoye97.plugin.VRoidStudio.VRoidXYTool", "VRoidXYTool", PluginVersion)]
     public class XYTool : BaseUnityPlugin
     {
-        public const string PluginVersion = "0.1";
+        public const string PluginVersion = "0.1.1";
         public bool showWindow;
         private Rect winRect = new Rect(50, 50, 500, 600);
 

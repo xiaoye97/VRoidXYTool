@@ -12,12 +12,13 @@ using VRoidCore.Common.SpecificTypes;
 using VRoidCore.Editing.History.Command;
 using VRoid.Studio.TextureEditor.Layer.ViewModel;
 using VRoid.Studio.TextureEditor.Texture.ViewModel;
+using System.Linq;
 
 namespace VRoidXYTool
 {
     public class LinkTextureTool
     {
-        private static List<LinkTexture> LinkTextures;
+        public static List<LinkTexture> LinkTextures;
         private Vector2 svPos;
 
         private float refreshCD;
@@ -32,30 +33,49 @@ namespace VRoidXYTool
         public void OnGUI()
         {
             GUILayout.BeginVertical("纹理链接工具", GUI.skin.window);
-            if (LinkTextures.Count > 0)
+            try
             {
-                if (GUILayout.Button("全部导出"))
+                if (LinkTextures.Count > 0)
                 {
-                    OnClickExportLinkTexture();
-                }
-                svPos = GUILayout.BeginScrollView(svPos, GUI.skin.box, GUILayout.MaxHeight(200));
-                foreach (var lt in LinkTextures)
-                {
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Label($"{lt.layer.TranslatedDisplayName}");
-                    GUILayout.FlexibleSpace();
-                    if (GUILayout.Button("导出"))
+                    if (GUILayout.Button("全部导出"))
                     {
-                        ExportTexture(lt);
+                        OnClickExportLinkTexture();
                     }
-                    GUILayout.Label(lt.LastWriteTime.ToString());
-                    GUILayout.EndHorizontal();
+                    svPos = GUILayout.BeginScrollView(svPos, GUI.skin.box, GUILayout.MaxHeight(200));
+
+                    for (int i = 0; i < LinkTextures.Count; i++)
+                    {
+                        var lt = LinkTextures[i];
+                        if (lt != null && lt.layer != null)
+                        {
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label($"{lt.layer.TranslatedDisplayName}");
+                            GUILayout.FlexibleSpace();
+                            if (GUILayout.Button("导出纹理"))
+                            {
+                                ExportTexture(lt);
+                            }
+                            if (lt.CanExportUV)
+                            {
+                                if (GUILayout.Button("导出UV"))
+                                {
+                                    ExportUV(lt);
+                                }
+                            }
+                            GUILayout.Label(lt.LastWriteTime.ToString());
+                            GUILayout.EndHorizontal();
+                        }
+                    }
+                    GUILayout.EndScrollView();
                 }
-                GUILayout.EndScrollView();
+                else
+                {
+                    GUILayout.Label("没有正在编辑的纹理");
+                }
             }
-            else
+            catch (Exception e)
             {
-                GUILayout.Label("没有正在编辑的纹理");
+                GUILayout.Label($"出现异常:{e.Message}\n{e.StackTrace}");
             }
             GUILayout.EndVertical();
         }
@@ -73,6 +93,10 @@ namespace VRoidXYTool
             }
         }
 
+        /// <summary>
+        /// 检查是否可以使用链接纹理工具
+        /// </summary>
+        /// <returns></returns>
         private bool CanUseTool()
         {
             if (XYTool.Inst.CurrentModelFile == null) return false;
@@ -126,6 +150,25 @@ namespace VRoidXYTool
         }
 
         /// <summary>
+        /// 导出UV
+        /// </summary>
+        /// <param name="lt"></param>
+        public async void ExportUV(LinkTexture lt)
+        {
+            try
+            {
+                TexturePath referringTexturePath = lt.layer._parent.ReferringTexturePaths.FirstOrDefault<TexturePath>();
+                var bytes = await XYTool.Inst.CurrentViewModelFile.Engine.GetUVGuideTexturePNGBytes(referringTexturePath);
+                string path = $"{linkDir}/{lt.layer.TranslatedDisplayName}_UV.png";
+                File.WriteAllBytes(path, bytes);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"导出UV时出现异常:\n{e.Message}\n{e.StackTrace}");
+            }
+        }
+
+        /// <summary>
         /// 一键导出链接纹理
         /// </summary>
         public void OnClickExportLinkTexture()
@@ -153,7 +196,7 @@ namespace VRoidXYTool
                 for (int i = count - 1; i >= 0; i--)
                 {
                     var lt = LinkTextures[i];
-                    if (lt.layer != null)
+                    if (lt != null && lt.layer != null)
                     {
                         FileInfo texFile = new FileInfo($"{linkDir}/{lt.layer.TranslatedDisplayName}.png");
                         // 检查是否有一致名字的纹理
@@ -194,6 +237,13 @@ namespace VRoidXYTool
                     }
                 }
             }
+            else
+            {
+                if (LinkTextures.Count > 0)
+                {
+                    LinkTextures.Clear();
+                }
+            }
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(RasterLayerViewModel), MethodType.Constructor, new Type[] { typeof(BindableResources), typeof(VRoid.Studio.Engine.Model), typeof(VRoid.Studio.TextureEditor.ViewModel), typeof(TextureViewModel), typeof(EditableImageRasterLayerPath) })]
@@ -230,11 +280,17 @@ namespace VRoidXYTool
     {
         public RasterLayerViewModel layer;
         public DateTime LastWriteTime;
+        public bool CanExportUV;
 
         public LinkTexture(RasterLayerViewModel vm)
         {
             layer = vm;
             LastWriteTime = DateTime.Now;
+            TexturePath referringTexturePath = vm._parent.ReferringTexturePaths.FirstOrDefault<TexturePath>();
+            if (referringTexturePath != null && vm.featureViewModel.actionHandler.IsGuideExportable(referringTexturePath))
+            {
+                CanExportUV = true;
+            }
         }
     }
 }

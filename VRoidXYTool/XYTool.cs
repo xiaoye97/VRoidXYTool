@@ -11,13 +11,14 @@ namespace VRoidXYTool
     [BepInPlugin("me.xiaoye97.plugin.VRoidStudio.VRoidXYTool", "VRoidXYTool", PluginVersion)]
     public class XYTool : BaseUnityPlugin
     {
-        public const string PluginVersion = "0.1.1";
+        public const string PluginVersion = "0.1.2";
         public bool showWindow;
         private Rect winRect = new Rect(50, 50, 500, 600);
 
         public static XYTool Inst;
 
         public CurrentFileModel CurrentModelFile;
+        public CurrentFileViewModel CurrentViewModelFile;
 
         public CameraTool CameraTool;
         public GizmoTool GizmoTool;
@@ -107,11 +108,21 @@ namespace VRoidXYTool
             return ab.LoadAsset<T>(assetName);
         }
 
-        [HarmonyPostfix, HarmonyPatch(typeof(CurrentFileModel), MethodType.Constructor, new Type[] { typeof(VRoid.Studio.Engine.Model), typeof(string) })]
-        public static void ModelPatch(CurrentFileModel __instance, VRoid.Studio.Engine.Model engine,  string path)
+        //[HarmonyPostfix, HarmonyPatch(typeof(CurrentFileModel), MethodType.Constructor, new Type[] { typeof(VRoid.Studio.Engine.Model), typeof(string) })]
+        //public static void ModelPatch(CurrentFileModel __instance, string path)
+        //{
+        //    XYTool.Inst.CurrentModelFile = __instance;
+        //    Debug.Log($"构造了CurrentFileModel, path:{path}");
+        //    LinkTextureTool.LinkTextures.Clear();
+        //}
+
+        [HarmonyPostfix, HarmonyPatch(typeof(CurrentFileViewModel), MethodType.Constructor, new Type[] { typeof(VRoid.UI.BindableResources), typeof(VRoid.Studio.CurrentFileModel), typeof(VRoid.Studio.View.EditModelTransform), typeof(VRoid.Studio.View.PreviewModelTransform) })]
+        public static void ViewModelPatch(CurrentFileViewModel __instance, CurrentFileModel model)
         {
-            XYTool.Inst.CurrentModelFile = __instance;
-            Debug.Log($"构造了CurrentFileModel, path:{path}");
+            XYTool.Inst.CurrentViewModelFile = __instance;
+            XYTool.Inst.CurrentModelFile = model;
+            Debug.Log($"构造了CurrentViewModelFile");
+            LinkTextureTool.LinkTextures.Clear();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using VRoid.UI.Component;
@@ -12,23 +13,30 @@ namespace VRoidXYTool
         public void OnGUI()
         {
             GUILayout.BeginVertical("相机工具", GUI.skin.window);
-            if (MRTcamera == null || MainCamera == null)
+            try
             {
-                if (GUILayout.Button("查找相机"))
+                if (MRTcamera == null || MainCamera == null)
                 {
-                    FindCamera();
-                }
-            }
-            else
-            {
-                if (MainCamera.orthographic)
-                {
-                    OrthoGUI();
+                    if (GUILayout.Button("查找相机"))
+                    {
+                        FindCamera();
+                    }
                 }
                 else
                 {
-                    NormalGUI();
+                    if (MainCamera.orthographic)
+                    {
+                        OrthoGUI();
+                    }
+                    else
+                    {
+                        NormalGUI();
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                GUILayout.Label($"出现异常:{e.Message}\n{e.StackTrace}");
             }
             GUILayout.EndVertical();
         }

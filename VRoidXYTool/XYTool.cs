@@ -8,10 +8,13 @@ using BepInEx.Configuration;
 
 namespace VRoidXYTool
 {
-    [BepInPlugin("me.xiaoye97.plugin.VRoidStudio.VRoidXYTool", "VRoidXYTool", PluginVersion)]
+    [BepInPlugin(PluginID, PluginName, PluginVersion)]
     public class XYTool : BaseUnityPlugin
     {
-        public const string PluginVersion = "0.1.2";
+        public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
+        public const string PluginName = "VRoidXYTool";
+        public const string PluginVersion = "0.2.0";
+
         public bool showWindow;
         private Rect winRect = new Rect(50, 50, 500, 600);
 
@@ -70,6 +73,7 @@ namespace VRoidXYTool
         {
             if (showWindow)
             {
+                GUI.backgroundColor = Color.black;
                 winRect = GUILayout.Window(666, winRect, WindowFunc, $"宵夜小工具 v{PluginVersion}");
             }
         }
@@ -77,22 +81,47 @@ namespace VRoidXYTool
         public void WindowFunc(int id)
         {
             GUILayout.BeginHorizontal();
+            RunInBackGround = GUILayout.Toggle(RunInBackGround, "软件后台运行");
+            GUILayout.Space(20);
+            //GUILayout.Label($"插件界面快捷键:{Hotkey.Value}");
+            if (GUILayout.Button("打开插件配置文件"))
+            {
+                System.Diagnostics.Process.Start("NotePad.exe", $"{Paths.BepInExRootPath}/config/{PluginID}.cfg");
+            }
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("X"))
             {
                 showWindow = false;
             }
             GUILayout.EndHorizontal();
-            GUILayout.BeginVertical("常规", GUI.skin.window);
-            GUILayout.Label("作者:xiaoye97");
-            GUILayout.Label("教程见B站:宵夜97");
-            GUILayout.Label("插件更新见GitHub:xiaoye97");
-            RunInBackGround = GUILayout.Toggle(RunInBackGround, "软件后台运行");
-            GUILayout.EndVertical();
+            InfoGUI();
             CameraTool.OnGUI();
             GizmoTool.OnGUI();
             LinkTextureTool.OnGUI();
             GUI.DragWindow();
+        }
+
+        public void InfoGUI()
+        {
+            GUILayout.BeginVertical("关于", GUI.skin.window);
+            GUILayout.Label("作者:xiaoye97");
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("教程见B站:");
+            if (GUILayout.Button("宵夜97", GUILayout.Width(100)))
+            {
+                System.Diagnostics.Process.Start("https://space.bilibili.com/1306433");
+            }
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("插件更新见GitHub:");
+            if (GUILayout.Button("xiaoye97", GUILayout.Width(100)))
+            {
+                System.Diagnostics.Process.Start("https://github.com/xiaoye97/VRoidXYTool/releases/latest");
+            }
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
         }
 
         /// <summary>
@@ -108,21 +137,13 @@ namespace VRoidXYTool
             return ab.LoadAsset<T>(assetName);
         }
 
-        //[HarmonyPostfix, HarmonyPatch(typeof(CurrentFileModel), MethodType.Constructor, new Type[] { typeof(VRoid.Studio.Engine.Model), typeof(string) })]
-        //public static void ModelPatch(CurrentFileModel __instance, string path)
-        //{
-        //    XYTool.Inst.CurrentModelFile = __instance;
-        //    Debug.Log($"构造了CurrentFileModel, path:{path}");
-        //    LinkTextureTool.LinkTextures.Clear();
-        //}
-
         [HarmonyPostfix, HarmonyPatch(typeof(CurrentFileViewModel), MethodType.Constructor, new Type[] { typeof(VRoid.UI.BindableResources), typeof(VRoid.Studio.CurrentFileModel), typeof(VRoid.Studio.View.EditModelTransform), typeof(VRoid.Studio.View.PreviewModelTransform) })]
         public static void ViewModelPatch(CurrentFileViewModel __instance, CurrentFileModel model)
         {
             XYTool.Inst.CurrentViewModelFile = __instance;
             XYTool.Inst.CurrentModelFile = model;
             Debug.Log($"构造了CurrentViewModelFile");
-            LinkTextureTool.LinkTextures.Clear();
+            XYTool.Inst.LinkTextureTool.Clear();
         }
     }
 }

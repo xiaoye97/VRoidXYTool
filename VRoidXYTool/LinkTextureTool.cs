@@ -14,6 +14,7 @@ using VRoidCore.Common.SpecificTypes;
 using VRoidCore.Editing.History.Command;
 using VRoid.Studio.TextureEditor.Layer.ViewModel;
 using VRoid.Studio.TextureEditor.Texture.ViewModel;
+using VRoid.Studio.TextureEditor;
 
 namespace VRoidXYTool
 {
@@ -113,6 +114,10 @@ namespace VRoidXYTool
                             if (HasDuplicateName(lt))
                             {
                                 GUILayout.Label("有重名图层，无法导出!");
+                                if (GUILayout.Button("随机名字"))
+                                {
+                                    RandomTextureName(lt);
+                                }
                             }
                             else
                             {
@@ -342,10 +347,41 @@ namespace VRoidXYTool
             linkDir = null;
         }
 
+        /// <summary>
+        /// 随机给纹理生成名字
+        /// </summary>
+        /// <param name="lt"></param>
+        public void RandomTextureName(LinkTexture lt)
+        {
+            string name = GetRandomName();
+            XYTool.Inst.CurrentModelFile.engine.Context.ExecuteSyncCommand(ActionHandler.CreateModifyNameCommand(lt.layer.Path, name));
+        }
+
+        /// <summary>
+        /// 随机一个图层名字
+        /// </summary>
+        /// <returns></returns>
+        public string GetRandomName()
+        {
+            int r = UnityEngine.Random.Range(1000, 10000);
+            return $"layer_{r}";
+        }
+
         [HarmonyPostfix, HarmonyPatch(typeof(RasterLayerViewModel), MethodType.Constructor, new Type[] { typeof(BindableResources), typeof(VRoid.Studio.Engine.Model), typeof(VRoid.Studio.TextureEditor.ViewModel), typeof(TextureViewModel), typeof(EditableImageRasterLayerPath) })]
         public static void RasterLayerVMPatch(RasterLayerViewModel __instance)
         {
             Debug.Log($"构造了RasterLayerViewModel, Name:{__instance.TranslatedDisplayName}");
+            // 检查当前存储的链接纹理，是否有相同纹理
+            for (int i = 0; i < LinkTextures.Count; i++)
+            {
+                var lt = LinkTextures[i];
+                if (lt.layer.Path.NodeId == __instance.Path.NodeId)
+                {
+                    //Debug.Log($"新构造的RasterLayerViewModel有相同ID在存储内，替换");
+                    LinkTextures[i] = new LinkTexture(__instance);
+                    return;
+                }
+            }
             LinkTextures.Add(new LinkTexture(__instance));
         }
 

@@ -8,6 +8,8 @@
 - 镜头位置预设，快速定位到全身和脸部的四方向视角，可选透视或正交模式
 - 坐标系Gizmo，用于显示世界坐标的原点和方向
 
+![图示](https://cdn.jsdelivr.net/gh/xiaoye97/VRoidXYTool@master/Asset/LTPreview.gif)
+
 ## 教程
 
 - 视频教程见[B站][2]

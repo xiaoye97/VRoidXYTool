@@ -5,6 +5,7 @@ using System.IO;
 using HarmonyLib;
 using System.Linq;
 using UnityEngine;
+using VRoid.Studio;
 using VRoid.Studio.Util;
 using BepInEx.Configuration;
 using VRoidCore.Editing.Query;
@@ -37,6 +38,40 @@ namespace VRoidXYTool
 
         private bool useConfigDir;
 
+        private CurrentFileModel _CurrentFileM;
+
+        public CurrentFileModel CurrentFileM
+        {
+            get
+            {
+                if (_CurrentFileM == null )
+                {
+                    if (CurrentFileVM != null)
+                    {
+                        _CurrentFileM = CurrentFileVM.model;
+                    }
+                }
+                return  _CurrentFileM;
+            }
+        }
+
+        private CurrentFileViewModel _CurrentFileVM;
+
+        public CurrentFileViewModel CurrentFileVM
+        {
+            get
+            {
+                if (_CurrentFileVM == null)
+                {
+                    if (XYTool.Inst.MainVM != null)
+                    {
+                        _CurrentFileVM = XYTool.Inst.MainVM.CurrentFile;
+                    }
+                }
+                return _CurrentFileVM;
+            }
+        }
+
         public ConfigEntry<string> LinkTextureDirectory;
 
         public ConfigEntry<float> LinkTextureSyncInterval;
@@ -47,7 +82,7 @@ namespace VRoidXYTool
             LinkTextures = new List<LinkTexture>();
             // 链接纹理路径
             LinkTextureDirectory = XYTool.Inst.Config.Bind<string>("LinkTextureTool", "LinkTextureDirectory", "", "自定义的链接纹理检测路径，留空则使用默认路径");
-            LinkTextureSyncInterval = XYTool.Inst.Config.Bind<float>("LinkTextureTool", "LinkTextureSyncInterval", 1f, "纹理同步检测的间隔时间，单位秒，最低0.1秒");
+            LinkTextureSyncInterval = XYTool.Inst.Config.Bind<float>("LinkTextureTool", "LinkTextureSyncInterval", 0.2f, "纹理同步检测的间隔时间，单位秒，最低0.1秒");
             LinkTextureSyncInterval.Value = Mathf.Max(0.1f, LinkTextureSyncInterval.Value);
             useConfigDir = false;
             if (!string.IsNullOrWhiteSpace(LinkTextureDirectory.Value))
@@ -87,7 +122,7 @@ namespace VRoidXYTool
                 }
                 if (GUILayout.Button("打开链接纹理文件夹"))
                 {
-                    if (XYTool.Inst.CurrentModelFile != null)
+                    if (IsModelNull())
                     {
                         if (linkDir != null && linkDir.Exists)
                         {
@@ -101,10 +136,10 @@ namespace VRoidXYTool
                 }
                 if (LinkTextures.Count > 0)
                 {
-                    if (GUILayout.Button("全部导出"))
-                    {
-                        OnClickExportLinkTexture();
-                    }
+                    //if (GUILayout.Button("全部导出"))
+                    //{
+                    //    OnClickExportLinkTexture();
+                    //}
                     svPos = GUILayout.BeginScrollView(svPos, GUI.skin.box, GUILayout.MaxHeight(200));
 
                     for (int i = 0; i < LinkTextures.Count; i++)
@@ -170,14 +205,24 @@ namespace VRoidXYTool
         }
 
         /// <summary>
+        /// 模型是否为空
+        /// </summary>
+        private bool IsModelNull()
+        {
+            if (CurrentFileVM == null) return true;
+            if (CurrentFileM == null) return true;
+            return false;
+        }
+
+        /// <summary>
         /// 检查是否可以使用链接纹理工具
         /// </summary>
         /// <returns></returns>
         private bool CanUseTool()
         {
-            if (XYTool.Inst.CurrentModelFile == null) return false;
+            if (IsModelNull()) return false;
             // 获取模型名字
-            string modelPath = XYTool.Inst.CurrentModelFile.path;
+            string modelPath = CurrentFileM.path;
             if (string.IsNullOrWhiteSpace(modelPath)) return false;
             FileInfo modelFile = new FileInfo(modelPath);
             if (!modelFile.Exists) return false;
@@ -200,7 +245,7 @@ namespace VRoidXYTool
             {
                 if (lt.layer != null)
                 {
-                    GetRasterLayerContentQuery.Result result = XYTool.Inst.CurrentModelFile.engine.Context.ExecuteSyncQuery<GetRasterLayerContentQuery.Result>(new GetRasterLayerContentQuery(lt.layer.Path));
+                    GetRasterLayerContentQuery.Result result = CurrentFileM.engine.Context.ExecuteSyncQuery<GetRasterLayerContentQuery.Result>(new GetRasterLayerContentQuery(lt.layer.Path));
                     byte[] bytes;
                     try
                     {
@@ -233,7 +278,7 @@ namespace VRoidXYTool
             try
             {
                 TexturePath referringTexturePath = lt.layer._parent.ReferringTexturePaths.FirstOrDefault<TexturePath>();
-                var bytes = await XYTool.Inst.CurrentViewModelFile.Engine.GetUVGuideTexturePNGBytes(referringTexturePath);
+                var bytes = await CurrentFileVM.Engine.GetUVGuideTexturePNGBytes(referringTexturePath);
                 string path = $"{linkDir}/{lt.layer.TranslatedDisplayName}_UV.png";
                 File.WriteAllBytes(path, bytes);
             }
@@ -307,7 +352,7 @@ namespace VRoidXYTool
                                     Debug.LogError($"解析纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
                                     return;
                                 }
-                                XYTool.Inst.CurrentModelFile.engine.Context.ExecuteSyncCommand(new LoadImageToEditableImageRasterLayerCommand(lt.layer.Path, bitmapSize, pixels));
+                                CurrentFileM.engine.Context.ExecuteSyncCommand(new LoadImageToEditableImageRasterLayerCommand(lt.layer.Path, bitmapSize, pixels));
                                 lt.LastWriteTime = DateTime.Now;
                             }
                         }
@@ -361,7 +406,7 @@ namespace VRoidXYTool
         public void RandomTextureName(LinkTexture lt)
         {
             string name = GetRandomName();
-            XYTool.Inst.CurrentModelFile.engine.Context.ExecuteSyncCommand(ActionHandler.CreateModifyNameCommand(lt.layer.Path, name));
+            CurrentFileM.engine.Context.ExecuteSyncCommand(ActionHandler.CreateModifyNameCommand(lt.layer.Path, name));
         }
 
         /// <summary>
@@ -384,7 +429,6 @@ namespace VRoidXYTool
                 var lt = LinkTextures[i];
                 if (lt.layer.Path.NodeId == __instance.Path.NodeId)
                 {
-                    //Debug.Log($"新构造的RasterLayerViewModel有相同ID在存储内，替换");
                     LinkTextures[i] = new LinkTexture(__instance);
                     return;
                 }

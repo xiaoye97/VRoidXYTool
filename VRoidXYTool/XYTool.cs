@@ -1,5 +1,6 @@
 using System;
 using BepInEx;
+using VRoid.UI;
 using HarmonyLib;
 using UnityEngine;
 using VRoid.Studio;
@@ -13,51 +14,47 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.2.2";
+        public const string PluginVersion = "0.2.5";
 
         public bool showWindow;
         private Rect winRect = new Rect(50, 50, 500, 600);
 
         public static XYTool Inst;
 
-        public CurrentFileModel CurrentModelFile;
-        public CurrentFileViewModel CurrentViewModelFile;
+        public MainViewModel MainVM;
+        //public CurrentFileModel CurrentModelFile;
+        //public CurrentFileViewModel CurrentViewModelFile;
 
         public CameraTool CameraTool;
         public GizmoTool GizmoTool;
         public LinkTextureTool LinkTextureTool;
 
+        #region 配置
         public ConfigEntry<bool> RunInBG;
         public ConfigEntry<KeyCode> Hotkey;
 
-        public bool RunInBackGround
-        {
-            get
-            {
-                return Application.runInBackground;
-            }
-            set
-            {
-                if (Application.runInBackground != value)
-                {
-                    Application.runInBackground = value;
-                    RunInBG.Value = value;
-                }
-            }
-        }
+        public ConfigEntry<bool> ShowCameraToolGUI;
+        public ConfigEntry<bool> ShowGizmoToolGUI;
+        public ConfigEntry<bool> ShowLinkTextureToolGUI;
+        #endregion
 
-        private void Start()
+        private void Awake()
         {
             Inst = this;
             RunInBG = Config.Bind<bool>("Common", "RunInBG", true, "软件是否在后台运行");
             Hotkey = Config.Bind<KeyCode>("Common", "Hotkey", KeyCode.F11, "界面快捷键");
-            Application.runInBackground = RunInBG.Value;
+            ShowCameraToolGUI = Config.Bind<bool>("Common", "ShowCameraToolGUI", true, "是否显示相机工具GUI");
+            ShowGizmoToolGUI = Config.Bind<bool>("Common", "ShowGizmoToolGUI", true, "是否显示Gizmo工具GUI");
+            ShowLinkTextureToolGUI = Config.Bind<bool>("Common", "ShowLinkTextureToolGUI", true, "是否显示链接纹理工具GUI");
+            Harmony.CreateAndPatchAll(typeof(XYTool));
+            Logger.LogInfo("XYTool启动");
+        }
 
+        private void Start()
+        {
             CameraTool = new CameraTool();
             GizmoTool = new GizmoTool();
             LinkTextureTool = new LinkTextureTool();
-            Harmony.CreateAndPatchAll(typeof(XYTool));
-            Logger.LogInfo("XYTool启动");
         }
 
         private void Update()
@@ -66,6 +63,11 @@ namespace VRoidXYTool
             {
                 showWindow = !showWindow;
             }
+            if (Application.runInBackground != RunInBG.Value)
+            {
+                Application.runInBackground = RunInBG.Value;
+            }
+            CameraTool.Update();
             LinkTextureTool.Update();
         }
 
@@ -81,7 +83,7 @@ namespace VRoidXYTool
         public void WindowFunc(int id)
         {
             GUILayout.BeginHorizontal();
-            RunInBackGround = GUILayout.Toggle(RunInBackGround, "软件后台运行");
+            RunInBG.Value = GUILayout.Toggle(RunInBG.Value, "软件后台运行");
             GUILayout.Space(20);
             //GUILayout.Label($"插件界面快捷键:{Hotkey.Value}");
             if (GUILayout.Button("打开插件配置文件"))
@@ -95,32 +97,65 @@ namespace VRoidXYTool
             }
             GUILayout.EndHorizontal();
             InfoGUI();
-            CameraTool.OnGUI();
-            GizmoTool.OnGUI();
-            LinkTextureTool.OnGUI();
+            ConfigGUI();
+            if (ShowCameraToolGUI.Value)
+            {
+                CameraTool.OnGUI();
+            }
+            if (ShowGizmoToolGUI.Value)
+            {
+                GizmoTool.OnGUI();
+            }
+            if (ShowLinkTextureToolGUI.Value)
+            {
+                LinkTextureTool.OnGUI();
+            }
             GUI.DragWindow();
         }
 
+        /// <summary>
+        /// 关于界面
+        /// </summary>
         public void InfoGUI()
         {
             GUILayout.BeginVertical("关于", GUI.skin.window);
-            GUILayout.Label("作者:xiaoye97");
+
             GUILayout.BeginHorizontal();
-            GUILayout.Label("教程见B站:");
-            if (GUILayout.Button("宵夜97", GUILayout.Width(100)))
+            GUILayout.Label("作者:宵夜97");
+            GUILayout.Space(10);
+            if (GUILayout.Button("教程视频(B站)", GUILayout.Width(100)))
             {
                 System.Diagnostics.Process.Start("https://space.bilibili.com/1306433");
             }
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("插件更新见GitHub:");
-            if (GUILayout.Button("xiaoye97", GUILayout.Width(100)))
+            GUILayout.Space(10);
+            if (GUILayout.Button("插件更新", GUILayout.Width(100)))
             {
                 System.Diagnostics.Process.Start("https://github.com/xiaoye97/VRoidXYTool/releases/latest");
             }
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+
+            GUILayout.EndVertical();
+        }
+
+        /// <summary>
+        /// 配置界面
+        /// </summary>
+        public void ConfigGUI()
+        {
+            GUILayout.BeginVertical("配置", GUI.skin.window);
+
+            GUILayout.BeginHorizontal();
+            ShowCameraToolGUI.Value = GUILayout.Toggle(ShowCameraToolGUI.Value, "相机工具");
+            GUILayout.Space(10);
+            ShowGizmoToolGUI.Value = GUILayout.Toggle(ShowGizmoToolGUI.Value, "Gizmo工具");
+            GUILayout.Space(10);
+            ShowLinkTextureToolGUI.Value = GUILayout.Toggle(ShowLinkTextureToolGUI.Value, "链接纹理工具");
+            GUILayout.Space(10);
+            CameraTool.AntiAliasing.Value = GUILayout.Toggle(CameraTool.AntiAliasing.Value, "抗锯齿");
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+
             GUILayout.EndVertical();
         }
 
@@ -137,13 +172,11 @@ namespace VRoidXYTool
             return ab.LoadAsset<T>(assetName);
         }
 
-        [HarmonyPostfix, HarmonyPatch(typeof(CurrentFileViewModel), MethodType.Constructor, new Type[] { typeof(VRoid.UI.BindableResources), typeof(VRoid.Studio.CurrentFileModel), typeof(VRoid.Studio.View.EditModelTransform), typeof(VRoid.Studio.View.PreviewModelTransform) })]
-        public static void ViewModelPatch(CurrentFileViewModel __instance, CurrentFileModel model)
+        [HarmonyPostfix, HarmonyPatch(typeof(MainViewModel), MethodType.Constructor, new Type[] { typeof(VRoid.UI.BindableResources), typeof(VRoid.Studio.MainModel), typeof(VRoid.UI.CompositionRenderer), typeof(VRoid.UI.GenericCamera.MultipleRenderTextureCamera), typeof(VRoid.UI.Component.AvatarCameraPosition), typeof(VRoid.UI.Component.AvatarCameraPosition), typeof(VRoid.Studio.PhotoBoothScreen.IObsoleteLegacyPhotoBoothViewModel), typeof(UnityTablet.UnityTabletPlugin), typeof(VRoidSDK.SDKConfiguration) })]
+        public static void MainVMPatch(MainViewModel __instance)
         {
-            XYTool.Inst.CurrentViewModelFile = __instance;
-            XYTool.Inst.CurrentModelFile = model;
-            Debug.Log($"构造了CurrentViewModelFile");
-            XYTool.Inst.LinkTextureTool.Clear();
+            XYTool.Inst.MainVM = __instance;
+            Debug.Log($"构造了MainViewModel");
         }
     }
 }

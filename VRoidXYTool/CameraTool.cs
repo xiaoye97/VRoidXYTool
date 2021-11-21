@@ -1,14 +1,73 @@
 using System;
+using BepInEx;
+using HarmonyLib;
 using System.Linq;
 using UnityEngine;
+using BepInEx.Configuration;
 using VRoid.UI.Component;
 
 namespace VRoidXYTool
 {
     public class CameraTool
     {
-        private MultipleRenderTextureCamera MRTcamera;
-        private Camera MainCamera;
+        private MultipleRenderTextureCamera _MRTcamera;
+        public MultipleRenderTextureCamera MRTcamera
+        {
+            get
+            {
+                if (_MRTcamera == null)
+                {
+                    try
+                    {
+                        _MRTcamera = XYTool.Inst.MainVM.GlobalBus.Common3D.AvatarCamera.Body;
+                    }
+                    catch
+                    { }
+                }
+                return _MRTcamera;
+            }
+        }
+
+        private Camera _MainCamera;
+        public Camera MainCamera
+        {
+            get
+            {
+                if (_MainCamera == null)
+                {
+                    try
+                    {
+                        _MainCamera = MRTcamera._instantiatedCameras.Keys.First().PrimaryCamera;
+                    }
+                    catch
+                    { }
+                }
+                return _MainCamera;
+            }
+        }
+
+        /// <summary>
+        /// 抗锯齿
+        /// </summary>
+        public ConfigEntry<bool> AntiAliasing;
+
+        public CameraTool()
+        {
+            AntiAliasing = XYTool.Inst.Config.Bind<bool>("CameraTool", "AntiAliasing", true, "抗锯齿");
+            //Harmony.CreateAndPatchAll(typeof(CameraTool));
+        }
+
+        public void Update()
+        {
+            if (MRTcamera != null && MainCamera != null)
+            {
+                if (MainCamera.allowMSAA != AntiAliasing.Value)
+                {
+                    MainCamera.allowHDR = AntiAliasing.Value;
+                    MainCamera.allowMSAA = AntiAliasing.Value;
+                }
+            }
+        }
 
         public void OnGUI()
         {
@@ -17,10 +76,7 @@ namespace VRoidXYTool
             {
                 if (MRTcamera == null || MainCamera == null)
                 {
-                    if (GUILayout.Button("查找相机"))
-                    {
-                        FindCamera();
-                    }
+                    GUILayout.Label("目标相机不存在");
                 }
                 else
                 {
@@ -39,15 +95,6 @@ namespace VRoidXYTool
                 GUILayout.Label($"出现异常:{e.Message}\n{e.StackTrace}");
             }
             GUILayout.EndVertical();
-        }
-
-        public void FindCamera()
-        {
-            MRTcamera = GameObject.FindObjectOfType<MultipleRenderTextureCamera>();
-            if (MRTcamera != null)
-            {
-                MainCamera = MRTcamera._instantiatedCameras.Keys.First().PrimaryCamera;
-            }
         }
 
         public void SetCameraPos(Vector3 pos, Vector3 rot)

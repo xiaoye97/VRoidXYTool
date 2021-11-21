@@ -9,7 +9,7 @@
 - 坐标系Gizmo，用于显示世界坐标的原点和方向
 - 抗锯齿，除了在摄影棚中可以抗锯齿之外，在编辑模式下也可以开启抗锯齿
 
-![图示](https://cdn.jsdelivr.net/gh/xiaoye97/VRoidXYTool@master/LTPreview.gif)
+![图示](https://cdn.jsdelivr.net/gh/xiaoye97/VRoidXYTool@master/LinkTexturePreview.gif)
 
 ## 教程
 

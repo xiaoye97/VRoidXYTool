@@ -14,24 +14,26 @@ namespace VRoidXYTool
             {
                 if (PosGizmo == null)
                 {
-                    if (GUILayout.Button("实例化坐标系Gizmo"))
+                    if (GUILayout.Button("实例化Gizmo"))
                     {
-                        var prefab = XYTool.LoadAsset<GameObject>("posgizmo", "posgizmo");
+                        var prefab = XYTool.LoadAsset<GameObject>("box", "box");
                         PosGizmo = GameObject.Instantiate(prefab);
+                        PosGizmo.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
+                        PosGizmo.transform.position = new Vector3(0, -0.05f, 0);
                     }
                 }
                 else
                 {
                     if (PosGizmo.activeSelf)
                     {
-                        if (GUILayout.Button("隐藏坐标系Gizmo"))
+                        if (GUILayout.Button("隐藏Gizmo"))
                         {
                             PosGizmo.SetActive(false);
                         }
                     }
                     else
                     {
-                        if (GUILayout.Button("显示坐标系Gizmo"))
+                        if (GUILayout.Button("显示Gizmo"))
                         {
                             PosGizmo.SetActive(true);
                         }

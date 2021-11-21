@@ -14,7 +14,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.2.5";
+        public const string PluginVersion = "0.2.6";
 
         public bool showWindow;
         private Rect winRect = new Rect(50, 50, 500, 600);
@@ -22,8 +22,6 @@ namespace VRoidXYTool
         public static XYTool Inst;
 
         public MainViewModel MainVM;
-        //public CurrentFileModel CurrentModelFile;
-        //public CurrentFileViewModel CurrentViewModelFile;
 
         public CameraTool CameraTool;
         public GizmoTool GizmoTool;
@@ -85,7 +83,6 @@ namespace VRoidXYTool
             GUILayout.BeginHorizontal();
             RunInBG.Value = GUILayout.Toggle(RunInBG.Value, "软件后台运行");
             GUILayout.Space(20);
-            //GUILayout.Label($"插件界面快捷键:{Hotkey.Value}");
             if (GUILayout.Button("打开插件配置文件"))
             {
                 System.Diagnostics.Process.Start("NotePad.exe", $"{Paths.BepInExRootPath}/config/{PluginID}.cfg");

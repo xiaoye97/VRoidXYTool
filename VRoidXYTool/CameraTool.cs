@@ -1,10 +1,8 @@
 using System;
-using BepInEx;
-using HarmonyLib;
 using System.Linq;
 using UnityEngine;
-using BepInEx.Configuration;
 using VRoid.UI.Component;
+using BepInEx.Configuration;
 
 namespace VRoidXYTool
 {
@@ -51,10 +49,19 @@ namespace VRoidXYTool
         /// </summary>
         public ConfigEntry<bool> AntiAliasing;
 
+        /// <summary>
+        /// 抗锯齿级别
+        /// </summary>
+        public ConfigEntry<int> AntiAliasingLevel;
+
         public CameraTool()
         {
             AntiAliasing = XYTool.Inst.Config.Bind<bool>("CameraTool", "AntiAliasing", true, "抗锯齿");
-            //Harmony.CreateAndPatchAll(typeof(CameraTool));
+            AntiAliasingLevel = XYTool.Inst.Config.Bind<int>("CameraTool", "AntiAliasingLevel", 8, "抗锯齿级别 值为 2，4，8");
+            if (AntiAliasingLevel.Value != 2 && AntiAliasingLevel.Value != 4 && AntiAliasingLevel.Value != 8)
+            {
+                AntiAliasingLevel.Value = 8;
+            }
         }
 
         public void Update()
@@ -63,6 +70,10 @@ namespace VRoidXYTool
             {
                 if (MainCamera.allowMSAA != AntiAliasing.Value)
                 {
+                    if (AntiAliasing.Value)
+                    {
+                        QualitySettings.antiAliasing = AntiAliasingLevel.Value;
+                    }
                     MainCamera.allowHDR = AntiAliasing.Value;
                     MainCamera.allowMSAA = AntiAliasing.Value;
                 }

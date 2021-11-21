@@ -9,12 +9,12 @@ using VRoid.Studio.Util;
 using BepInEx.Configuration;
 using VRoidCore.Editing.Query;
 using System.Collections.Generic;
+using VRoid.Studio.TextureEditor;
 using VRoidCore.Draw.TiledBitmap;
 using VRoidCore.Common.SpecificTypes;
 using VRoidCore.Editing.History.Command;
 using VRoid.Studio.TextureEditor.Layer.ViewModel;
 using VRoid.Studio.TextureEditor.Texture.ViewModel;
-using VRoid.Studio.TextureEditor;
 
 namespace VRoidXYTool
 {
@@ -39,12 +39,16 @@ namespace VRoidXYTool
 
         public ConfigEntry<string> LinkTextureDirectory;
 
+        public ConfigEntry<float> LinkTextureSyncInterval;
+
         public LinkTextureTool()
         {
             Harmony.CreateAndPatchAll(typeof(LinkTextureTool));
             LinkTextures = new List<LinkTexture>();
             // 链接纹理路径
             LinkTextureDirectory = XYTool.Inst.Config.Bind<string>("LinkTextureTool", "LinkTextureDirectory", "", "自定义的链接纹理检测路径，留空则使用默认路径");
+            LinkTextureSyncInterval = XYTool.Inst.Config.Bind<float>("LinkTextureTool", "LinkTextureSyncInterval", 1f, "纹理同步检测的间隔时间，单位秒，最低0.1秒");
+            LinkTextureSyncInterval.Value = Mathf.Max(0.1f, LinkTextureSyncInterval.Value);
             useConfigDir = false;
             if (!string.IsNullOrWhiteSpace(LinkTextureDirectory.Value))
             {
@@ -156,7 +160,7 @@ namespace VRoidXYTool
         {
             if (refreshCD < 0)
             {
-                refreshCD = 1;
+                refreshCD = LinkTextureSyncInterval.Value;
                 RefreshAllLayer();
             }
             else
@@ -286,7 +290,10 @@ namespace VRoidXYTool
                                 }
                                 catch (Exception e)
                                 {
-                                    Debug.LogError($"读取纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
+                                    if (!(e is IOException))
+                                    {
+                                        Debug.LogError($"读取纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
+                                    }
                                     continue;
                                 }
                                 BitmapSize bitmapSize;

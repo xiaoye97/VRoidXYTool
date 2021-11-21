@@ -7,6 +7,7 @@
 - 链接纹理功能，通过外部绘图工具(PS/SAI等)对纹理进行处理，并实时同步到VRoid Studio内
 - 镜头位置预设，快速定位到全身和脸部的四方向视角，可选透视或正交模式
 - 坐标系Gizmo，用于显示世界坐标的原点和方向
+- 抗锯齿，除了在摄影棚中可以抗锯齿之外，在编辑模式下也可以开启抗锯齿
 
 ![图示](https://cdn.jsdelivr.net/gh/xiaoye97/VRoidXYTool@master/LTPreview.gif)
 

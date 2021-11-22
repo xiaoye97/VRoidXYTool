@@ -3,39 +3,39 @@ using UnityEngine;
 
 namespace VRoidXYTool
 {
-    public class GizmoTool
+    public class GuideTool
     {
-        public GameObject PosGizmo;
+        public GameObject GridBox;
 
         public void OnGUI()
         {
-            GUILayout.BeginVertical("Gizmo", GUI.skin.window);
+            GUILayout.BeginVertical("参考工具", GUI.skin.window);
             try
             {
-                if (PosGizmo == null)
+                if (GridBox == null)
                 {
-                    if (GUILayout.Button("实例化Gizmo"))
+                    if (GUILayout.Button("实例化标尺格子"))
                     {
                         var prefab = XYTool.LoadAsset<GameObject>("box", "box");
-                        PosGizmo = GameObject.Instantiate(prefab);
-                        PosGizmo.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
-                        PosGizmo.transform.position = new Vector3(0, -0.05f, 0);
+                        GridBox = GameObject.Instantiate(prefab);
+                        GridBox.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
+                        GridBox.transform.position = new Vector3(0, -0.05f, 0);
                     }
                 }
                 else
                 {
-                    if (PosGizmo.activeSelf)
+                    if (GridBox.activeSelf)
                     {
-                        if (GUILayout.Button("隐藏Gizmo"))
+                        if (GUILayout.Button("隐藏标尺格子"))
                         {
-                            PosGizmo.SetActive(false);
+                            GridBox.SetActive(false);
                         }
                     }
                     else
                     {
                         if (GUILayout.Button("显示Gizmo"))
                         {
-                            PosGizmo.SetActive(true);
+                            GridBox.SetActive(true);
                         }
                     }
                 }

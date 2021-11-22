@@ -14,7 +14,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.2.6";
+        public const string PluginVersion = "0.2.7";
 
         public bool showWindow;
         private Rect winRect = new Rect(50, 50, 500, 600);
@@ -24,7 +24,7 @@ namespace VRoidXYTool
         public MainViewModel MainVM;
 
         public CameraTool CameraTool;
-        public GizmoTool GizmoTool;
+        public GuideTool GuideTool;
         public LinkTextureTool LinkTextureTool;
 
         #region 配置
@@ -51,7 +51,7 @@ namespace VRoidXYTool
         private void Start()
         {
             CameraTool = new CameraTool();
-            GizmoTool = new GizmoTool();
+            GuideTool = new GuideTool();
             LinkTextureTool = new LinkTextureTool();
         }
 
@@ -101,7 +101,7 @@ namespace VRoidXYTool
             }
             if (ShowGizmoToolGUI.Value)
             {
-                GizmoTool.OnGUI();
+                GuideTool.OnGUI();
             }
             if (ShowLinkTextureToolGUI.Value)
             {

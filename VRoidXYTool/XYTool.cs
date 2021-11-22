@@ -32,7 +32,7 @@ namespace VRoidXYTool
         public ConfigEntry<KeyCode> Hotkey;
 
         public ConfigEntry<bool> ShowCameraToolGUI;
-        public ConfigEntry<bool> ShowGizmoToolGUI;
+        public ConfigEntry<bool> ShowGuideToolGUI;
         public ConfigEntry<bool> ShowLinkTextureToolGUI;
         #endregion
 
@@ -42,7 +42,7 @@ namespace VRoidXYTool
             RunInBG = Config.Bind<bool>("Common", "RunInBG", true, "软件是否在后台运行");
             Hotkey = Config.Bind<KeyCode>("Common", "Hotkey", KeyCode.F11, "界面快捷键");
             ShowCameraToolGUI = Config.Bind<bool>("Common", "ShowCameraToolGUI", true, "是否显示相机工具GUI");
-            ShowGizmoToolGUI = Config.Bind<bool>("Common", "ShowGizmoToolGUI", true, "是否显示Gizmo工具GUI");
+            ShowGuideToolGUI = Config.Bind<bool>("Common", "ShowGizmoToolGUI", true, "是否显示Gizmo工具GUI");
             ShowLinkTextureToolGUI = Config.Bind<bool>("Common", "ShowLinkTextureToolGUI", true, "是否显示链接纹理工具GUI");
             Harmony.CreateAndPatchAll(typeof(XYTool));
             Logger.LogInfo("XYTool启动");
@@ -99,7 +99,7 @@ namespace VRoidXYTool
             {
                 CameraTool.OnGUI();
             }
-            if (ShowGizmoToolGUI.Value)
+            if (ShowGuideToolGUI.Value)
             {
                 GuideTool.OnGUI();
             }
@@ -145,7 +145,7 @@ namespace VRoidXYTool
             GUILayout.BeginHorizontal();
             ShowCameraToolGUI.Value = GUILayout.Toggle(ShowCameraToolGUI.Value, "相机工具");
             GUILayout.Space(10);
-            ShowGizmoToolGUI.Value = GUILayout.Toggle(ShowGizmoToolGUI.Value, "Gizmo工具");
+            ShowGuideToolGUI.Value = GUILayout.Toggle(ShowGuideToolGUI.Value, "参考工具");
             GUILayout.Space(10);
             ShowLinkTextureToolGUI.Value = GUILayout.Toggle(ShowLinkTextureToolGUI.Value, "链接纹理工具");
             GUILayout.Space(10);

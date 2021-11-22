@@ -21,7 +21,7 @@
     <OutputPath>..\..\..\Program Files %28x86%29\Steam\steamapps\common\VRoid Studio\BepInEx\plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>3</WarningLevel>
+    <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -116,7 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CameraTool.cs" />
-    <Compile Include="GizmoTool.cs" />
+    <Compile Include="GuideTool.cs" />
     <Compile Include="LinkTextureTool.cs" />
     <Compile Include="PosHelper.cs" />
     <Compile Include="XYTool.cs" />

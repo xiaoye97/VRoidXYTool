@@ -136,10 +136,6 @@ namespace VRoidXYTool
                 }
                 if (LinkTextures.Count > 0)
                 {
-                    //if (GUILayout.Button("全部导出"))
-                    //{
-                    //    OnClickExportLinkTexture();
-                    //}
                     svPos = GUILayout.BeginScrollView(svPos, GUI.skin.box, GUILayout.MaxHeight(200));
 
                     for (int i = 0; i < LinkTextures.Count; i++)

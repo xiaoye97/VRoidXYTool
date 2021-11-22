@@ -116,14 +116,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CameraTool.cs" />
+    <Compile Include="FileHelper.cs" />
+    <Compile Include="GuideImageData.cs" />
+    <Compile Include="GuideObject.cs" />
+    <Compile Include="GuidePresetData.cs" />
     <Compile Include="GuideTool.cs" />
     <Compile Include="LinkTextureTool.cs" />
     <Compile Include="PosHelper.cs" />
+    <Compile Include="V3.cs" />
     <Compile Include="XYTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="box" />
+    <EmbeddedResource Include="guide" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

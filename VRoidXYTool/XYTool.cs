@@ -1,10 +1,8 @@
 using System;
 using BepInEx;
-using VRoid.UI;
 using HarmonyLib;
 using UnityEngine;
 using VRoid.Studio;
-using System.Reflection;
 using BepInEx.Configuration;
 
 namespace VRoidXYTool
@@ -14,7 +12,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.2.7";
+        public const string PluginVersion = "0.2.8";
 
         public bool showWindow;
         private Rect winRect = new Rect(50, 50, 500, 600);
@@ -154,19 +152,6 @@ namespace VRoidXYTool
             GUILayout.EndHorizontal();
 
             GUILayout.EndVertical();
-        }
-
-        /// <summary>
-        /// 加载ab包内容
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static T LoadAsset<T>(string abName, string assetName) where T : UnityEngine.Object
-        {
-            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"VRoidXYTool.{abName}");
-            var ab = AssetBundle.LoadFromStream(stream);
-            return ab.LoadAsset<T>(assetName);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(MainViewModel), MethodType.Constructor, new Type[] { typeof(VRoid.UI.BindableResources), typeof(VRoid.Studio.MainModel), typeof(VRoid.UI.CompositionRenderer), typeof(VRoid.UI.GenericCamera.MultipleRenderTextureCamera), typeof(VRoid.UI.Component.AvatarCameraPosition), typeof(VRoid.UI.Component.AvatarCameraPosition), typeof(VRoid.Studio.PhotoBoothScreen.IObsoleteLegacyPhotoBoothViewModel), typeof(UnityTablet.UnityTabletPlugin), typeof(VRoidSDK.SDKConfiguration) })]

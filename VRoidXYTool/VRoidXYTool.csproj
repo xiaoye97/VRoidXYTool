@@ -41,6 +41,11 @@
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\BepInEx\core\BepInEx.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -89,6 +94,10 @@
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityTablet">
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\UnityTablet.dll</HintPath>
       <Private>False</Private>
@@ -123,7 +132,6 @@
     <Compile Include="GuideTool.cs" />
     <Compile Include="LinkTextureTool.cs" />
     <Compile Include="PosHelper.cs" />
-    <Compile Include="TransformControl.cs" />
     <Compile Include="V3.cs" />
     <Compile Include="XYTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

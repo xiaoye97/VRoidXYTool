@@ -8,6 +8,8 @@
         public string Path;
         public V3 Pos;
         public V3 Rot;
-        public V3 Scale;
+        public int Width;
+        public int Height;
+        public float Scale;
     }
 }

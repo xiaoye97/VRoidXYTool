@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
+using Newtonsoft.Json;
 using VRoid.Studio.Util;
 using System.Reflection;
 
@@ -11,9 +12,6 @@ namespace VRoidXYTool
         /// <summary>
         /// 加载ab包内容
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <returns></returns>
         public static T LoadAsset<T>(string abName, string assetName) where T : UnityEngine.Object
         {
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"VRoidXYTool.{abName}");
@@ -60,8 +58,6 @@ namespace VRoidXYTool
         /// <summary>
         /// 加载外部纹理并转换为精灵
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
         public static Sprite LoadSprite(string path)
         {
             Texture2D texture2D = LoadTexture2D(path);
@@ -74,10 +70,43 @@ namespace VRoidXYTool
         }
 
         /// <summary>
+        /// 加载json并转换为类对象
+        /// </summary>
+        public static T LoadJson<T>(string path) where T : class
+        {
+            try
+            {
+                var jsonStr = File.ReadAllText(path);
+                T result = JsonConvert.DeserializeObject<T>(jsonStr);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"读取Json时出现异常:\n{e.Message}\n{e.StackTrace}");
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 保存json到文件
+        /// </summary>
+        public static void SaveJson<T>(string path, T data)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                File.WriteAllText(path, json);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"读取Json时出现异常:\n{e.Message}\n{e.StackTrace}");
+            }
+        }
+
+        /// <summary>
         /// 图片的后缀名
         /// </summary>
-        /// <returns></returns>
-        public static FileDialogUtil.ExtensionFilter[] GeImageFilters()
+        public static FileDialogUtil.ExtensionFilter[] GetImageFilters()
         {
             return new FileDialogUtil.ExtensionFilter[]
             {
@@ -85,6 +114,20 @@ namespace VRoidXYTool
                 {
                     "png",
                     "jpg"
+                })
+            };
+        }
+
+        /// <summary>
+        /// json的后缀名
+        /// </summary>
+        public static FileDialogUtil.ExtensionFilter[] GetJsonFilters()
+        {
+            return new FileDialogUtil.ExtensionFilter[]
+            {
+                new FileDialogUtil.ExtensionFilter("预设文件", new string[]
+                {
+                    "json"
                 })
             };
         }

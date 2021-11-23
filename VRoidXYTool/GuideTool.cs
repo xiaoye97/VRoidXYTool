@@ -43,12 +43,14 @@ namespace VRoidXYTool
                 }
                 foreach (var obj in nowObjects)
                 {
+                    GUILayout.BeginVertical(GUI.skin.box);
                     GUILayout.BeginHorizontal();
                     GUILayout.Label(obj.GuideName);
                     GUILayout.FlexibleSpace();
                     if (obj.IsVaild)
                     {
-                        if (GUILayout.Button("调整位置"))
+                        obj.NowEditTransform = GUILayout.Toggle(obj.NowEditTransform, "调整位置");
+                        if (GUILayout.Button("删除"))
                         {
 
                         }
@@ -58,6 +60,14 @@ namespace VRoidXYTool
                         GUILayout.Label("加载失败");
                     }
                     GUILayout.EndHorizontal();
+                    if (obj.IsVaild)
+                    {
+                        if (obj.NowEditTransform)
+                        {
+                            obj.TransformControl.OnGUI();
+                        }
+                    }
+                    GUILayout.EndVertical();
                 }
             }
             catch (Exception e)
@@ -120,6 +130,8 @@ namespace VRoidXYTool
             quad.transform.localEulerAngles = data.Rot.ToVector3();
             // 设置guideObject
             guideObject.GO = quad;
+            guideObject.TransformControl = new TransformControl();
+            guideObject.TransformControl.transform = quad.transform;
             guideObject.ImageData = data;
             guideObject.IsVaild = true;
         }

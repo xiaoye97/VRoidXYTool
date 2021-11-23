@@ -27,6 +27,10 @@ namespace VRoidXYTool
         /// 图片数据，仅在图片类型下存在
         /// </summary>
         public GuideImageData ImageData;
+
+        public TransformControl TransformControl;
+
+        public bool NowEditTransform;
     }
 
     public enum GuideObjectType

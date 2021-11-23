@@ -123,6 +123,7 @@
     <Compile Include="GuideTool.cs" />
     <Compile Include="LinkTextureTool.cs" />
     <Compile Include="PosHelper.cs" />
+    <Compile Include="TransformControl.cs" />
     <Compile Include="V3.cs" />
     <Compile Include="XYTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

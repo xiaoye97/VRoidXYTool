@@ -83,7 +83,8 @@ namespace VRoidXYTool
             {
                 new FileDialogUtil.ExtensionFilter("图片", new string[]
                 {
-                    "png"
+                    "png",
+                    "jpg"
                 })
             };
         }

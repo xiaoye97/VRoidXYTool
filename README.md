@@ -35,7 +35,7 @@
 
 `Q:` 我遇到了bug或者有功能建议怎么反馈？
 
-`A:` bug提交Issues或到VRoid交流群(684544577)内找我，提建议到群内找我
+`A:` bug提交Issues或到VRoid交流群(684544577)或者我的私人小群(528385469)内找我，提建议到群内找我
 
 
 [1]: https://github.com/BepInEx/BepInEx/releases

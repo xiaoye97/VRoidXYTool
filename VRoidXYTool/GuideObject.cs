@@ -57,17 +57,17 @@ namespace VRoidXYTool
         {
             GUILayout.BeginVertical();
             GUILayout.BeginHorizontal();
-            InputMode = GUILayout.Toggle(InputMode, "精确模式");
+            InputMode = GUILayout.Toggle(InputMode, "InputMode".Translate());
             if (InputMode)
             {
                 if (ObjectType == GuideObjectType.Image)
                 {
-                    ImageData.Scale = FloatGUIInput(ImageData.Scale, "缩放", "scl");
+                    ImageData.Scale = FloatGUIInput(ImageData.Scale, "Scale".Translate(), "scl");
                     Transform.localScale = new Vector3(ImageData.Scale * ImageData.Width / 1000f, ImageData.Scale * ImageData.Height / 1000f, 0);
                 }
                 else if (ObjectType == GuideObjectType.Model)
                 {
-                    Transform.localScale = Vector3GUIInput(Transform.localScale, "缩放", "scl");
+                    Transform.localScale = Vector3GUIInput(Transform.localScale, "Scale".Translate(), "scl");
                 }
                 GUILayout.EndHorizontal();
                 TransformGUIInput();
@@ -77,12 +77,12 @@ namespace VRoidXYTool
                 floatCache.Clear();
                 if (ObjectType == GuideObjectType.Image)
                 {
-                    ImageData.Scale = FloatGUISlider(ImageData.Scale, "缩放", 0, 5);
+                    ImageData.Scale = FloatGUISlider(ImageData.Scale, "Scale".Translate(), 0, 5);
                     Transform.localScale = new Vector3(ImageData.Scale * ImageData.Width / 1000f, ImageData.Scale * ImageData.Height / 1000f, 0);
                 }
                 else if (ObjectType == GuideObjectType.Model)
                 {
-                    Transform.localScale = Vector3GUISlider(Transform.localScale, "缩放", 0, 5);
+                    Transform.localScale = Vector3GUISlider(Transform.localScale, "Scale".Translate(), 0, 5);
                 }
                 GUILayout.EndHorizontal();
                 TransformGUISlider();
@@ -96,8 +96,8 @@ namespace VRoidXYTool
         private void TransformGUIInput()
         {
             GUILayout.BeginHorizontal();
-            Transform.position = Vector3GUIInput(Transform.position, "位置", "pos");
-            Transform.localEulerAngles = Vector3GUIInput(Transform.localEulerAngles, "旋转", "rot");
+            Transform.position = Vector3GUIInput(Transform.position, "Pos".Translate(), "pos");
+            Transform.localEulerAngles = Vector3GUIInput(Transform.localEulerAngles, "Rot".Translate(), "rot");
             GUILayout.EndHorizontal();
         }
 
@@ -141,8 +141,8 @@ namespace VRoidXYTool
         private void TransformGUISlider()
         {
             GUILayout.BeginHorizontal();
-            Transform.position = Vector3GUISlider(Transform.position, "位置", -3, 3);
-            Transform.localEulerAngles = Vector3GUISlider(Transform.localEulerAngles, "旋转", 0, 360);
+            Transform.position = Vector3GUISlider(Transform.position, "Pos".Translate(), -3, 3);
+            Transform.localEulerAngles = Vector3GUISlider(Transform.localEulerAngles, "Rot".Translate(), 0, 360);
             GUILayout.EndHorizontal();
         }
 

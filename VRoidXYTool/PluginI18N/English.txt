@@ -1,0 +1,64 @@
+﻿// Tool Main GUI
+RunInBGDesc=VRoidStudio run in background
+RunInBG=Run in background
+OnGUICantClick=Can't click when show tool
+GUIHotkey=Tool hotkey
+ShowCameraToolGUI=ShowCameraToolGUI
+ShowGuideToolGUI=ShowGuideToolGUI
+ShowLinkTextureToolGUI=ShowLinkTextureToolGUI
+PluginWindowTitle=VRoidXYTool v{0}
+Info=Info
+Author=Author:xiaoye97
+TutorialVideo=Tutorial video(bilibili)
+PluginUpdate=Update plugin
+Config=Config
+OpenConfigFile=Open Config File
+CameraTool=Camera Tool
+GuideTool=Guide Tool
+LinkTextureTool=LinkTexture Tool
+AntiAliasing=Anti-Aliasing
+
+// Link Texture Tool GUI
+LinkTextureDirectoryDesc=Custom LinkTexture check directory, if null, use the default directory
+LinkTextureSyncIntervalDesc=LinkTexture sync interval time, unit: second, minimum: 0.1 second
+NowUseLinkTextureDir=Now LinkTexture directory:{0}
+OpenLinkTextureDir=Open LinkTexture directory
+HasDuplicateNameCantExport=Has Duplicate Name, Can't Export!
+RandomName=Random Name
+ExportTexture=Export Texture
+ExportGuide=Export Guide
+NowNotEditingTexture=There are no textures being edited
+
+// Guide Tool GUI
+LoadPreset=Load preset
+SavePreset=Save preset
+AddGuideImage=Add guide image
+EditGuideTransform=Edit
+DeleteGuideObject=Delete
+LoadFail=Load Fail
+SelectPresetFile=Select preset file
+SelectSavePath=Select save path
+SelectImage=Select image
+CreateGuideGrid=Create guide grid
+HideGuideGrid=Hide guide grid
+ShowGuideGrid=Show guide grid
+InputMode=Input Mode
+Scale=Scale
+Pos=Position
+Rot=Rotation
+
+// Camera Tool GUI
+AntiAliasingLevelDesc=Anti-Aliasing level value: 2, 4, 8
+CameraNotFound=Camera not found
+SetCameraOrthographic=Set camera orthographic
+SetCaneraPerspective=Set canera perspective
+OrthographicSize=Orthographic Size
+CameraPosBody=Camera Pos(Body)
+CameraPosHead=Camera Pos(Head)
+DirFront=F
+DirBack=B
+DirLeft=L
+DirRight=R
+
+// Other
+Image=Image

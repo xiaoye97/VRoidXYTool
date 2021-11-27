@@ -1,0 +1,64 @@
+﻿// 主界面部分
+RunInBGDesc=软件是否在后台运行
+RunInBG=软件后台运行
+OnGUICantClick=打开小工具界面时禁用软件的点击
+GUIHotkey=界面快捷键
+ShowCameraToolGUI=是否显示相机工具
+ShowGuideToolGUI=是否显示参考工具
+ShowLinkTextureToolGUI=是否显示链接纹理工具
+PluginWindowTitle=宵夜小工具 v{0}
+Info=关于
+Author=作者:宵夜97
+TutorialVideo=教程视频(B站)
+PluginUpdate=插件更新
+Config=配置
+OpenConfigFile=打开配置文件
+CameraTool=相机工具
+GuideTool=参考工具
+LinkTextureTool=链接纹理工具
+AntiAliasing=抗锯齿
+
+// 链接纹理工具界面
+LinkTextureDirectoryDesc=自定义的链接纹理检测路径，留空则使用默认路径
+LinkTextureSyncIntervalDesc=纹理同步检测的间隔时间，单位秒，最低0.1秒
+NowUseLinkTextureDir=正在使用自定义链接文件夹:{0}
+OpenLinkTextureDir=打开链接纹理文件夹
+HasDuplicateNameCantExport=有重名图层，无法导出!
+RandomName=随机名字
+ExportTexture=导出纹理
+ExportGuide=导出参考线
+NowNotEditingTexture=没有正在编辑的纹理
+
+// 参考工具
+LoadPreset=加载预设
+SavePreset=保持预设
+AddGuideImage=添加参考图
+EditGuideTransform=调整位置
+DeleteGuideObject=删除
+LoadFail=加载失败
+SelectPresetFile=选择预设文件
+SelectSavePath=选择保存位置
+SelectImage=选择图片
+CreateGuideGrid=实例化标尺格子
+HideGuideGrid=隐藏标尺格子
+ShowGuideGrid=显示标尺格子
+InputMode=精确模式
+Scale=缩放
+Pos=位置
+Rot=旋转
+
+// 相机工具
+AntiAliasingLevelDesc=抗锯齿级别 值为 2，4，8
+CameraNotFound=目标相机不存在
+SetCameraOrthographic=设置相机为正交模式
+SetCaneraPerspective=设置相机为透视模式
+OrthographicSize=正交尺寸
+CameraPosBody=相机位置(全身)
+CameraPosHead=相机位置(头部)
+DirFront=前
+DirBack=后
+DirLeft=左
+DirRight=右
+
+// 其他
+Image=图片

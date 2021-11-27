@@ -110,7 +110,7 @@ namespace VRoidXYTool
         {
             return new FileDialogUtil.ExtensionFilter[]
             {
-                new FileDialogUtil.ExtensionFilter("图片", new string[]
+                new FileDialogUtil.ExtensionFilter("Image".Translate(), new string[]
                 {
                     "png",
                     "jpg"
@@ -125,7 +125,7 @@ namespace VRoidXYTool
         {
             return new FileDialogUtil.ExtensionFilter[]
             {
-                new FileDialogUtil.ExtensionFilter("预设文件", new string[]
+                new FileDialogUtil.ExtensionFilter("Json", new string[]
                 {
                     "json"
                 })

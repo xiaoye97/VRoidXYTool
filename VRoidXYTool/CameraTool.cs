@@ -56,8 +56,8 @@ namespace VRoidXYTool
 
         public CameraTool()
         {
-            AntiAliasing = XYTool.Inst.Config.Bind<bool>("CameraTool", "AntiAliasing", true, "抗锯齿");
-            AntiAliasingLevel = XYTool.Inst.Config.Bind<int>("CameraTool", "AntiAliasingLevel", 8, "抗锯齿级别 值为 2，4，8");
+            AntiAliasing = XYTool.Inst.Config.Bind<bool>("CameraTool", "AntiAliasing", true, "AntiAliasing".Translate());
+            AntiAliasingLevel = XYTool.Inst.Config.Bind<int>("CameraTool", "AntiAliasingLevel", 8, "AntiAliasingLevelDesc".Translate());
             if (AntiAliasingLevel.Value != 2 && AntiAliasingLevel.Value != 4 && AntiAliasingLevel.Value != 8)
             {
                 AntiAliasingLevel.Value = 8;
@@ -82,12 +82,12 @@ namespace VRoidXYTool
 
         public void OnGUI()
         {
-            GUILayout.BeginVertical("相机工具", GUI.skin.window);
+            GUILayout.BeginVertical("CameraTool".Translate(), GUI.skin.window);
             try
             {
                 if (MRTcamera == null || MainCamera == null)
                 {
-                    GUILayout.Label("目标相机不存在");
+                    GUILayout.Label("CameraNotFound".Translate());
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace VRoidXYTool
             }
             catch (Exception e)
             {
-                GUILayout.Label($"出现异常:{e.Message}\n{e.StackTrace}");
+                GUILayout.Label($"Exception:{e.Message}\n{e.StackTrace}");
             }
             GUILayout.EndVertical();
         }
@@ -119,43 +119,43 @@ namespace VRoidXYTool
         /// </summary>
         public void NormalGUI()
         {
-            if (GUILayout.Button("设置相机为正交模式"))
+            if (GUILayout.Button("SetCameraOrthographic".Translate()))
             {
                 MainCamera.orthographic = true;
             }
             GUILayout.BeginHorizontal();
-            GUILayout.BeginHorizontal("相机位置(全身)", GUI.skin.window);
-            if (GUILayout.Button("前"))
+            GUILayout.BeginHorizontal("CameraPosBody".Translate(), GUI.skin.window);
+            if (GUILayout.Button("DirFront".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 4)[0], GetAroundAngles()[0]);
             }
-            if (GUILayout.Button("后"))
+            if (GUILayout.Button("DirBack".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 4)[1], GetAroundAngles()[1]);
             }
-            if (GUILayout.Button("左"))
+            if (GUILayout.Button("DirLeft".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 4)[2], GetAroundAngles()[2]);
             }
-            if (GUILayout.Button("右"))
+            if (GUILayout.Button("DirRight".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 4)[3], GetAroundAngles()[3]);
             }
             GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal("相机位置(头部)", GUI.skin.window);
-            if (GUILayout.Button("前"))
+            GUILayout.BeginHorizontal("CameraPosHead".Translate(), GUI.skin.window);
+            if (GUILayout.Button("DirFront".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[0], GetAroundAngles()[0]);
             }
-            if (GUILayout.Button("后"))
+            if (GUILayout.Button("DirBack".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[1], GetAroundAngles()[1]);
             }
-            if (GUILayout.Button("左"))
+            if (GUILayout.Button("DirLeft".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[2], GetAroundAngles()[2]);
             }
-            if (GUILayout.Button("右"))
+            if (GUILayout.Button("DirRight".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[3], GetAroundAngles()[3]);
             }
@@ -168,12 +168,12 @@ namespace VRoidXYTool
         /// </summary>
         public void OrthoGUI()
         {
-            if (GUILayout.Button("设置相机为透视模式"))
+            if (GUILayout.Button("SetCaneraPerspective".Translate()))
             {
                 MainCamera.orthographic = false;
             }
             GUILayout.BeginHorizontal();
-            GUILayout.BeginVertical("正交尺寸", GUI.skin.window);
+            GUILayout.BeginVertical("OrthographicSize".Translate(), GUI.skin.window);
             GUILayout.Label($"{MainCamera.orthographicSize}");
             MainCamera.orthographicSize = GUILayout.HorizontalSlider(MainCamera.orthographicSize, 0.1f, 2f);
             GUILayout.BeginHorizontal();
@@ -184,45 +184,45 @@ namespace VRoidXYTool
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
 
-            GUILayout.BeginHorizontal("相机位置(全身)", GUI.skin.window);
-            if (GUILayout.Button("前"))
+            GUILayout.BeginHorizontal("CameraPosBody".Translate(), GUI.skin.window);
+            if (GUILayout.Button("DirFront".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 1)[0], GetAroundAngles()[0]);
                 MainCamera.orthographicSize = 0.8f;
             }
-            if (GUILayout.Button("后"))
+            if (GUILayout.Button("DirBack".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 1)[1], GetAroundAngles()[1]);
                 MainCamera.orthographicSize = 0.8f;
             }
-            if (GUILayout.Button("左"))
+            if (GUILayout.Button("DirLeft".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 1)[2], GetAroundAngles()[2]);
                 MainCamera.orthographicSize = 0.8f;
             }
-            if (GUILayout.Button("右"))
+            if (GUILayout.Button("DirRight".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 1)[3], GetAroundAngles()[3]);
                 MainCamera.orthographicSize = 0.8f;
             }
             GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal("相机位置(头部)", GUI.skin.window);
-            if (GUILayout.Button("前"))
+            GUILayout.BeginHorizontal("CameraPosHead".Translate(), GUI.skin.window);
+            if (GUILayout.Button("DirFront".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[0], GetAroundAngles()[0]);
                 MainCamera.orthographicSize = 0.15f;
             }
-            if (GUILayout.Button("后"))
+            if (GUILayout.Button("DirBack".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[1], GetAroundAngles()[1]);
                 MainCamera.orthographicSize = 0.15f;
             }
-            if (GUILayout.Button("左"))
+            if (GUILayout.Button("DirLeft".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[2], GetAroundAngles()[2]);
                 MainCamera.orthographicSize = 0.15f;
             }
-            if (GUILayout.Button("右"))
+            if (GUILayout.Button("DirRight".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[3], GetAroundAngles()[3]);
                 MainCamera.orthographicSize = 0.15f;

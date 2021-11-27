@@ -1,4 +1,7 @@
 # VRoidXYTool
+
+[English Readme](README_English.md)
+
 用于VRoidStudio的扩展插件
 
 ## 免费声明
@@ -42,5 +45,5 @@
 
 
 [1]: https://github.com/BepInEx/BepInEx/releases
-[2]: https://www.bilibili.com/video/BV1bQ4y1U7Yi/
+[2]: https://www.bilibili.com/video/BV1TP4y1V7Qn/
 [3]: https://www.bilibili.com/video/BV1BL41137Tc/

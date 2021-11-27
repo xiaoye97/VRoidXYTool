@@ -14,7 +14,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.3.0";
+        public const string PluginVersion = "0.3.1";
 
         public bool showWindow;
         private Rect winRect = new Rect(50, 50, 500, 600);
@@ -28,6 +28,7 @@ namespace VRoidXYTool
         public LinkTextureTool LinkTextureTool;
 
         #region 配置
+        public ConfigEntry<SystemLanguage> PluginLanguage;
         public ConfigEntry<bool> RunInBG;
         public ConfigEntry<bool> OnGUICantClick;
         public ConfigEntry<KeyCode> Hotkey;
@@ -43,14 +44,19 @@ namespace VRoidXYTool
         private void Awake()
         {
             Inst = this;
-            RunInBG = Config.Bind<bool>("Common", "RunInBG", true, "软件是否在后台运行");
-            OnGUICantClick = Config.Bind<bool>("Common", "OnGUICantClick", true, "打开小工具界面时禁用软件的点击");
-            Hotkey = Config.Bind<KeyCode>("Common", "Hotkey", KeyCode.F11, "界面快捷键");
-            ShowCameraToolGUI = Config.Bind<bool>("Common", "ShowCameraToolGUI", true, "是否显示相机工具GUI");
-            ShowGuideToolGUI = Config.Bind<bool>("Common", "ShowGizmoToolGUI", true, "是否显示Gizmo工具GUI");
-            ShowLinkTextureToolGUI = Config.Bind<bool>("Common", "ShowLinkTextureToolGUI", true, "是否显示链接纹理工具GUI");
+            I18N.Init();
+            PluginLanguage = Config.Bind<SystemLanguage>("Common", "Language", Application.systemLanguage, "Plugin language");
+            I18N.SetLanguage(PluginLanguage.Value);
+
+            RunInBG = Config.Bind<bool>("Common", "RunInBG", true, "RunInBGDesc".Translate());
+            OnGUICantClick = Config.Bind<bool>("Common", "OnGUICantClick", true, "OnGUICantClick".Translate());
+            Hotkey = Config.Bind<KeyCode>("Common", "Hotkey", KeyCode.F11, "GUIHotkey".Translate());
+            ShowCameraToolGUI = Config.Bind<bool>("Common", "ShowCameraToolGUI", true, "ShowCameraToolGUI".Translate());
+            ShowGuideToolGUI = Config.Bind<bool>("Common", "ShowGizmoToolGUI", true, "ShowGuideToolGUI".Translate());
+            ShowLinkTextureToolGUI = Config.Bind<bool>("Common", "ShowLinkTextureToolGUI", true, "ShowLinkTextureToolGUI".Translate());
             Harmony.CreateAndPatchAll(typeof(XYTool));
             Logger.LogInfo("XYTool启动");
+            Logger.LogInfo($"当前VRoidStudio版本为{Application.version}");
         }
 
         private void Start()
@@ -113,7 +119,7 @@ namespace VRoidXYTool
             if (showWindow)
             {
                 GUI.backgroundColor = Color.black;
-                winRect = GUILayout.Window(666, winRect, WindowFunc, $"宵夜小工具 v{PluginVersion}");
+                winRect = GUILayout.Window(666, winRect, WindowFunc, string.Format("PluginWindowTitle".Translate(), PluginVersion));
             }
         }
 
@@ -151,23 +157,22 @@ namespace VRoidXYTool
         /// </summary>
         public void InfoGUI()
         {
-            GUILayout.BeginVertical("关于", GUI.skin.window);
+            GUILayout.BeginVertical("Info".Translate(), GUI.skin.window);
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("作者:宵夜97");
+            GUILayout.Label("Author".Translate());
             GUILayout.Space(10);
-            if (GUILayout.Button("教程视频(B站)", GUILayout.Width(100)))
+            if (GUILayout.Button("TutorialVideo".Translate()))
             {
                 System.Diagnostics.Process.Start("https://space.bilibili.com/1306433");
             }
             GUILayout.Space(10);
-            if (GUILayout.Button("插件更新", GUILayout.Width(100)))
+            if (GUILayout.Button("PluginUpdate".Translate()))
             {
                 System.Diagnostics.Process.Start("https://github.com/xiaoye97/VRoidXYTool/releases/latest");
             }
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
-
             GUILayout.EndVertical();
         }
 
@@ -176,26 +181,26 @@ namespace VRoidXYTool
         /// </summary>
         public void ConfigGUI()
         {
-            GUILayout.BeginVertical("配置", GUI.skin.window);
-            if (GUILayout.Button("打开插件配置文件"))
+            GUILayout.BeginVertical("Config".Translate(), GUI.skin.window);
+            if (GUILayout.Button("OpenConfigFile".Translate()))
             {
                 System.Diagnostics.Process.Start("NotePad.exe", $"{Paths.BepInExRootPath}/config/{PluginID}.cfg");
             }
             GUILayout.BeginHorizontal(GUI.skin.box);
-            ShowCameraToolGUI.Value = GUILayout.Toggle(ShowCameraToolGUI.Value, "相机工具");
+            ShowCameraToolGUI.Value = GUILayout.Toggle(ShowCameraToolGUI.Value, "CameraTool".Translate());
             GUILayout.Space(10);
-            ShowGuideToolGUI.Value = GUILayout.Toggle(ShowGuideToolGUI.Value, "参考工具");
+            ShowGuideToolGUI.Value = GUILayout.Toggle(ShowGuideToolGUI.Value, "GuideTool".Translate());
             GUILayout.Space(10);
-            ShowLinkTextureToolGUI.Value = GUILayout.Toggle(ShowLinkTextureToolGUI.Value, "链接纹理工具");
+            ShowLinkTextureToolGUI.Value = GUILayout.Toggle(ShowLinkTextureToolGUI.Value, "LinkTextureTool".Translate());
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal(GUI.skin.box);
-            OnGUICantClick.Value = GUILayout.Toggle(OnGUICantClick.Value, "打开小工具界面时禁用软件的点击");
+            OnGUICantClick.Value = GUILayout.Toggle(OnGUICantClick.Value, "OnGUICantClick".Translate());
             GUILayout.Space(10);
-            RunInBG.Value = GUILayout.Toggle(RunInBG.Value, "软件后台运行");
+            RunInBG.Value = GUILayout.Toggle(RunInBG.Value, "RunInBG".Translate());
             GUILayout.Space(10);
-            CameraTool.AntiAliasing.Value = GUILayout.Toggle(CameraTool.AntiAliasing.Value, "抗锯齿");
+            CameraTool.AntiAliasing.Value = GUILayout.Toggle(CameraTool.AntiAliasing.Value, "AntiAliasing".Translate());
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 

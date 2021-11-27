@@ -36,21 +36,21 @@ namespace VRoidXYTool
                 }
                 needRemoveObjects.Clear();
             }
-            GUILayout.BeginVertical("参考工具", GUI.skin.window);
+            GUILayout.BeginVertical("GuideTool".Translate(), GUI.skin.window);
             try
             {
                 GridBoxGUI();
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button("加载预设"))
+                if (GUILayout.Button("LoadPreset".Translate()))
                 {
                     LoadPreset();
                 }
-                if (GUILayout.Button("保存预设"))
+                if (GUILayout.Button("SavePreset".Translate()))
                 {
                     SavePreset();
                 }
                 GUILayout.EndHorizontal();
-                if (GUILayout.Button("添加参考图"))
+                if (GUILayout.Button("AddGuideImage".Translate()))
                 {
                     AddGuideImage();
                 }
@@ -62,15 +62,15 @@ namespace VRoidXYTool
                     GUILayout.FlexibleSpace();
                     if (obj.IsVaild)
                     {
-                        obj.NowEdit = GUILayout.Toggle(obj.NowEdit, "调整位置");
-                        if (GUILayout.Button("删除"))
+                        obj.NowEdit = GUILayout.Toggle(obj.NowEdit, "EditGuideTransform".Translate());
+                        if (GUILayout.Button("DeleteGuideObject".Translate()))
                         {
                             needRemoveObjects.Add(obj);
                         }
                     }
                     else
                     {
-                        GUILayout.Label("加载失败");
+                        GUILayout.Label("LoadFail".Translate());
                     }
                     GUILayout.EndHorizontal();
                     if (obj.IsVaild)
@@ -85,7 +85,7 @@ namespace VRoidXYTool
             }
             catch (Exception e)
             {
-                GUILayout.Label($"出现异常:{e.Message}\n{e.StackTrace}");
+                GUILayout.Label($"Exception:{e.Message}\n{e.StackTrace}");
             }
             GUILayout.EndVertical();
         }
@@ -95,7 +95,7 @@ namespace VRoidXYTool
         /// </summary>
         public async void LoadPreset()
         {
-            var path = await FileDialogUtil.OpenFilePanel("选择预设文件", null, FileHelper.GetJsonFilters(), false);
+            var path = await FileDialogUtil.OpenFilePanel("SelectPresetFile".Translate(), null, FileHelper.GetJsonFilters(), false);
             if (path == null) return;
             GuidePresetData data = FileHelper.LoadJson<GuidePresetData>(path[0]);
             if (data == null) return;
@@ -123,7 +123,7 @@ namespace VRoidXYTool
         /// </summary>
         public async void SavePreset()
         {
-            var path = await FileDialogUtil.SaveFilePanel("选择保存位置", null, "XYToolPreset.json", FileHelper.GetJsonFilters());
+            var path = await FileDialogUtil.SaveFilePanel("SelectSavePath".Translate(), null, "XYToolPreset.json", FileHelper.GetJsonFilters());
             if (path == null) return;
             if (string.IsNullOrEmpty(path)) return;
             foreach (var obj in nowObjects)
@@ -138,7 +138,7 @@ namespace VRoidXYTool
         /// </summary>
         private async void AddGuideImage()
         {
-            var path = await FileDialogUtil.OpenFilePanel("选择参考图", null, FileHelper.GetImageFilters(), false);
+            var path = await FileDialogUtil.OpenFilePanel("SelectImage".Translate(), null, FileHelper.GetImageFilters(), false);
             if (path == null) return;
             GuideImageData data = new GuideImageData();
             var tex = FileHelper.LoadTexture2D(path[0]);
@@ -173,7 +173,7 @@ namespace VRoidXYTool
 
             GuideObject guideObject = new GuideObject();
             // 名字
-            guideObject.GuideName = $"参考图-{System.IO.Path.GetFileName(data.Path)}";
+            guideObject.GuideName = $"{System.IO.Path.GetFileName(data.Path)}";
             guideObject.ObjectType = GuideObjectType.Image;
             nowObjects.Add(guideObject);
             if (tex == null) return;
@@ -200,7 +200,7 @@ namespace VRoidXYTool
         {
             if (GridBox == null)
             {
-                if (GUILayout.Button("实例化标尺格子"))
+                if (GUILayout.Button("CreateGuideGrid".Translate()))
                 {
                     GridBox = GameObject.Instantiate(boxPrefab);
                     GridBox.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
@@ -211,14 +211,14 @@ namespace VRoidXYTool
             {
                 if (GridBox.activeSelf)
                 {
-                    if (GUILayout.Button("隐藏标尺格子"))
+                    if (GUILayout.Button("HideGuideGrid".Translate()))
                     {
                         GridBox.SetActive(false);
                     }
                 }
                 else
                 {
-                    if (GUILayout.Button("显示标尺格子"))
+                    if (GUILayout.Button("ShowGuideGrid".Translate()))
                     {
                         GridBox.SetActive(true);
                     }

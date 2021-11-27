@@ -81,8 +81,8 @@ namespace VRoidXYTool
             Harmony.CreateAndPatchAll(typeof(LinkTextureTool));
             LinkTextures = new List<LinkTexture>();
             // 链接纹理路径
-            LinkTextureDirectory = XYTool.Inst.Config.Bind<string>("LinkTextureTool", "LinkTextureDirectory", "", "自定义的链接纹理检测路径，留空则使用默认路径");
-            LinkTextureSyncInterval = XYTool.Inst.Config.Bind<float>("LinkTextureTool", "LinkTextureSyncInterval", 0.2f, "纹理同步检测的间隔时间，单位秒，最低0.1秒");
+            LinkTextureDirectory = XYTool.Inst.Config.Bind<string>("LinkTextureTool", "LinkTextureDirectory", "", "LinkTextureDirectoryDesc".Translate());
+            LinkTextureSyncInterval = XYTool.Inst.Config.Bind<float>("LinkTextureTool", "LinkTextureSyncInterval", 0.2f, "LinkTextureSyncIntervalDesc".Translate());
             LinkTextureSyncInterval.Value = Mathf.Max(0.1f, LinkTextureSyncInterval.Value);
             useConfigDir = false;
             if (!string.IsNullOrWhiteSpace(LinkTextureDirectory.Value))
@@ -105,7 +105,7 @@ namespace VRoidXYTool
 
         public void OnGUI()
         {
-            GUILayout.BeginVertical("纹理链接工具", GUI.skin.window);
+            GUILayout.BeginVertical("LinkTextureTool".Translate(), GUI.skin.window);
             try
             {
                 // 显示链接文件夹
@@ -113,14 +113,14 @@ namespace VRoidXYTool
                 {
                     if (linkDir != null && linkDir.Exists)
                     {
-                        GUILayout.Label($"正在使用自定义链接文件夹:{linkDir.FullName}");
+                        GUILayout.Label(string.Format("NowUseLinkTextureDir".Translate(), linkDir.FullName));
                     }
                     else
                     {
-                        GUILayout.Label($"正在使用自定义链接文件夹:{baseDir.FullName}");
+                        GUILayout.Label(string.Format("NowUseLinkTextureDir".Translate(), baseDir.FullName));
                     }
                 }
-                if (GUILayout.Button("打开链接纹理文件夹"))
+                if (GUILayout.Button("OpenLinkTextureDir".Translate()))
                 {
                     if (IsModelNull())
                     {
@@ -148,21 +148,21 @@ namespace VRoidXYTool
                             GUILayout.FlexibleSpace();
                             if (HasDuplicateName(lt))
                             {
-                                GUILayout.Label("有重名图层，无法导出!");
-                                if (GUILayout.Button("随机名字"))
+                                GUILayout.Label("HasDuplicateNameCantExport".Translate());
+                                if (GUILayout.Button("RandomName".Translate()))
                                 {
                                     RandomTextureName(lt);
                                 }
                             }
                             else
                             {
-                                if (GUILayout.Button("导出纹理"))
+                                if (GUILayout.Button("ExportTexture".Translate()))
                                 {
                                     ExportTexture(lt);
                                 }
                                 if (lt.CanExportUV)
                                 {
-                                    if (GUILayout.Button("导出UV"))
+                                    if (GUILayout.Button("ExportGuide".Translate()))
                                     {
                                         ExportUV(lt);
                                     }
@@ -177,12 +177,12 @@ namespace VRoidXYTool
                 }
                 else
                 {
-                    GUILayout.Label("没有正在编辑的纹理");
+                    GUILayout.Label("NowNotEditingTexture".Translate());
                 }
             }
             catch (Exception e)
             {
-                GUILayout.Label($"出现异常:{e.Message}\n{e.StackTrace}");
+                GUILayout.Label($"Exception:{e.Message}\n{e.StackTrace}");
             }
             GUILayout.EndVertical();
         }

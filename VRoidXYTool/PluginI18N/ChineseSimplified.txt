@@ -20,6 +20,7 @@ AntiAliasing=抗锯齿
 
 // 链接纹理工具界面
 LinkTextureDirectoryDesc=自定义的链接纹理检测路径，留空则使用默认路径
+UseBaseDirectoryDesc=同步时是否只使用基础路径，关闭时根据模型名字进行检测，开启时忽略模型名字
 LinkTextureSyncIntervalDesc=纹理同步检测的间隔时间，单位秒，最低0.1秒
 NowUseLinkTextureDir=正在使用自定义链接文件夹:{0}
 OpenLinkTextureDir=打开链接纹理文件夹

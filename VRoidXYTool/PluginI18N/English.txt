@@ -20,6 +20,7 @@ AntiAliasing=Anti-Aliasing
 
 // Link Texture Tool GUI
 LinkTextureDirectoryDesc=Custom LinkTexture check directory, if null, use the default directory
+UseBaseDirectoryDesc=if true, ignore model name in directory
 LinkTextureSyncIntervalDesc=LinkTexture sync interval time, unit: second, minimum: 0.1 second
 NowUseLinkTextureDir=Now LinkTexture directory:{0}
 OpenLinkTextureDir=Open LinkTexture directory

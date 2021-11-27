@@ -73,8 +73,8 @@ namespace VRoidXYTool
         }
 
         public ConfigEntry<string> LinkTextureDirectory;
-
         public ConfigEntry<float> LinkTextureSyncInterval;
+        public ConfigEntry<bool> UseBaseDir;
 
         public LinkTextureTool()
         {
@@ -82,6 +82,7 @@ namespace VRoidXYTool
             LinkTextures = new List<LinkTexture>();
             // 链接纹理路径
             LinkTextureDirectory = XYTool.Inst.Config.Bind<string>("LinkTextureTool", "LinkTextureDirectory", "", "LinkTextureDirectoryDesc".Translate());
+            UseBaseDir = XYTool.Inst.Config.Bind<bool>("LinkTextureTool", "UseBaseDirectory", false, "UseBaseDirectoryDesc".Translate());
             LinkTextureSyncInterval = XYTool.Inst.Config.Bind<float>("LinkTextureTool", "LinkTextureSyncInterval", 0.2f, "LinkTextureSyncIntervalDesc".Translate());
             LinkTextureSyncInterval.Value = Mathf.Max(0.1f, LinkTextureSyncInterval.Value);
             useConfigDir = false;
@@ -223,7 +224,14 @@ namespace VRoidXYTool
             FileInfo modelFile = new FileInfo(modelPath);
             if (!modelFile.Exists) return false;
             string modelName = modelFile.Name.Replace(".vroid", "");
-            linkDir = new DirectoryInfo($"{baseDir.FullName}/{modelName}");
+            if (UseBaseDir.Value)
+            {
+                linkDir = baseDir;
+            }
+            else
+            {
+                linkDir = new DirectoryInfo($"{baseDir.FullName}/{modelName}");
+            }
             if (!linkDir.Exists)
             {
                 linkDir.Create();

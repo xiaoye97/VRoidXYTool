@@ -35,7 +35,7 @@ ImportNow=立即导入
 LoadPreset=加载预设
 SavePreset=保持预设
 AddGuideImage=添加参考图
-EditGuideTransform=调整位置
+EditGuideParameters=调整参数
 DeleteGuideObject=删除
 LoadFail=加载失败
 SelectPresetFile=选择预设文件
@@ -48,6 +48,7 @@ InputMode=精确模式
 Scale=缩放
 Pos=位置
 Rot=旋转
+Alpha=透明度
 
 // 相机工具
 AntiAliasingLevelDesc=抗锯齿级别 值为 2，4，8

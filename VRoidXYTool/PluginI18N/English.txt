@@ -35,7 +35,7 @@ ImportNow=Import Now
 LoadPreset=Load preset
 SavePreset=Save preset
 AddGuideImage=Add guide image
-EditGuideTransform=Edit
+EditGuideParameters=Edit
 DeleteGuideObject=Delete
 LoadFail=Load Fail
 SelectPresetFile=Select preset file
@@ -48,6 +48,7 @@ InputMode=Input Mode
 Scale=Scale
 Pos=Position
 Rot=Rotation
+Alpha=Alpha
 
 // Camera Tool GUI
 AntiAliasingLevelDesc=Anti-Aliasing level value: 2, 4, 8

@@ -22,6 +22,8 @@ namespace VRoidXYTool
 
         public Transform Transform;
 
+        public Renderer Renderer;
+
         /// <summary>
         /// 图片数据，仅在图片类型下存在
         /// </summary>
@@ -64,6 +66,12 @@ namespace VRoidXYTool
                 {
                     ImageData.Scale = FloatGUIInput(ImageData.Scale, "Scale".Translate(), "scl");
                     Transform.localScale = new Vector3(ImageData.Scale * ImageData.Width / 1000f, ImageData.Scale * ImageData.Height / 1000f, 0);
+                    float lastOpacity = ImageData.Alpha;
+                    ImageData.Alpha = FloatGUIInput(ImageData.Alpha, "Alpha".Translate(), "alpha");
+                    if (lastOpacity != ImageData.Alpha)
+                    {
+                        Renderer.material.SetColor("_Color", new Color(1, 1, 1, ImageData.Alpha));
+                    }
                 }
                 else if (ObjectType == GuideObjectType.Model)
                 {
@@ -79,6 +87,12 @@ namespace VRoidXYTool
                 {
                     ImageData.Scale = FloatGUISlider(ImageData.Scale, "Scale".Translate(), 0, 5);
                     Transform.localScale = new Vector3(ImageData.Scale * ImageData.Width / 1000f, ImageData.Scale * ImageData.Height / 1000f, 0);
+                    float lastOpacity = ImageData.Alpha;
+                    ImageData.Alpha = FloatGUISlider(ImageData.Alpha, "Alpha".Translate(), 0, 1, 100);
+                    if (lastOpacity != ImageData.Alpha)
+                    {
+                        Renderer.material.SetColor("_Color", new Color(1, 1, 1, ImageData.Alpha));
+                    }
                 }
                 else if (ObjectType == GuideObjectType.Model)
                 {
@@ -163,11 +177,11 @@ namespace VRoidXYTool
         /// <summary>
         /// 滑动条形式的float GUI
         /// </summary>
-        private float FloatGUISlider(float f, string name, float min, float max)
+        private float FloatGUISlider(float f, string name, float min, float max, int nameWidth = 70)
         {
             GUILayout.BeginHorizontal();
             string label = $"{name}:{f:f3}";
-            GUILayout.Label(label, GUILayout.Width(70));
+            GUILayout.Label(label, GUILayout.Width(nameWidth));
             f = GUILayout.HorizontalSlider(f, min, max, GUILayout.Width(150));
             f = (int)(f * 1000) / 1000f;
             GUILayout.EndHorizontal();

@@ -143,11 +143,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="guide" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="PluginI18N\ChineseSimplified.txt" />
     <EmbeddedResource Include="PluginI18N\English.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="guide" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

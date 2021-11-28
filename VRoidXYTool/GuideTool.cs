@@ -62,7 +62,7 @@ namespace VRoidXYTool
                     GUILayout.FlexibleSpace();
                     if (obj.IsVaild)
                     {
-                        obj.NowEdit = GUILayout.Toggle(obj.NowEdit, "EditGuideTransform".Translate());
+                        obj.NowEdit = GUILayout.Toggle(obj.NowEdit, "EditGuideParameters".Translate());
                         if (GUILayout.Button("DeleteGuideObject".Translate()))
                         {
                             needRemoveObjects.Add(obj);
@@ -150,6 +150,7 @@ namespace VRoidXYTool
             data.Width = tex.width;
             data.Height = tex.height;
             data.Scale = 1f;
+            data.Alpha = 1f;
             nowPreset.Images.Add(data);
             CreateGuideImageObject(data, tex);
         }
@@ -179,9 +180,10 @@ namespace VRoidXYTool
             if (tex == null) return;
             // 创建模型
             var image = GameObject.Instantiate(guideImagePrefab);
-            var r = image.GetComponent<Renderer>();
-            r.material = new Material(guideImageMat);
-            r.material.SetTexture("_MainTex", tex);
+            guideObject.Renderer = image.GetComponent<Renderer>();
+            guideObject.Renderer.material = new Material(guideImageMat);
+            guideObject.Renderer.material.SetTexture("_MainTex", tex);
+            guideObject.Renderer.material.SetColor("_Color", new Color(1, 1, 1, data.Alpha));
             // 设置transform
             image.transform.localScale = new Vector3(data.Width / 1000f * data.Scale, data.Height / 1000f * data.Scale, 0);
             image.transform.position = data.Pos.ToVector3();

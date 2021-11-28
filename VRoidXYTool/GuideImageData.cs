@@ -11,5 +11,6 @@
         public int Width;
         public int Height;
         public float Scale;
+        public float Alpha;
     }
 }

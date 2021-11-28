@@ -29,6 +29,7 @@ RandomName=随机名字
 ExportTexture=导出纹理
 ExportGuide=导出参考线
 NowNotEditingTexture=没有正在编辑的纹理
+ImportNow=立即导入
 
 // 参考工具
 LoadPreset=加载预设

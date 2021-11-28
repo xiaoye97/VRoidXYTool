@@ -157,6 +157,10 @@ namespace VRoidXYTool
                             }
                             else
                             {
+                                if (GUILayout.Button("ImportNow".Translate()))
+                                {
+                                    ImportTexture(lt, false);
+                                }
                                 if (GUILayout.Button("ExportTexture".Translate()))
                                 {
                                     ExportTexture(lt);
@@ -170,7 +174,7 @@ namespace VRoidXYTool
                                 }
                             }
 
-                            GUILayout.Label(lt.LastWriteTime.ToString());
+                            //GUILayout.Label(lt.LastWriteTime.ToString());
                             GUILayout.EndHorizontal();
                         }
                     }
@@ -325,41 +329,7 @@ namespace VRoidXYTool
                     var lt = LinkTextures[i];
                     if (lt != null && lt.IsVaild())
                     {
-                        FileInfo texFile = new FileInfo($"{linkDir}/{lt.layer.TranslatedDisplayName}.png");
-                        // 检查是否有一致名字的纹理
-                        if (texFile.Exists)
-                        {
-                            // 如果文件的最后写入时间比记录的要新，则同步纹理
-                            if (texFile.LastWriteTime > lt.LastWriteTime)
-                            {
-                                byte[] fileBytes;
-                                try
-                                {
-                                    fileBytes = File.ReadAllBytes(texFile.FullName);
-                                }
-                                catch (Exception e)
-                                {
-                                    if (!(e is IOException))
-                                    {
-                                        Debug.LogError($"读取纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
-                                    }
-                                    continue;
-                                }
-                                BitmapSize bitmapSize;
-                                UnityEngine.Color[] pixels;
-                                try
-                                {
-                                    Decode(fileBytes, out bitmapSize, out pixels);
-                                }
-                                catch (Exception e)
-                                {
-                                    Debug.LogError($"解析纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
-                                    return;
-                                }
-                                CurrentFileM.engine.Context.ExecuteSyncCommand(new LoadImageToEditableImageRasterLayerCommand(lt.layer.Path, bitmapSize, pixels));
-                                lt.LastWriteTime = DateTime.Now;
-                            }
-                        }
+                        ImportTexture(lt, true);
                     }
                     else
                     {
@@ -372,6 +342,50 @@ namespace VRoidXYTool
                 if (LinkTextures.Count > 0)
                 {
                     LinkTextures.Clear();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 导入纹理
+        /// </summary>
+        /// <param name="lt"></param>
+        /// <param name="checkTime">是否检查时间</param>
+        private void ImportTexture(LinkTexture lt, bool checkTime)
+        {
+            FileInfo texFile = new FileInfo($"{linkDir}/{lt.layer.TranslatedDisplayName}.png");
+            // 检查是否有一致名字的纹理
+            if (texFile.Exists)
+            {
+                // 如果文件的最后写入时间比记录的要新，则同步纹理
+                if (!checkTime || texFile.LastWriteTime > lt.LastWriteTime)
+                {
+                    byte[] fileBytes;
+                    try
+                    {
+                        fileBytes = File.ReadAllBytes(texFile.FullName);
+                    }
+                    catch (Exception e)
+                    {
+                        if (!(e is IOException))
+                        {
+                            Debug.LogError($"读取纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
+                        }
+                        return;
+                    }
+                    BitmapSize bitmapSize;
+                    UnityEngine.Color[] pixels;
+                    try
+                    {
+                        Decode(fileBytes, out bitmapSize, out pixels);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError($"解析纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
+                        return;
+                    }
+                    CurrentFileM.engine.Context.ExecuteSyncCommand(new LoadImageToEditableImageRasterLayerCommand(lt.layer.Path, bitmapSize, pixels));
+                    lt.LastWriteTime = DateTime.Now;
                 }
             }
         }

@@ -29,6 +29,7 @@ RandomName=Random Name
 ExportTexture=Export Texture
 ExportGuide=Export Guide
 NowNotEditingTexture=There are no textures being edited
+ImportNow=Import Now
 
 // Guide Tool GUI
 LoadPreset=Load preset

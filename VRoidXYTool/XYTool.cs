@@ -14,7 +14,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.3.2";
+        public const string PluginVersion = "0.3.3";
 
         public bool showWindow;
         private Rect winRect = new Rect(50, 50, 500, 600);

@@ -1,7 +1,6 @@
 ﻿// 主界面部分
 RunInBGDesc=软件是否在后台运行
 RunInBG=软件后台运行
-OnGUICantClick=打开小工具界面时禁用软件的点击
 GUIHotkey=界面快捷键
 ShowCameraToolGUI=是否显示相机工具
 ShowGuideToolGUI=是否显示参考工具
@@ -49,6 +48,7 @@ Scale=缩放
 Pos=位置
 Rot=旋转
 Alpha=透明度
+IsShow=显示
 
 // 相机工具
 AntiAliasingLevelDesc=抗锯齿级别 值为 2，4，8

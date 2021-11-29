@@ -4,8 +4,6 @@ using HarmonyLib;
 using UnityEngine;
 using VRoid.Studio;
 using BepInEx.Configuration;
-using UnityEngine.EventSystems;
-using VRoid.UI.Component;
 
 namespace VRoidXYTool
 {
@@ -14,10 +12,29 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.3.4";
+        public const string PluginVersion = "0.3.5";
 
-        public bool showWindow;
-        private Rect winRect = new Rect(50, 50, 500, 600);
+        private bool showWindow;
+        public bool ShowWindow
+        {
+            get { return showWindow; }
+            set 
+            {
+                if (showWindow != value)
+                {
+                    showWindow = value;
+                    if (showWindow)
+                    {
+                        RayBlocker.OpenBlocker();
+                    }
+                    else
+                    {
+                        RayBlocker.CloseBlocker();
+                    }
+                }
+            }
+        }
+        public Rect ToolWindowRect = new Rect(50, 50, 500, 600);
 
         public static XYTool Inst;
 
@@ -26,20 +43,17 @@ namespace VRoidXYTool
         public CameraTool CameraTool;
         public GuideTool GuideTool;
         public LinkTextureTool LinkTextureTool;
+        public RayBlocker RayBlocker;
 
         #region 配置
         public ConfigEntry<SystemLanguage> PluginLanguage;
         public ConfigEntry<bool> RunInBG;
-        public ConfigEntry<bool> OnGUICantClick;
         public ConfigEntry<KeyCode> Hotkey;
 
         public ConfigEntry<bool> ShowCameraToolGUI;
         public ConfigEntry<bool> ShowGuideToolGUI;
         public ConfigEntry<bool> ShowLinkTextureToolGUI;
         #endregion
-
-        private EventSystem ES2D; // 2D界面事件系统
-        private EventSystem3D ES3D; //  3D界面事件系统
 
         private void Awake()
         {
@@ -49,14 +63,12 @@ namespace VRoidXYTool
             I18N.SetLanguage(PluginLanguage.Value);
 
             RunInBG = Config.Bind<bool>("Common", "RunInBG", true, "RunInBGDesc".Translate());
-            OnGUICantClick = Config.Bind<bool>("Common", "OnGUICantClick", true, "OnGUICantClick".Translate());
             Hotkey = Config.Bind<KeyCode>("Common", "Hotkey", KeyCode.F11, "GUIHotkey".Translate());
             ShowCameraToolGUI = Config.Bind<bool>("Common", "ShowCameraToolGUI", true, "ShowCameraToolGUI".Translate());
             ShowGuideToolGUI = Config.Bind<bool>("Common", "ShowGizmoToolGUI", true, "ShowGuideToolGUI".Translate());
             ShowLinkTextureToolGUI = Config.Bind<bool>("Common", "ShowLinkTextureToolGUI", true, "ShowLinkTextureToolGUI".Translate());
             Harmony.CreateAndPatchAll(typeof(XYTool));
             Logger.LogInfo("XYTool启动");
-            Logger.LogInfo($"当前VRoidStudio版本为{Application.version}");
         }
 
         private void Start()
@@ -64,6 +76,7 @@ namespace VRoidXYTool
             CameraTool = new CameraTool();
             GuideTool = new GuideTool();
             LinkTextureTool = new LinkTextureTool();
+            RayBlocker = new RayBlocker();
         }
 
         private void Update()
@@ -71,55 +84,27 @@ namespace VRoidXYTool
             // 控制界面显示
             if (Input.GetKeyDown(Hotkey.Value))
             {
-                showWindow = !showWindow;
+                ShowWindow = !ShowWindow;
             }
             // 控制配置中的值同步
             if (Application.runInBackground != RunInBG.Value)
             {
                 Application.runInBackground = RunInBG.Value;
             }
-            CheckEventSystem();
             // 工具的Update
             CameraTool.Update();
             LinkTextureTool.Update();
-        }
-
-        /// <summary>
-        /// 检查事件系统
-        /// </summary>
-        private void CheckEventSystem()
-        {
-            if (ES2D == null)
+            if (ShowWindow)
             {
-                ES2D = GameObject.FindObjectOfType<EventSystem>();
-            }
-            if (ES3D == null)
-            {
-                ES3D = GameObject.FindObjectOfType<EventSystem3D>();
-            }
-            // 是否启用事件系统
-            bool esActive = true;
-            if (OnGUICantClick.Value && showWindow)
-            {
-                // 如果配置打开并且当前在显示小工具界面，则关闭事件系统
-                esActive = false;
-            }
-            if (ES2D.enabled != esActive)
-            {
-                ES2D.enabled = esActive;
-            }
-            if (ES3D.enabled != esActive)
-            {
-                ES3D.enabled = esActive;
+                RayBlocker.Update();
             }
         }
 
         private void OnGUI()
         {
-            if (showWindow)
+            if (ShowWindow)
             {
-                GUI.backgroundColor = Color.black;
-                winRect = GUILayout.Window(666, winRect, WindowFunc, string.Format("PluginWindowTitle".Translate(), PluginVersion));
+                ToolWindowRect = GUILayout.Window(666, ToolWindowRect, WindowFunc, string.Format("PluginWindowTitle".Translate(), PluginVersion), GUI.skin.box);
             }
         }
 
@@ -132,21 +117,25 @@ namespace VRoidXYTool
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("X"))
             {
-                showWindow = false;
+                ShowWindow = false;
             }
             GUILayout.EndHorizontal();
             InfoGUI();
+            GUILayout.Space(3);
             ConfigGUI();
             if (ShowCameraToolGUI.Value)
             {
+                GUILayout.Space(3);
                 CameraTool.OnGUI();
             }
             if (ShowGuideToolGUI.Value)
             {
+                GUILayout.Space(3);
                 GuideTool.OnGUI();
             }
             if (ShowLinkTextureToolGUI.Value)
             {
+                GUILayout.Space(3);
                 LinkTextureTool.OnGUI();
             }
             GUI.DragWindow();
@@ -196,8 +185,6 @@ namespace VRoidXYTool
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal(GUI.skin.box);
-            OnGUICantClick.Value = GUILayout.Toggle(OnGUICantClick.Value, "OnGUICantClick".Translate());
-            GUILayout.Space(10);
             RunInBG.Value = GUILayout.Toggle(RunInBG.Value, "RunInBG".Translate());
             GUILayout.Space(10);
             CameraTool.AntiAliasing.Value = GUILayout.Toggle(CameraTool.AntiAliasing.Value, "AntiAliasing".Translate());

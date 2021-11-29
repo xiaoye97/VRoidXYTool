@@ -13,6 +13,8 @@ namespace VRoidXYTool
         /// 是否有效
         /// </summary>
         public bool IsVaild;
+        
+        public bool IsShow = true;
 
         public string GuideName;
 
@@ -60,6 +62,7 @@ namespace VRoidXYTool
             GUILayout.BeginVertical();
             GUILayout.BeginHorizontal();
             InputMode = GUILayout.Toggle(InputMode, "InputMode".Translate());
+
             if (InputMode)
             {
                 if (ObjectType == GuideObjectType.Image)
@@ -182,7 +185,7 @@ namespace VRoidXYTool
             GUILayout.BeginHorizontal();
             string label = $"{name}:{f:f3}";
             GUILayout.Label(label, GUILayout.Width(nameWidth));
-            f = GUILayout.HorizontalSlider(f, min, max, GUILayout.Width(150));
+            f = GUILayout.HorizontalSlider(f, min, max, GUILayout.Width(100));
             f = (int)(f * 1000) / 1000f;
             GUILayout.EndHorizontal();
             return f;

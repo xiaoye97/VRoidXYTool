@@ -58,7 +58,18 @@ namespace VRoidXYTool
                 {
                     GUILayout.BeginVertical(GUI.skin.box);
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label(obj.GuideName);
+                    if (obj.IsVaild)
+                    {
+                        obj.IsShow = GUILayout.Toggle(obj.IsShow, obj.GuideName);
+                        if (obj.IsShow != obj.GO.activeSelf)
+                        {
+                            obj.GO.SetActive(obj.IsShow);
+                        }
+                    }
+                    else
+                    {
+                        GUILayout.Label(obj.GuideName);
+                    }
                     GUILayout.FlexibleSpace();
                     if (obj.IsVaild)
                     {

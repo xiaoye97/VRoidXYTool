@@ -17,7 +17,7 @@ namespace VRoidXYTool
             {
                 if (render.material.name.Contains("CLOTH"))
                 {
-                    Utils.SetRenderMode(render.material, RenderMode.Transparent, 0, false);
+                    Utils.SetRenderMode(render.material, MToon.RenderMode.Transparent, 0, false);
                     Utils.SetCullMode(render.material, CullMode.Off);
                     Debug.Log($"将{render.gameObject.name}的材质切换到半透明模式");
                 }

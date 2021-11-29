@@ -1,7 +1,6 @@
 ﻿// Tool Main GUI
 RunInBGDesc=VRoidStudio run in background
 RunInBG=Run in background
-OnGUICantClick=Can't click when show tool
 GUIHotkey=Tool hotkey
 ShowCameraToolGUI=ShowCameraToolGUI
 ShowGuideToolGUI=ShowGuideToolGUI
@@ -49,6 +48,7 @@ Scale=Scale
 Pos=Position
 Rot=Rotation
 Alpha=Alpha
+IsShow=Show
 
 // Camera Tool GUI
 AntiAliasingLevelDesc=Anti-Aliasing level value: 2, 4, 8

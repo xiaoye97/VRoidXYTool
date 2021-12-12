@@ -29,6 +29,7 @@ ExportTexture=导出纹理
 ExportGuide=导出参考线
 NowNotEditingTexture=没有正在编辑的纹理
 ImportNow=立即导入
+NowNotLoadOrSaveModel=当前没有打开模型或者保存vroid工程文件，不能使用链接纹理工具
 
 // 参考工具
 LoadPreset=加载预设

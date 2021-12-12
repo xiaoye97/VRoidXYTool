@@ -138,6 +138,8 @@
     <Compile Include="GuideObject.cs" />
     <Compile Include="GuidePresetData.cs" />
     <Compile Include="GuideTool.cs" />
+    <Compile Include="GUI\InterfaceMaker.cs" />
+    <Compile Include="GUI\ResourceUtils.cs" />
     <Compile Include="I18N.cs" />
     <Compile Include="LinkTextureTool.cs" />
     <Compile Include="PosHelper.cs" />
@@ -153,6 +155,20 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="guide" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\Skin\button_hover.png" />
+    <EmbeddedResource Include="GUI\Skin\button_normal.png" />
+    <EmbeddedResource Include="GUI\Skin\button_press.png" />
+    <EmbeddedResource Include="GUI\Skin\guisharp-box.png" />
+    <EmbeddedResource Include="GUI\Skin\guisharp-window.png" />
+    <EmbeddedResource Include="GUI\Skin\textfield hover.png" />
+    <EmbeddedResource Include="GUI\Skin\textfield on.png" />
+    <EmbeddedResource Include="GUI\Skin\textfield.png" />
+    <EmbeddedResource Include="GUI\Skin\toggle on.png" />
+    <EmbeddedResource Include="GUI\Skin\toggle.png" />
+    <EmbeddedResource Include="GUI\Skin\vertical scrollbar thumb.png" />
+    <EmbeddedResource Include="GUI\Skin\vertical scrollbar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

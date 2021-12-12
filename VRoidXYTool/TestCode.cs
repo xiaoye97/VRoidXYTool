@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using MToon;
+using Newtonsoft.Json;
+using System.IO;
+using BepInEx;
 
 namespace VRoidXYTool
 {
@@ -22,6 +25,12 @@ namespace VRoidXYTool
                     Debug.Log($"将{render.gameObject.name}的材质切换到半透明模式");
                 }
             }
+        }
+
+        public static void SaveJson()
+        {
+            var json = JsonConvert.SerializeObject(XYTool.Inst.MainVM.CurrentFile.Engine.Context.ActiveModel.BaseCollection);
+            File.WriteAllText($"{Paths.GameRootPath}/Test.json", json);
         }
     }
 }

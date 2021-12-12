@@ -182,7 +182,14 @@ namespace VRoidXYTool
                 }
                 else
                 {
-                    GUILayout.Label("NowNotEditingTexture".Translate());
+                    if (CanUseTool())
+                    {
+                        GUILayout.Label("NowNotEditingTexture".Translate());
+                    }
+                    else
+                    {
+                        GUILayout.Label("NowNotLoadOrSaveModel".Translate());
+                    }
                 }
             }
             catch (Exception e)

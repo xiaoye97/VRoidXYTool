@@ -22,7 +22,7 @@ namespace VRoidXYTool
             rt.SetParent(canvasObj.transform);
             rt.pivot = new Vector2(0, 1);
             Image rbImage = rayblocker.AddComponent<Image>();
-            rbImage.color = Color.grey;
+            rbImage.color = Color.clear;
             rbImage.raycastTarget = true;
             CloseBlocker();
         }

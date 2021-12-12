@@ -29,6 +29,7 @@ ExportTexture=Export Texture
 ExportGuide=Export Guide
 NowNotEditingTexture=There are no textures being edited
 ImportNow=Import Now
+NowNotLoadOrSaveModel=Now not load model or not save model, don't use LinkTexture Tool.
 
 // Guide Tool GUI
 LoadPreset=Load preset

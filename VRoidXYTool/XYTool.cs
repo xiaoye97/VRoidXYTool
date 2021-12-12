@@ -12,7 +12,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.3.5";
+        public const string PluginVersion = "0.3.6";
 
         private bool showWindow;
         public bool ShowWindow
@@ -104,7 +104,10 @@ namespace VRoidXYTool
         {
             if (ShowWindow)
             {
-                ToolWindowRect = GUILayout.Window(666, ToolWindowRect, WindowFunc, string.Format("PluginWindowTitle".Translate(), PluginVersion), GUI.skin.box);
+                GUISkin skin = GUI.skin;
+                GUI.skin = InterfaceMaker.CustomSkin;
+                ToolWindowRect = GUILayout.Window(666, ToolWindowRect, WindowFunc, string.Format("PluginWindowTitle".Translate(), PluginVersion));
+                GUI.skin = skin;
             }
         }
 
@@ -114,8 +117,12 @@ namespace VRoidXYTool
         public void WindowFunc(int id)
         {
             GUILayout.BeginHorizontal();
+            //if (GUILayout.Button("运行测试代码"))
+            //{
+            //    TestCode.SaveJson();
+            //}
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("X"))
+            if (GUILayout.Button("X", GUILayout.Width(20)))
             {
                 ShowWindow = false;
             }

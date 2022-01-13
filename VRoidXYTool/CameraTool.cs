@@ -1,8 +1,10 @@
 using System;
+using BepInEx;
 using System.Linq;
 using UnityEngine;
 using VRoid.UI.Component;
 using BepInEx.Configuration;
+using System.Collections.Generic;
 
 namespace VRoidXYTool
 {
@@ -54,6 +56,16 @@ namespace VRoidXYTool
         /// </summary>
         public ConfigEntry<int> AntiAliasingLevel;
 
+        /// <summary>
+        /// 镜头预设数据
+        /// </summary>
+        public CameraPosPresetData CameraPosPresetData;
+
+        /// <summary>
+        /// 镜头预设数据的保存路径
+        /// </summary>
+        public string CameraPosPresetPath;
+
         public CameraTool()
         {
             AntiAliasing = XYTool.Inst.Config.Bind<bool>("CameraTool", "AntiAliasing", true, "AntiAliasing".Translate());
@@ -62,6 +74,8 @@ namespace VRoidXYTool
             {
                 AntiAliasingLevel.Value = 8;
             }
+            CameraPosPresetPath = $"{Paths.ConfigPath}/VRoidXYToolCameraPosPreset.json";
+            LoadPreset();
         }
 
         public void Update()
@@ -82,19 +96,24 @@ namespace VRoidXYTool
 
         public void OnGUI()
         {
+            GUI.contentColor = XYTool.HeadColor;
             GUILayout.BeginVertical("CameraTool".Translate(), GUI.skin.window);
+            GUI.contentColor = Color.white;
             try
             {
                 if (MRTcamera == null || MainCamera == null)
                 {
+                    // 没找到相机
                     GUILayout.Label("CameraNotFound".Translate());
                 }
                 else
                 {
+                    // 正交
                     if (MainCamera.orthographic)
                     {
                         OrthoGUI();
                     }
+                    // 透视
                     else
                     {
                         NormalGUI();
@@ -124,6 +143,7 @@ namespace VRoidXYTool
                 MainCamera.orthographic = true;
             }
             GUILayout.BeginHorizontal();
+            // 身体位置预设
             GUILayout.BeginHorizontal("CameraPosBody".Translate(), GUI.skin.window);
             if (GUILayout.Button("DirFront".Translate()))
             {
@@ -142,6 +162,7 @@ namespace VRoidXYTool
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 4)[3], GetAroundAngles()[3]);
             }
             GUILayout.EndHorizontal();
+            // 头部位置预设
             GUILayout.BeginHorizontal("CameraPosHead".Translate(), GUI.skin.window);
             if (GUILayout.Button("DirFront".Translate()))
             {
@@ -161,6 +182,45 @@ namespace VRoidXYTool
             }
             GUILayout.EndHorizontal();
             GUILayout.EndHorizontal();
+            // 自定义预设
+            GUILayout.BeginHorizontal("PerspectiveCameraPosPreset".Translate(), GUI.skin.window);
+            for (int i = 0; i < CameraPosPresetData.PresetCount; i++)
+            {
+                GUILayout.BeginVertical();
+                var posData = CameraPosPresetData.PerspectiveCameraPosPresets[i];
+                if (posData == null)
+                {
+                    GUI.contentColor = Color.gray;
+                    if (GUILayout.Button($"{i}"))
+                    {
+                    }
+                    GUI.contentColor = Color.white;
+                    if (GUILayout.Button($"Save".Translate()))
+                    {
+                        PerspectiveCameraPosPreset preset = new PerspectiveCameraPosPreset();
+                        preset.Pos = V3.Parse(MRTcamera.transform.position);
+                        preset.Rot = V3.Parse(MRTcamera.transform.localEulerAngles);
+                        CameraPosPresetData.PerspectiveCameraPosPresets[i] = preset;
+                        SavePreset();
+                    }
+                }
+                else
+                {
+                    GUI.contentColor = Color.green;
+                    if (GUILayout.Button($"{i}"))
+                    {
+                        SetCameraPos(posData.Pos.ToVector3(), posData.Rot.ToVector3());
+                    }
+                    GUI.contentColor = Color.white;
+                    if (GUILayout.Button($"Clear".Translate()))
+                    {
+                        CameraPosPresetData.PerspectiveCameraPosPresets[i] = null;
+                        SavePreset();
+                    }
+                }
+                GUILayout.EndVertical();
+            }
+            GUILayout.EndHorizontal();
         }
 
         /// <summary>
@@ -168,7 +228,7 @@ namespace VRoidXYTool
         /// </summary>
         public void OrthoGUI()
         {
-            if (GUILayout.Button("SetCaneraPerspective".Translate()))
+            if (GUILayout.Button("SetCameraPerspective".Translate()))
             {
                 MainCamera.orthographic = false;
             }
@@ -229,6 +289,47 @@ namespace VRoidXYTool
             }
             GUILayout.EndHorizontal();
             GUILayout.EndHorizontal();
+            // 自定义预设
+            GUILayout.BeginHorizontal("OrthographicCameraPosPreset".Translate(), GUI.skin.window);
+            for (int i = 0; i < CameraPosPresetData.PresetCount; i++)
+            {
+                GUILayout.BeginVertical();
+                var posData = CameraPosPresetData.OrthographicCameraPosPresets[i];
+                if (posData == null)
+                {
+                    GUI.contentColor = Color.gray;
+                    if (GUILayout.Button($"{i}"))
+                    {
+                    }
+                    GUI.contentColor = Color.white;
+                    if (GUILayout.Button($"Save".Translate()))
+                    {
+                        OrthographicCameraPosPreset preset = new OrthographicCameraPosPreset();
+                        preset.Pos = V3.Parse(MRTcamera.transform.position);
+                        preset.Rot = V3.Parse(MRTcamera.transform.localEulerAngles);
+                        preset.OrthographicSize = MainCamera.orthographicSize;
+                        CameraPosPresetData.OrthographicCameraPosPresets[i] = preset;
+                        SavePreset();
+                    }
+                }
+                else
+                {
+                    GUI.contentColor = Color.green;
+                    if (GUILayout.Button($"{i}"))
+                    {
+                        SetCameraPos(posData.Pos.ToVector3(), posData.Rot.ToVector3());
+                        MainCamera.orthographicSize = posData.OrthographicSize;
+                    }
+                    GUI.contentColor = Color.white;
+                    if (GUILayout.Button($"Clear".Translate()))
+                    {
+                        CameraPosPresetData.OrthographicCameraPosPresets[i] = null;
+                        SavePreset();
+                    }
+                }
+                GUILayout.EndVertical();
+            }
+            GUILayout.EndHorizontal();
         }
 
         /// <summary>
@@ -262,5 +363,53 @@ namespace VRoidXYTool
             result[3] = new Vector3(0, 270, 0);
             return result;
         }
+
+        /// <summary>
+        /// 加载镜头预设
+        /// </summary>
+        public void LoadPreset()
+        {
+            CameraPosPresetData = FileHelper.LoadJson<CameraPosPresetData>(CameraPosPresetPath);
+            if (CameraPosPresetData == null)
+            {
+                CameraPosPresetData = new CameraPosPresetData();
+                CameraPosPresetData.PerspectiveCameraPosPresets = new PerspectiveCameraPosPreset[CameraPosPresetData.PresetCount];
+                CameraPosPresetData.OrthographicCameraPosPresets = new OrthographicCameraPosPreset[CameraPosPresetData.PresetCount];
+            }
+        }
+
+        /// <summary>
+        /// 保存镜头预设
+        /// </summary>
+        public void SavePreset()
+        {
+            FileHelper.SaveJson(CameraPosPresetPath, CameraPosPresetData);
+        }
+    }
+
+    [Serializable]
+    /// <summary>
+    /// 相机位置预设数据
+    /// </summary>
+    public class CameraPosPresetData
+    {
+        public static int PresetCount = 10;
+        public PerspectiveCameraPosPreset[] PerspectiveCameraPosPresets;
+        public OrthographicCameraPosPreset[] OrthographicCameraPosPresets;
+    }
+
+    [Serializable]
+    public class PerspectiveCameraPosPreset
+    {
+        public V3 Pos;
+        public V3 Rot;
+    }
+
+    [Serializable]
+    public class OrthographicCameraPosPreset
+    {
+        public V3 Pos;
+        public V3 Rot;
+        public float OrthographicSize;
     }
 }

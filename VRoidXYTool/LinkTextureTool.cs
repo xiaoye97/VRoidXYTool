@@ -106,7 +106,9 @@ namespace VRoidXYTool
 
         public void OnGUI()
         {
+            GUI.contentColor = XYTool.HeadColor;
             GUILayout.BeginVertical("LinkTextureTool".Translate(), GUI.skin.window);
+            GUI.contentColor = UnityEngine.Color.white;
             try
             {
                 // 显示链接文件夹
@@ -137,7 +139,7 @@ namespace VRoidXYTool
                 }
                 if (LinkTextures.Count > 0)
                 {
-                    svPos = GUILayout.BeginScrollView(svPos, GUI.skin.box, GUILayout.MaxHeight(200));
+                    //svPos = GUILayout.BeginScrollView(svPos, GUI.skin.box, GUILayout.MaxHeight(200));
 
                     for (int i = 0; i < LinkTextures.Count; i++)
                     {
@@ -178,7 +180,7 @@ namespace VRoidXYTool
                             GUILayout.EndHorizontal();
                         }
                     }
-                    GUILayout.EndScrollView();
+                    //GUILayout.EndScrollView();
                 }
                 else
                 {

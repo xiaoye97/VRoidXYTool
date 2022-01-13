@@ -12,7 +12,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.3.6";
+        public const string PluginVersion = "0.4.0";
 
         private bool showWindow;
         public bool ShowWindow
@@ -35,6 +35,8 @@ namespace VRoidXYTool
             }
         }
         public Rect ToolWindowRect = new Rect(50, 50, 500, 600);
+        public static Color HeadColor = new Color(109 / 255f, 192 / 255f, 235 / 255f);
+        public Vector2 sv;
 
         public static XYTool Inst;
 
@@ -129,6 +131,7 @@ namespace VRoidXYTool
             GUILayout.EndHorizontal();
             InfoGUI();
             GUILayout.Space(3);
+            sv = GUILayout.BeginScrollView(sv);
             ConfigGUI();
             if (ShowCameraToolGUI.Value)
             {
@@ -145,6 +148,7 @@ namespace VRoidXYTool
                 GUILayout.Space(3);
                 LinkTextureTool.OnGUI();
             }
+            GUILayout.EndScrollView();
             GUI.DragWindow();
         }
 
@@ -153,8 +157,9 @@ namespace VRoidXYTool
         /// </summary>
         public void InfoGUI()
         {
+            GUI.contentColor = HeadColor;
             GUILayout.BeginVertical("Info".Translate(), GUI.skin.window);
-
+            GUI.contentColor = Color.white;
             GUILayout.BeginHorizontal();
             GUILayout.Label("Author".Translate());
             GUILayout.Space(10);
@@ -177,7 +182,9 @@ namespace VRoidXYTool
         /// </summary>
         public void ConfigGUI()
         {
+            GUI.contentColor = HeadColor;
             GUILayout.BeginVertical("Config".Translate(), GUI.skin.window);
+            GUI.contentColor = Color.white;
             if (GUILayout.Button("OpenConfigFile".Translate()))
             {
                 System.Diagnostics.Process.Start("NotePad.exe", $"{Paths.BepInExRootPath}/config/{PluginID}.cfg");

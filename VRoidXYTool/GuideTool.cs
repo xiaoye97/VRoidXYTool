@@ -36,7 +36,9 @@ namespace VRoidXYTool
                 }
                 needRemoveObjects.Clear();
             }
+            GUI.contentColor = XYTool.HeadColor;
             GUILayout.BeginVertical("GuideTool".Translate(), GUI.skin.window);
+            GUI.contentColor = Color.white;
             try
             {
                 GridBoxGUI();

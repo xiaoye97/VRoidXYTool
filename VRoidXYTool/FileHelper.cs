@@ -76,9 +76,16 @@ namespace VRoidXYTool
         {
             try
             {
-                var jsonStr = File.ReadAllText(path);
-                T result = JsonConvert.DeserializeObject<T>(jsonStr);
-                return result;
+                if (File.Exists(path))
+                {
+                    var jsonStr = File.ReadAllText(path);
+                    T result = JsonConvert.DeserializeObject<T>(jsonStr);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception e)
             {
@@ -99,7 +106,7 @@ namespace VRoidXYTool
             }
             catch (Exception e)
             {
-                Debug.LogError($"读取Json时出现异常:\n{e.Message}\n{e.StackTrace}");
+                Debug.LogError($"保存Json时出现异常:\n{e.Message}\n{e.StackTrace}");
             }
         }
 

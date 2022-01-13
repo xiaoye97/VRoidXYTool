@@ -14,10 +14,10 @@ namespace VRoidXYTool
 
         public RayBlocker()
         {
-            canvasObj = new GameObject();
+            canvasObj = new GameObject("VRoidXYToolRayBlockerCanvas");
             canvasObj.AddComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
             canvasObj.AddComponent<GraphicRaycaster>();
-            var rayblocker = new GameObject();
+            var rayblocker = new GameObject("RayBlocker");
             rt = rayblocker.AddComponent<RectTransform>();
             rt.SetParent(canvasObj.transform);
             rt.pivot = new Vector2(0, 1);

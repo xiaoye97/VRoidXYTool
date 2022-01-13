@@ -55,7 +55,7 @@ IsShow=显示
 AntiAliasingLevelDesc=抗锯齿级别 值为 2，4，8
 CameraNotFound=目标相机不存在
 SetCameraOrthographic=设置相机为正交模式
-SetCaneraPerspective=设置相机为透视模式
+SetCameraPerspective=设置相机为透视模式
 OrthographicSize=正交尺寸
 CameraPosBody=相机位置(全身)
 CameraPosHead=相机位置(头部)
@@ -63,6 +63,10 @@ DirFront=前
 DirBack=后
 DirLeft=左
 DirRight=右
+PerspectiveCameraPosPreset=透视相机位置预设
+OrthographicCameraPosPreset=正交相机位置预设
 
 // 其他
 Image=图片
+Save=保存
+Clear=清除

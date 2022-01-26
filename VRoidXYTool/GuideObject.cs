@@ -48,8 +48,8 @@ namespace VRoidXYTool
         {
             if (ObjectType == GuideObjectType.Image)
             {
-                ImageData.Pos = V3.Parse(Transform.position);
-                ImageData.Rot = V3.Parse(Transform.localEulerAngles);
+                ImageData.Pos = new V3(Transform.position);
+                ImageData.Rot = new V3(Transform.localEulerAngles);
             }
         }
 

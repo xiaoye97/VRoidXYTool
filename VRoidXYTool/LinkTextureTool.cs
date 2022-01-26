@@ -19,6 +19,9 @@ using VRoid.Studio.TextureEditor.Texture.ViewModel;
 
 namespace VRoidXYTool
 {
+    /// <summary>
+    /// 链接纹理工具
+    /// </summary>
     public class LinkTextureTool
     {
         public static List<LinkTexture> LinkTextures;
@@ -37,40 +40,6 @@ namespace VRoidXYTool
         private DirectoryInfo linkDir;
 
         private bool useConfigDir;
-
-        private CurrentFileModel _CurrentFileM;
-
-        public CurrentFileModel CurrentFileM
-        {
-            get
-            {
-                if (_CurrentFileM == null )
-                {
-                    if (CurrentFileVM != null)
-                    {
-                        _CurrentFileM = CurrentFileVM.model;
-                    }
-                }
-                return  _CurrentFileM;
-            }
-        }
-
-        private CurrentFileViewModel _CurrentFileVM;
-
-        public CurrentFileViewModel CurrentFileVM
-        {
-            get
-            {
-                if (_CurrentFileVM == null)
-                {
-                    if (XYTool.Inst.MainVM != null)
-                    {
-                        _CurrentFileVM = XYTool.Inst.MainVM.CurrentFile;
-                    }
-                }
-                return _CurrentFileVM;
-            }
-        }
 
         public ConfigEntry<string> LinkTextureDirectory;
         public ConfigEntry<float> LinkTextureSyncInterval;
@@ -106,99 +75,90 @@ namespace VRoidXYTool
 
         public void OnGUI()
         {
-            GUI.contentColor = XYTool.HeadColor;
-            GUILayout.BeginVertical("LinkTextureTool".Translate(), GUI.skin.window);
-            GUI.contentColor = UnityEngine.Color.white;
-            try
+            // 显示链接文件夹
+            if (useConfigDir)
             {
-                // 显示链接文件夹
-                if (useConfigDir)
+                if (linkDir != null && linkDir.Exists)
                 {
-                    if (linkDir != null && linkDir.Exists)
-                    {
-                        GUILayout.Label(string.Format("NowUseLinkTextureDir".Translate(), linkDir.FullName));
-                    }
-                    else
-                    {
-                        GUILayout.Label(string.Format("NowUseLinkTextureDir".Translate(), baseDir.FullName));
-                    }
-                }
-                if (GUILayout.Button("OpenLinkTextureDir".Translate()))
-                {
-                    if (IsModelNull())
-                    {
-                        if (linkDir != null && linkDir.Exists)
-                        {
-                            System.Diagnostics.Process.Start("explorer.exe", linkDir.FullName);
-                        }
-                    }
-                    else
-                    {
-                        System.Diagnostics.Process.Start("explorer.exe", baseDir.FullName);
-                    }
-                }
-                if (LinkTextures.Count > 0)
-                {
-                    //svPos = GUILayout.BeginScrollView(svPos, GUI.skin.box, GUILayout.MaxHeight(200));
-
-                    for (int i = 0; i < LinkTextures.Count; i++)
-                    {
-                        var lt = LinkTextures[i];
-                        if (lt != null && lt.IsVaild())
-                        {
-                            GUILayout.BeginHorizontal();
-                            GUILayout.Label($"{lt.layer.TranslatedDisplayName}");
-                            GUILayout.FlexibleSpace();
-                            if (HasDuplicateName(lt))
-                            {
-                                GUILayout.Label("HasDuplicateNameCantExport".Translate());
-                                if (GUILayout.Button("RandomName".Translate()))
-                                {
-                                    RandomTextureName(lt);
-                                }
-                            }
-                            else
-                            {
-                                if (GUILayout.Button("ImportNow".Translate()))
-                                {
-                                    ImportTexture(lt, false);
-                                }
-                                if (GUILayout.Button("ExportTexture".Translate()))
-                                {
-                                    ExportTexture(lt);
-                                }
-                                if (lt.CanExportUV)
-                                {
-                                    if (GUILayout.Button("ExportGuide".Translate()))
-                                    {
-                                        ExportUV(lt);
-                                    }
-                                }
-                            }
-
-                            //GUILayout.Label(lt.LastWriteTime.ToString());
-                            GUILayout.EndHorizontal();
-                        }
-                    }
-                    //GUILayout.EndScrollView();
+                    GUILayout.Label(string.Format("NowUseLinkTextureDir".Translate(), linkDir.FullName));
                 }
                 else
                 {
-                    if (CanUseTool())
-                    {
-                        GUILayout.Label("NowNotEditingTexture".Translate());
-                    }
-                    else
-                    {
-                        GUILayout.Label("NowNotLoadOrSaveModel".Translate());
-                    }
+                    GUILayout.Label(string.Format("NowUseLinkTextureDir".Translate(), baseDir.FullName));
                 }
             }
-            catch (Exception e)
+            if (GUILayout.Button("OpenLinkTextureDir".Translate()))
             {
-                GUILayout.Label($"Exception:{e.Message}\n{e.StackTrace}");
+                if (XYTool.Inst.IsModelNull)
+                {
+                    if (linkDir != null && linkDir.Exists)
+                    {
+                        System.Diagnostics.Process.Start("explorer.exe", linkDir.FullName);
+                    }
+                }
+                else
+                {
+                    System.Diagnostics.Process.Start("explorer.exe", baseDir.FullName);
+                }
             }
-            GUILayout.EndVertical();
+            if (LinkTextures.Count > 0)
+            {
+                //svPos = GUILayout.BeginScrollView(svPos, GUI.skin.box, GUILayout.MaxHeight(200));
+                svPos = GUILayout.BeginScrollView(svPos, GUI.skin.box, GUILayout.MinHeight(200));
+                for (int i = 0; i < LinkTextures.Count; i++)
+                {
+                    var lt = LinkTextures[i];
+                    if (lt != null && lt.IsVaild())
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label($"{lt.layer.TranslatedDisplayName}");
+                        GUILayout.FlexibleSpace();
+                        if (HasDuplicateName(lt))
+                        {
+                            GUILayout.Label("HasDuplicateNameCantExport".Translate());
+                            if (GUILayout.Button("RandomName".Translate()))
+                            {
+                                RandomTextureName(lt);
+                            }
+                        }
+                        else
+                        {
+                            if (GUILayout.Button("ImportNow".Translate()))
+                            {
+                                ImportTexture(lt, false);
+                            }
+                            if (GUILayout.Button("ExportTexture".Translate()))
+                            {
+                                ExportTexture(lt);
+                            }
+                            if (lt.CanExportUV)
+                            {
+                                if (GUILayout.Button("ExportGuide".Translate()))
+                                {
+                                    ExportUV(lt);
+                                }
+                            }
+                        }
+
+                        //GUILayout.Label(lt.LastWriteTime.ToString());
+                        GUILayout.EndHorizontal();
+                    }
+                }
+                GUILayout.EndScrollView();
+            }
+            else
+            {
+                if (CanUseTool())
+                {
+                    GUILayout.Label("NowNotEditingTexture".Translate());
+                }
+                else
+                {
+                    GUI.contentColor = UnityEngine.Color.yellow;
+                    GUILayout.Label("NowNotLoadOrSaveModel".Translate());
+                    GUI.contentColor = UnityEngine.Color.white;
+                }
+            }
         }
 
         public void Update()
@@ -215,28 +175,13 @@ namespace VRoidXYTool
         }
 
         /// <summary>
-        /// 模型是否为空
-        /// </summary>
-        private bool IsModelNull()
-        {
-            if (CurrentFileVM == null) return true;
-            if (CurrentFileM == null) return true;
-            return false;
-        }
-
-        /// <summary>
         /// 检查是否可以使用链接纹理工具
         /// </summary>
         /// <returns></returns>
         private bool CanUseTool()
         {
-            if (IsModelNull()) return false;
-            // 获取模型名字
-            string modelPath = CurrentFileM.path;
-            if (string.IsNullOrWhiteSpace(modelPath)) return false;
-            FileInfo modelFile = new FileInfo(modelPath);
-            if (!modelFile.Exists) return false;
-            string modelName = modelFile.Name.Replace(".vroid", "");
+            string modelName = XYTool.Inst.CurrentModelName;
+            if (string.IsNullOrWhiteSpace(modelName)) return false;
             if (UseBaseDir.Value)
             {
                 linkDir = baseDir;
@@ -262,7 +207,7 @@ namespace VRoidXYTool
             {
                 if (lt.layer != null)
                 {
-                    GetRasterLayerContentQuery.Result result = CurrentFileM.engine.Context.ExecuteSyncQuery<GetRasterLayerContentQuery.Result>(new GetRasterLayerContentQuery(lt.layer.Path));
+                    GetRasterLayerContentQuery.Result result = XYTool.Inst.CurrentFileM.engine.Context.ExecuteSyncQuery<GetRasterLayerContentQuery.Result>(new GetRasterLayerContentQuery(lt.layer.Path));
                     byte[] bytes;
                     try
                     {
@@ -295,7 +240,7 @@ namespace VRoidXYTool
             try
             {
                 TexturePath referringTexturePath = lt.layer._parent.ReferringTexturePaths.FirstOrDefault<TexturePath>();
-                var bytes = await CurrentFileVM.Engine.GetUVGuideTexturePNGBytes(referringTexturePath);
+                var bytes = await XYTool.Inst.CurrentFileVM.Engine.GetUVGuideTexturePNGBytes(referringTexturePath);
                 string path = $"{linkDir}/{lt.layer.TranslatedDisplayName}_UV.png";
                 File.WriteAllBytes(path, bytes);
             }
@@ -393,7 +338,7 @@ namespace VRoidXYTool
                         Debug.LogError($"解析纹理时出现异常:\n{e.Message}\n{e.StackTrace}");
                         return;
                     }
-                    CurrentFileM.engine.Context.ExecuteSyncCommand(new LoadImageToEditableImageRasterLayerCommand(lt.layer.Path, bitmapSize, pixels));
+                    XYTool.Inst.CurrentFileM.engine.Context.ExecuteSyncCommand(new LoadImageToEditableImageRasterLayerCommand(lt.layer.Path, bitmapSize, pixels));
                     lt.LastWriteTime = DateTime.Now;
                 }
             }
@@ -433,7 +378,7 @@ namespace VRoidXYTool
         public void RandomTextureName(LinkTexture lt)
         {
             string name = GetRandomName();
-            CurrentFileM.engine.Context.ExecuteSyncCommand(ActionHandler.CreateModifyNameCommand(lt.layer.Path, name));
+            XYTool.Inst.CurrentFileM.engine.Context.ExecuteSyncCommand(ActionHandler.CreateModifyNameCommand(lt.layer.Path, name));
         }
 
         /// <summary>
@@ -463,12 +408,6 @@ namespace VRoidXYTool
             LinkTextures.Add(new LinkTexture(__instance));
         }
 
-        [HarmonyPostfix, HarmonyPatch(typeof(VRoid.Studio.StartScreen.ViewModel), MethodType.Constructor, new Type[] { typeof(VRoid.Studio.MainViewModel), typeof(BindableResources), typeof(VRoid.Studio.GlobalBus) })]
-        public static void StartScreenPatch()
-        {
-            XYTool.Inst.LinkTextureTool.Clear();
-        }
-
         /// <summary>
         /// 解码图片
         /// </summary>
@@ -492,48 +431,6 @@ namespace VRoidXYTool
                     UnityEngine.Object.Destroy(texture2D);
                 }
             }
-        }
-    }
-
-    /// <summary>
-    /// 链接纹理数据
-    /// </summary>
-    public class LinkTexture
-    {
-        public RasterLayerViewModel layer;
-        public DateTime LastWriteTime;
-        public bool CanExportUV;
-
-        public LinkTexture(RasterLayerViewModel vm)
-        {
-            layer = vm;
-            LastWriteTime = DateTime.Now;
-            TexturePath referringTexturePath = vm._parent.ReferringTexturePaths.FirstOrDefault<TexturePath>();
-            if (referringTexturePath != null && vm.featureViewModel.actionHandler.IsGuideExportable(referringTexturePath))
-            {
-                CanExportUV = true;
-            }
-        }
-
-        /// <summary>
-        /// 纹理是否存在
-        /// </summary>
-        /// <returns></returns>
-        public bool IsVaild()
-        {
-            if (layer == null)
-            {
-                return false;
-            }
-            try
-            {
-                string name = layer.TranslatedDisplayName;
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
         }
     }
 }

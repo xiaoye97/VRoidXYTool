@@ -78,6 +78,10 @@
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
       <Private>False</Private>
@@ -118,34 +122,50 @@
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\ExDll\VRoid.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VRoidCore">
-      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\VRoidCore.dll</HintPath>
+    <Reference Include="VRoidCore-nstrip">
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\ExDll\VRoidCore-nstrip.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VRoidCore.Protobuf">
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\VRoidCore.Protobuf.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VRoidSDK">
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\VRoidSDK.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VRoidStudio">
-      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\VRoidStudio.dll</HintPath>
+    <Reference Include="VRoidStudio-nstrip">
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\ExDll\VRoidStudio-nstrip.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CameraTool.cs" />
+    <Compile Include="DataModel\CameraData.cs" />
+    <Compile Include="DataModel\LinkTexture.cs" />
+    <Compile Include="DataModel\PoseData.cs" />
+    <Compile Include="DataModel\QuaternionData.cs" />
+    <Compile Include="DataModel\TransformData.cs" />
     <Compile Include="FileHelper.cs" />
-    <Compile Include="GuideImageData.cs" />
+    <Compile Include="DataModel\GuideImageData.cs" />
     <Compile Include="GuideObject.cs" />
-    <Compile Include="GuidePresetData.cs" />
+    <Compile Include="DataModel\GuidePresetData.cs" />
     <Compile Include="GuideTool.cs" />
-    <Compile Include="GUI\InterfaceMaker.cs" />
-    <Compile Include="GUI\ResourceUtils.cs" />
+    <Compile Include="PosePersetTool.cs" />
+    <Compile Include="TypeHelper.cs" />
+    <Compile Include="XYModLib\GUI\EnumSelectGUI.cs" />
+    <Compile Include="XYModLib\GUI\GUIHelper.cs" />
+    <Compile Include="XYModLib\GUI\ModSkin.cs" />
+    <Compile Include="XYModLib\GUI\RayBlockerMono.cs" />
+    <Compile Include="XYModLib\GUI\SearchGUI.cs" />
+    <Compile Include="XYModLib\GUI\UIWindow.cs" />
+    <Compile Include="XYModLib\ResourceUtils.cs" />
     <Compile Include="I18N.cs" />
     <Compile Include="LinkTextureTool.cs" />
     <Compile Include="PosHelper.cs" />
-    <Compile Include="RayBlocker.cs" />
+    <Compile Include="XYModLib\GUI\RayBlocker.cs" />
     <Compile Include="TestCode.cs" />
-    <Compile Include="V3.cs" />
+    <Compile Include="DataModel\V3.cs" />
     <Compile Include="XYTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -157,18 +177,24 @@
     <EmbeddedResource Include="guide" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GUI\Skin\button_hover.png" />
-    <EmbeddedResource Include="GUI\Skin\button_normal.png" />
-    <EmbeddedResource Include="GUI\Skin\button_press.png" />
-    <EmbeddedResource Include="GUI\Skin\guisharp-box.png" />
-    <EmbeddedResource Include="GUI\Skin\guisharp-window.png" />
-    <EmbeddedResource Include="GUI\Skin\textfield hover.png" />
-    <EmbeddedResource Include="GUI\Skin\textfield on.png" />
-    <EmbeddedResource Include="GUI\Skin\textfield.png" />
-    <EmbeddedResource Include="GUI\Skin\toggle on.png" />
-    <EmbeddedResource Include="GUI\Skin\toggle.png" />
-    <EmbeddedResource Include="GUI\Skin\vertical scrollbar thumb.png" />
-    <EmbeddedResource Include="GUI\Skin\vertical scrollbar.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\button_hover.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\button_normal.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\button_press.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\guisharp-box.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\guisharp-window.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\textfield hover.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\textfield on.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\textfield.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\toggle on.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\toggle.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\vertical scrollbar thumb.png" />
+    <EmbeddedResource Include="XYModLib\GUI\Skin\vertical scrollbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="XYTool.GUI.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Image\head_xiaoye.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

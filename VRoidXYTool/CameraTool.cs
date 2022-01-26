@@ -8,6 +8,9 @@ using System.Collections.Generic;
 
 namespace VRoidXYTool
 {
+    /// <summary>
+    /// 相机工具
+    /// </summary>
     public class CameraTool
     {
         private MultipleRenderTextureCamera _MRTcamera;
@@ -96,35 +99,24 @@ namespace VRoidXYTool
 
         public void OnGUI()
         {
-            GUI.contentColor = XYTool.HeadColor;
-            GUILayout.BeginVertical("CameraTool".Translate(), GUI.skin.window);
-            GUI.contentColor = Color.white;
-            try
+            if (MRTcamera == null || MainCamera == null)
             {
-                if (MRTcamera == null || MainCamera == null)
+                // 没找到相机
+                GUILayout.Label("CameraNotFound".Translate());
+            }
+            else
+            {
+                // 正交
+                if (MainCamera.orthographic)
                 {
-                    // 没找到相机
-                    GUILayout.Label("CameraNotFound".Translate());
+                    OrthoGUI();
                 }
+                // 透视
                 else
                 {
-                    // 正交
-                    if (MainCamera.orthographic)
-                    {
-                        OrthoGUI();
-                    }
-                    // 透视
-                    else
-                    {
-                        NormalGUI();
-                    }
+                    NormalGUI();
                 }
             }
-            catch (Exception e)
-            {
-                GUILayout.Label($"Exception:{e.Message}\n{e.StackTrace}");
-            }
-            GUILayout.EndVertical();
         }
 
         public void SetCameraPos(Vector3 pos, Vector3 rot)
@@ -198,8 +190,8 @@ namespace VRoidXYTool
                     if (GUILayout.Button($"Save".Translate()))
                     {
                         PerspectiveCameraPosPreset preset = new PerspectiveCameraPosPreset();
-                        preset.Pos = V3.Parse(MRTcamera.transform.position);
-                        preset.Rot = V3.Parse(MRTcamera.transform.localEulerAngles);
+                        preset.Pos = new V3(MRTcamera.transform.position);
+                        preset.Rot = new V3(MRTcamera.transform.localEulerAngles);
                         CameraPosPresetData.PerspectiveCameraPosPresets[i] = preset;
                         SavePreset();
                     }
@@ -305,8 +297,8 @@ namespace VRoidXYTool
                     if (GUILayout.Button($"Save".Translate()))
                     {
                         OrthographicCameraPosPreset preset = new OrthographicCameraPosPreset();
-                        preset.Pos = V3.Parse(MRTcamera.transform.position);
-                        preset.Rot = V3.Parse(MRTcamera.transform.localEulerAngles);
+                        preset.Pos = new V3(MRTcamera.transform.position);
+                        preset.Rot = new V3(MRTcamera.transform.localEulerAngles);
                         preset.OrthographicSize = MainCamera.orthographicSize;
                         CameraPosPresetData.OrthographicCameraPosPresets[i] = preset;
                         SavePreset();
@@ -385,31 +377,5 @@ namespace VRoidXYTool
         {
             FileHelper.SaveJson(CameraPosPresetPath, CameraPosPresetData);
         }
-    }
-
-    [Serializable]
-    /// <summary>
-    /// 相机位置预设数据
-    /// </summary>
-    public class CameraPosPresetData
-    {
-        public static int PresetCount = 10;
-        public PerspectiveCameraPosPreset[] PerspectiveCameraPosPresets;
-        public OrthographicCameraPosPreset[] OrthographicCameraPosPresets;
-    }
-
-    [Serializable]
-    public class PerspectiveCameraPosPreset
-    {
-        public V3 Pos;
-        public V3 Rot;
-    }
-
-    [Serializable]
-    public class OrthographicCameraPosPreset
-    {
-        public V3 Pos;
-        public V3 Rot;
-        public float OrthographicSize;
     }
 }

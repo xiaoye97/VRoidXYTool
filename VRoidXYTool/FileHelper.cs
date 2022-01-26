@@ -97,11 +97,16 @@ namespace VRoidXYTool
         /// <summary>
         /// 保存json到文件
         /// </summary>
-        public static void SaveJson<T>(string path, T data)
+        public static void SaveJson<T>(string path, T data, Formatting format = Formatting.Indented)
         {
             try
             {
-                string json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                FileInfo file = new FileInfo(path);
+                if (!file.Directory.Exists)
+                {
+                    file.Directory.Create();
+                }
+                string json = JsonConvert.SerializeObject(data, format);
                 File.WriteAllText(path, json);
             }
             catch (Exception e)
@@ -135,6 +140,20 @@ namespace VRoidXYTool
                 new FileDialogUtil.ExtensionFilter("Json", new string[]
                 {
                     "json"
+                })
+            };
+        }
+
+        /// <summary>
+        /// 姿势json的后缀名
+        /// </summary>
+        public static FileDialogUtil.ExtensionFilter[] GetPoseJsonFilters()
+        {
+            return new FileDialogUtil.ExtensionFilter[]
+            {
+                new FileDialogUtil.ExtensionFilter("PoseJson", new string[]
+                {
+                    "posejson"
                 })
             };
         }

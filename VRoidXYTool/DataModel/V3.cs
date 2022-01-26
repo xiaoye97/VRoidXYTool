@@ -15,16 +15,18 @@ namespace VRoidXYTool
             this.x = x;
             this.y = y;
             this.z = z;
-        } 
+        }
+
+        public V3(Vector3 v)
+        {
+            x = v.x;
+            y = v.y;
+            z = v.z;
+        }
 
         public Vector3 ToVector3()
         {
             return new Vector3(x, y, z);
-        }
-
-        public static V3 Parse(Vector3 vector)
-        {
-            return new V3() { x = vector.x, y = vector.y, z = vector.z };
         }
     }
 }

@@ -5,12 +5,24 @@ using System.Collections.Generic;
 
 namespace VRoidXYTool
 {
+    /// <summary>
+    /// 参考工具
+    /// </summary>
     public class GuideTool
     {
         public GameObject GridBox;
 
+        /// <summary>
+        /// 标尺盒子预制体
+        /// </summary>
         private GameObject boxPrefab;
+        /// <summary>
+        /// 参考图预制体
+        /// </summary>
         private GameObject guideImagePrefab;
+        /// <summary>
+        /// 参考图材质
+        /// </summary>
         private Material guideImageMat;
 
         private GuidePresetData nowPreset = new GuidePresetData();
@@ -36,10 +48,13 @@ namespace VRoidXYTool
                 }
                 needRemoveObjects.Clear();
             }
-            GUI.contentColor = XYTool.HeadColor;
-            GUILayout.BeginVertical("GuideTool".Translate(), GUI.skin.window);
-            GUI.contentColor = Color.white;
-            try
+            if (XYTool.Inst.IsModelNull)
+            {
+                GUI.contentColor = Color.yellow;
+                GUILayout.Label("NowNotLoadModel".Translate());
+                GUI.contentColor = Color.white;
+            }
+            else
             {
                 GridBoxGUI();
                 GUILayout.BeginHorizontal();
@@ -96,11 +111,6 @@ namespace VRoidXYTool
                     GUILayout.EndVertical();
                 }
             }
-            catch (Exception e)
-            {
-                GUILayout.Label($"Exception:{e.Message}\n{e.StackTrace}");
-            }
-            GUILayout.EndVertical();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿// Tool Main GUI
+Home=Home
 RunInBGDesc=VRoidStudio run in background
 RunInBG=Run in background
 GUIHotkey=Tool hotkey
@@ -16,6 +17,9 @@ CameraTool=Camera Tool
 GuideTool=Guide Tool
 LinkTextureTool=LinkTexture Tool
 AntiAliasing=Anti-Aliasing
+GUIHotKey=GUI Hotkey
+MiniGUIHotkey=Mini GUI Hotkey
+NowNotLoadModel=Now not load model, can't use this Tool.
 
 // Link Texture Tool GUI
 LinkTextureDirectoryDesc=Custom LinkTexture check directory, if null, use the default directory

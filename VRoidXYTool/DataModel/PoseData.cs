@@ -16,7 +16,9 @@ namespace VRoidXYTool
         private static Type QuaternionType = typeof(Quaternion);
         private static Dictionary<string, Type> ISerializedPoseGizmoDefinitionTypeDict;
 
-        public Dictionary<string, ISerializedPoseGizmoDefinitionData> data;
+        public Dictionary<string, ISerializedPoseGizmoDefinitionData> Data;
+        public Dictionary<string, RollControlHandleData> RollControlHandleData;
+        //public Dictionary<string, TransformData> RollControlHandleData;
 
         public PoseData()
         {
@@ -24,19 +26,23 @@ namespace VRoidXYTool
 
         public PoseData(Dictionary<string, ISerializedPoseGizmoDefinition> dict)
         {
-            data = new Dictionary<string, ISerializedPoseGizmoDefinitionData>();
+            Data = new Dictionary<string, ISerializedPoseGizmoDefinitionData>();
             foreach (var kv in dict)
             {
                 ISerializedPoseGizmoDefinitionData d = new ISerializedPoseGizmoDefinitionData(kv.Value);
-                data[kv.Key] = d;
+                Data[kv.Key] = d;
             }
         }
 
+        /// <summary>
+        /// 将数据转换为运行时使用的字典
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, ISerializedPoseGizmoDefinition> ToSerializedPose()
         {
             InitTypes();
             Dictionary<string, ISerializedPoseGizmoDefinition> dict = new Dictionary<string, ISerializedPoseGizmoDefinition>();
-            foreach (var kv in data)
+            foreach (var kv in Data)
             {
                 try
                 {
@@ -66,6 +72,34 @@ namespace VRoidXYTool
                             if (kv.Value.QuaternionDict.ContainsKey(p.Name))
                             {
                                 p.SetValue(obj, kv.Value.QuaternionDict[p.Name].ToQuaternion());
+                            }
+                        }
+                    }
+                    var fields = type.GetFields(AccessTools.all);
+                    foreach (var f in fields)
+                    {
+                        if (!f.IsStatic && !f.Name.Contains("<"))
+                        {
+                            if (f.FieldType == FloatType)
+                            {
+                                if (kv.Value.FloatDict.ContainsKey(f.Name))
+                                {
+                                    f.SetValue(obj, kv.Value.FloatDict[f.Name]);
+                                }
+                            }
+                            if (f.FieldType == Vector3Type)
+                            {
+                                if (kv.Value.Vector3Dict.ContainsKey(f.Name))
+                                {
+                                    f.SetValue(obj, kv.Value.Vector3Dict[f.Name].ToVector3());
+                                }
+                            }
+                            if (f.FieldType == QuaternionType)
+                            {
+                                if (kv.Value.QuaternionDict.ContainsKey(f.Name))
+                                {
+                                    f.SetValue(obj, kv.Value.QuaternionDict[f.Name].ToQuaternion());
+                                }
                             }
                         }
                     }
@@ -133,6 +167,33 @@ namespace VRoidXYTool
                     QuaternionDict[p.Name] = new QuaternionData((Quaternion)p.GetValue(definition));
                 }
             }
+            var fields = type.GetFields(AccessTools.all);
+            foreach (var f in fields)
+            {
+                if (!f.IsStatic && !f.Name.Contains("<"))
+                {
+                    if (f.FieldType == FloatType)
+                    {
+                        FloatDict[f.Name] = (float)f.GetValue(definition);
+                    }
+                    if (f.FieldType == Vector3Type)
+                    {
+                        Vector3Dict[f.Name] = new V3((Vector3)f.GetValue(definition));
+                    }
+                    if (f.FieldType == QuaternionType)
+                    {
+                        QuaternionDict[f.Name] = new QuaternionData((Quaternion)f.GetValue(definition));
+                    }
+                }
+            }
         }
+    }
+
+    public class RollControlHandleData
+    {
+        public V3 localCurrentPoint;
+        public V3 localStartPoint;
+        public TransformData Collider0Transform;
+        public TransformData Collider1Transform;
     }
 }

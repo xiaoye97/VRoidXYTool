@@ -77,6 +77,9 @@ namespace VRoidXYTool
             }
         }
 
+        /// <summary>
+        /// 重置姿势
+        /// </summary>
         public void ResetPose()
         {
             PosesViewModel._selectedIndex = 0;
@@ -93,9 +96,12 @@ namespace VRoidXYTool
             var path = await FileDialogUtil.SaveFilePanel("SelectSavePath".Translate(), WorkDirPath, "PoseFile.posejson", FileHelper.GetPoseJsonFilters());
             if (path == null) return;
             if (string.IsNullOrEmpty(path)) return;
-            // TODO RollControlHandle的位置旋转也记入json，等加载之后根据记录重置
-            var data = PosesViewModel._posesModel._poseController.ExportPose();
+            // 导出Pose数据
+            Dictionary<string, RollControlHandleData> rollControlHandleData;
+            var data = EditedExportPose(PosesViewModel._posesModel._poseController, out rollControlHandleData);
             PoseData poseData = new PoseData(data);
+            // 记录RollControlHandle数据
+            poseData.RollControlHandleData = rollControlHandleData;
             FileHelper.SaveJson(path, poseData);
             RefreshPoseFile();
         }
@@ -119,6 +125,29 @@ namespace VRoidXYTool
             _this._animator.Update(0f);
             _this._poseController = _this._vrm.AddComponent<PoseController>();
             _this._poseController.Initialize(dict);
+            // 重新放RollControlHandle的数据
+            foreach (var ser in _this._poseController.poseSerializers)
+            {
+                // 如果是RollControlHandle，则从姿势数据中取值赋值
+                if (ser is RollControlHandle)
+                {
+                    var handle = ser as RollControlHandle;
+                    if (poseData.RollControlHandleData.ContainsKey(ser.Name))
+                    {
+                        var data = poseData.RollControlHandleData[ser.Name];
+                        // 设置向量
+                        handle.localCurrentPoint = data.localCurrentPoint.ToVector3();
+                        handle.localStartPoint = data.localStartPoint.ToVector3();
+                        // 设置碰撞体的transform
+                        var t0 = handle.transform.GetChild(0);
+                        var t1 = handle.transform.GetChild(1);
+                        data.Collider0Transform.Apply(t0);
+                        data.Collider1Transform.Apply(t1);
+                        t0.localPosition = Vector3.zero;
+                        t1.localPosition = Vector3.zero;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -151,6 +180,40 @@ namespace VRoidXYTool
             {
                 PoseFileNames.Add(file.Name.Replace(".posejson", ""));
             }
+        }
+
+        /// <summary>
+        /// 修改后的ExportPose，会记录更多需要的数据
+        /// </summary>
+        /// <param name="poseController"></param>
+        /// <returns></returns>
+        public static Dictionary<string, ISerializedPoseGizmoDefinition> EditedExportPose(PoseController poseController, out Dictionary<string, RollControlHandleData> rollControlHandleData)
+        {
+            rollControlHandleData = new Dictionary<string, RollControlHandleData>();
+            ControlPoint[] componentsInChildren = poseController.controlPointRoot.GetComponentsInChildren<ControlPoint>(true);
+            Dictionary<string, ISerializedPoseGizmoDefinition> dictionary = new Dictionary<string, ISerializedPoseGizmoDefinition>();
+            foreach (ControlPoint controlPoint in componentsInChildren)
+            {
+                dictionary.Add(controlPoint.Name, controlPoint.Serialize());
+            }
+            foreach (IPoseSerializer poseSerializer in poseController.poseSerializers)
+            {
+                dictionary.Add(poseSerializer.Name, poseSerializer.Serialize());
+                // 如果是RollControlHandle，则额外记下Transform的数据
+                if (poseSerializer is RollControlHandle)
+                {
+                    var handle = poseSerializer as RollControlHandle;
+                    RollControlHandleData handleData = new RollControlHandleData();
+                    // 记录向量
+                    handleData.localStartPoint = new V3(handle.localStartPoint);
+                    handleData.localCurrentPoint = new V3(handle.localCurrentPoint);
+                    // 记录两个碰撞体的transform
+                    handleData.Collider0Transform = new TransformData(handle.transform.GetChild(0));
+                    handleData.Collider1Transform = new TransformData(handle.transform.GetChild(1));
+                    rollControlHandleData[handle.Name] = handleData;
+                }
+            }
+            return dictionary;
         }
 
         /// <summary>

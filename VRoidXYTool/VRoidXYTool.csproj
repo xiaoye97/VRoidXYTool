@@ -102,6 +102,10 @@
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>

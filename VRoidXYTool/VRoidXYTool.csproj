@@ -155,6 +155,7 @@
     <Compile Include="GuideObject.cs" />
     <Compile Include="DataModel\GuidePresetData.cs" />
     <Compile Include="GuideTool.cs" />
+    <Compile Include="MessageWindow.cs" />
     <Compile Include="PosePersetTool.cs" />
     <Compile Include="TypeHelper.cs" />
     <Compile Include="XYModLib\GUI\EnumSelectGUI.cs" />

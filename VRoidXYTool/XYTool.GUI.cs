@@ -44,7 +44,7 @@ namespace VRoidXYTool
                 "CameraTool".Translate(),
                 "GuideTool".Translate(),
                 "LinkTextureTool".Translate(),
-                "姿势预设"
+                "PosePersetTool".Translate()
             };
             pageGUIActions = new Action[]
             {
@@ -86,6 +86,10 @@ namespace VRoidXYTool
             }
             MiniWindow.Name = pageNames[nowPage];
             MiniWindow.OnGUI();
+            if (MessageWindow.Inst != null)
+            {
+                MessageWindow.Inst.Window.OnGUI();
+            }
         }
 
         /// <summary>
@@ -155,7 +159,7 @@ namespace VRoidXYTool
         {
             InfoGUI();
             ConfigGUI();
-            TestGUI();
+            //TestGUI();
         }
 
         /// <summary>

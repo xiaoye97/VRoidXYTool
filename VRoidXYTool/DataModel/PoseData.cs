@@ -17,8 +17,6 @@ namespace VRoidXYTool
         private static Dictionary<string, Type> ISerializedPoseGizmoDefinitionTypeDict;
 
         public Dictionary<string, ISerializedPoseGizmoDefinitionData> Data;
-        public Dictionary<string, RollControlHandleData> RollControlHandleData;
-        //public Dictionary<string, TransformData> RollControlHandleData;
 
         public PoseData()
         {
@@ -187,13 +185,5 @@ namespace VRoidXYTool
                 }
             }
         }
-    }
-
-    public class RollControlHandleData
-    {
-        public V3 localCurrentPoint;
-        public V3 localStartPoint;
-        public TransformData Collider0Transform;
-        public TransformData Collider1Transform;
     }
 }

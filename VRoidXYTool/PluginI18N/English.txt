@@ -13,13 +13,14 @@ TutorialVideo=Tutorial video(bilibili)
 PluginUpdate=Update plugin
 Config=Config
 OpenConfigFile=Open config file
-CameraTool=Camera Tool
-GuideTool=Guide Tool
-LinkTextureTool=LinkTexture Tool
+CameraTool=Camera
+GuideTool=Guide
+LinkTextureTool=Link Texture
+PosePersetTool=Pose Perset
 AntiAliasing=Anti-Aliasing
 GUIHotKey=GUI Hotkey
 MiniGUIHotkey=Mini GUI Hotkey
-NowNotLoadModel=Now not load model, can't use this Tool.
+NowNotLoadModel=Now not load model, can't use this tool.
 
 // Link Texture Tool GUI
 LinkTextureDirectoryDesc=Custom LinkTexture check directory, if null, use the default directory
@@ -70,7 +71,14 @@ DirRight=R
 PerspectiveCameraPosPreset=Perspective camera position preset
 OrthographicCameraPosPreset=Orthographic camera position preset
 
+// Pose Preset Tool
+ResetPose=Reset pose
+SaveNowPose=Save now pose
+MustPoseMode=The pose mode in the PhotoBooth must be turned on to use this tool.
+
 // Other
 Image=Image
 Save=Save
 Clear=Clear
+Delete=Delete
+Load=Load

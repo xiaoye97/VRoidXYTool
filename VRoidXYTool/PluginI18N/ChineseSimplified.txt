@@ -16,6 +16,7 @@ OpenConfigFile=打开配置文件
 CameraTool=相机工具
 GuideTool=参考工具
 LinkTextureTool=链接纹理工具
+PosePersetTool=姿势预设
 AntiAliasing=抗锯齿
 GUIHotKey=界面快捷键
 MiniGUIHotkey=小窗口快捷键
@@ -70,7 +71,14 @@ DirRight=右
 PerspectiveCameraPosPreset=透视相机位置预设
 OrthographicCameraPosPreset=正交相机位置预设
 
+// 姿势预设工具
+ResetPose=重置姿势
+SaveNowPose=保存当前姿势
+MustPoseMode=必须开启摄影棚中的姿势模式才能使用此功能
+
 // 其他
 Image=图片
 Save=保存
 Clear=清除
+Delete=删除
+Load=读取

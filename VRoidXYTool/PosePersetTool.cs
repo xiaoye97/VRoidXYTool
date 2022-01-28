@@ -55,7 +55,7 @@ namespace VRoidXYTool
                     SaveNowPoseAsync();
                 }
                 GUILayout.EndHorizontal();
-                sv = GUILayout.BeginScrollView(sv);
+                sv = GUILayout.BeginScrollView(sv, GUILayout.MinHeight(300));
                 foreach (var pose in PoseFileNames)
                 {
                     GUILayout.BeginHorizontal();

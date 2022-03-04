@@ -156,6 +156,12 @@
     <Compile Include="DataModel\GuidePresetData.cs" />
     <Compile Include="GuideTool.cs" />
     <Compile Include="MessageWindow.cs" />
+    <Compile Include="MMDTool.cs" />
+    <Compile Include="MMD\SJISToUnicode.cs" />
+    <Compile Include="MMD\ToEncoding.cs" />
+    <Compile Include="MMD\UnityVMDPlayer.cs" />
+    <Compile Include="MMD\UnityVMDQuaternionExtentions.cs" />
+    <Compile Include="MMD\UnityVMDReader.cs" />
     <Compile Include="PosePersetTool.cs" />
     <Compile Include="TypeHelper.cs" />
     <Compile Include="XYModLib\GUI\EnumSelectGUI.cs" />

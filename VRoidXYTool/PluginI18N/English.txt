@@ -21,6 +21,7 @@ AntiAliasing=Anti-Aliasing
 GUIHotKey=GUI Hotkey
 MiniGUIHotkey=Mini GUI Hotkey
 NowNotLoadModel=Now not load model, can't use this tool.
+UseCustomLanguage=Use custom language
 
 // Link Texture Tool GUI
 LinkTextureDirectoryDesc=Custom LinkTexture check directory, if null, use the default directory

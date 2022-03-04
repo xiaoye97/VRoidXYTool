@@ -5,6 +5,8 @@ using UnityEngine;
 using VRoid.Studio;
 using BepInEx.Configuration;
 using System.IO;
+using VRoidStudio.GUI.AvatarEditor.PhotoBooth;
+using VRoidStudio.GUI.AvatarEditor;
 
 namespace VRoidXYTool
 {
@@ -13,7 +15,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.5.2";
+        public const string PluginVersion = "0.6.0";
 
         public static XYTool Inst;
 
@@ -22,41 +24,55 @@ namespace VRoidXYTool
         public GuideTool GuideTool;
         public LinkTextureTool LinkTextureTool;
         public PosePersetTool PosePersetTool;
+        public MMDTool MMDTool;
         #endregion
 
-        #region 模型
-        public MainViewModel MainVM;
-        private CurrentFileModel _CurrentFileM;
+        #region 引用
+        public AvatarEditor AvatarEditor;
+        public MainViewModel MainVM
+        {
+            get
+            {
+                if (AvatarEditor != null)
+                {
+                    return AvatarEditor._viewModel;
+                }
+                return null;
+            }
+        }
+        public PhotoBoothViewModel PhotoBoothVM
+        {
+            get
+            {
+                if (AvatarEditor != null)
+                {
+                    return AvatarEditor._instantiatedPhotoBoothViewModel;
+                }
+                return null;
+            }
+        }
 
         public CurrentFileModel CurrentFileM
         {
             get
             {
-                if (_CurrentFileM == null)
+                if (CurrentFileVM != null)
                 {
-                    if (CurrentFileVM != null)
-                    {
-                        _CurrentFileM = CurrentFileVM.model;
-                    }
+                    return CurrentFileVM.model;
                 }
-                return _CurrentFileM;
+                return null;
             }
         }
-
-        private CurrentFileViewModel _CurrentFileVM;
 
         public CurrentFileViewModel CurrentFileVM
         {
             get
             {
-                if (_CurrentFileVM == null)
+                if (MainVM != null)
                 {
-                    if (MainVM != null)
-                    {
-                        _CurrentFileVM = MainVM.CurrentFile;
-                    }
+                    return MainVM.CurrentFile;
                 }
-                return _CurrentFileVM;
+                return null;
             }
         }
 
@@ -93,6 +109,7 @@ namespace VRoidXYTool
         #endregion
 
         #region 配置
+        public ConfigEntry<bool> UseCustomLanguage;
         public ConfigEntry<SystemLanguage> PluginLanguage;
         public ConfigEntry<bool> RunInBG;
         public ConfigEntry<KeyCode> GUIHotkey;
@@ -107,20 +124,24 @@ namespace VRoidXYTool
             PluginLanguage = Config.Bind<SystemLanguage>("Common", "Language", Application.systemLanguage, "Plugin language");
             I18N.SetLanguage(PluginLanguage.Value);
             // 绑定配置
+            UseCustomLanguage = Config.Bind<bool>("Common", "UseCustomLanguage", false, "UseCustomLanguage".Translate());
             RunInBG = Config.Bind<bool>("Common", "RunInBG", true, "RunInBGDesc".Translate());
             GUIHotkey = Config.Bind<KeyCode>("Common", "GUIHotkey", KeyCode.Tab, "GUIHotkey".Translate());
             MiniGUIHotkey = Config.Bind<KeyCode>("Common", "MiniGUIHotkey", KeyCode.BackQuote, "MiniGUIHotkey".Translate());
-            // Patch
-            Harmony.CreateAndPatchAll(typeof(XYTool));
+
             Logger.LogInfo("XYTool启动");
         }
 
         private void Start()
         {
+            AvatarEditor = GameObject.FindObjectOfType<AvatarEditor>();
+            // Patch
+            Harmony.CreateAndPatchAll(typeof(XYTool));
             CameraTool = new CameraTool();
             GuideTool = new GuideTool();
             LinkTextureTool = new LinkTextureTool();
             PosePersetTool = new PosePersetTool();
+            MMDTool = new MMDTool();
             // UI窗口
             InitWindow();
             headTex = XYModLib.ResourceUtils.GetTex("head_xiaoye.png");
@@ -147,21 +168,12 @@ namespace VRoidXYTool
             LinkTextureTool.Update();
         }
 
-        [HarmonyPostfix, HarmonyPatch(typeof(MainViewModel), MethodType.Constructor, new Type[] { typeof(VRoid.UI.BindableResources), typeof(VRoid.Studio.MainModel), typeof(VRoid.UI.CompositionRenderer), typeof(VRoid.UI.GenericCamera.MultipleRenderTextureCamera), typeof(VRoid.UI.Component.AvatarCameraPosition), typeof(VRoid.UI.Component.AvatarCameraPosition), typeof(VRoid.Studio.PhotoBoothScreen.IObsoleteLegacyPhotoBoothViewModel), typeof(UnityTablet.UnityTabletPlugin), typeof(VRoidSDK.SDKConfiguration) })]
-        public static void MainVMPatch(MainViewModel __instance)
-        {
-            Inst.MainVM = __instance;
-            Debug.Log($"构造了MainViewModel");
-        }
-
         /// <summary>
         /// 切换到主界面时，清理各种数据
         /// </summary>
         [HarmonyPostfix, HarmonyPatch(typeof(VRoid.Studio.StartScreen.ViewModel), MethodType.Constructor, new Type[] { typeof(VRoid.Studio.MainViewModel), typeof(VRoid.UI.BindableResources), typeof(VRoid.Studio.GlobalBus) })]
         public static void StartScreenPatch()
         {
-            Inst._CurrentFileM = null;
-            Inst._CurrentFileVM = null;
             if (Inst.LinkTextureTool != null)
                 Inst.LinkTextureTool.Clear();
         }

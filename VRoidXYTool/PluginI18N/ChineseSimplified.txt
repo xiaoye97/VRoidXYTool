@@ -21,6 +21,7 @@ AntiAliasing=抗锯齿
 GUIHotKey=界面快捷键
 MiniGUIHotkey=小窗口快捷键
 NowNotLoadModel=当前没有打开模型，不能使用此工具
+UseCustomLanguage=使用自定义语言
 
 // 链接纹理工具界面
 LinkTextureDirectoryDesc=自定义的链接纹理检测路径，留空则使用默认路径

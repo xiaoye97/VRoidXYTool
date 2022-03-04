@@ -119,6 +119,7 @@ namespace VRoidXYTool
             else
             {
                 Debug.LogWarning($"VRoidXYTool的I18N缺失，language:{NowLanguage}, key:{key}");
+                FallbackLanguageDict[key] = key;
                 return key;
             }
         }

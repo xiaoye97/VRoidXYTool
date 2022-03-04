@@ -44,7 +44,8 @@ namespace VRoidXYTool
                 "CameraTool".Translate(),
                 "GuideTool".Translate(),
                 "LinkTextureTool".Translate(),
-                "PosePersetTool".Translate()
+                "PosePersetTool".Translate(),
+                "MMD"
             };
             pageGUIActions = new Action[]
             {
@@ -52,7 +53,8 @@ namespace VRoidXYTool
                 CameraTool.OnGUI,
                 GuideTool.OnGUI,
                 LinkTextureTool.OnGUI,
-                PosePersetTool.OnGUI
+                PosePersetTool.OnGUI,
+                MMDTool.OnGUI
             };
 
             // 小窗口
@@ -159,6 +161,7 @@ namespace VRoidXYTool
         {
             InfoGUI();
             ConfigGUI();
+            LanguageGUI();
             //TestGUI();
         }
 
@@ -197,7 +200,6 @@ namespace VRoidXYTool
             GUILayout.Label("GUIHotKey".Translate() + ":" + GUIHotkey.Value);
             RunInBG.Value = GUILayout.Toggle(RunInBG.Value, "RunInBG".Translate());
             CameraTool.AntiAliasing.Value = GUILayout.Toggle(CameraTool.AntiAliasing.Value, "AntiAliasing".Translate());
-            LanguageGUI();
             GUILayout.EndVertical();
         }
 

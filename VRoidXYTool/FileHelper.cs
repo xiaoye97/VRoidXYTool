@@ -157,5 +157,19 @@ namespace VRoidXYTool
                 })
             };
         }
+
+        /// <summary>
+        /// MMD动作的后缀名
+        /// </summary>
+        public static FileDialogUtil.ExtensionFilter[] GetVMDFilters()
+        {
+            return new FileDialogUtil.ExtensionFilter[]
+            {
+                new FileDialogUtil.ExtensionFilter("Vocaloid Motion Data", new string[]
+                {
+                    "vmd"
+                })
+            };
+        }
     }
 }

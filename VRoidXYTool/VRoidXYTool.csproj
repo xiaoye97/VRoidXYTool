@@ -164,6 +164,7 @@
     <Compile Include="MMD\UnityVMDReader.cs" />
     <Compile Include="PosePersetTool.cs" />
     <Compile Include="TypeHelper.cs" />
+    <Compile Include="VideoTool.cs" />
     <Compile Include="XYModLib\GUI\EnumSelectGUI.cs" />
     <Compile Include="XYModLib\GUI\GUIHelper.cs" />
     <Compile Include="XYModLib\GUI\ModSkin.cs" />
@@ -206,6 +207,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Image\head_xiaoye.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NatCorderLibDLL" />
+    <EmbeddedResource Include="NatSuiteRecordersDLL" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -45,7 +45,8 @@ namespace VRoidXYTool
                 "GuideTool".Translate(),
                 "LinkTextureTool".Translate(),
                 "PosePersetTool".Translate(),
-                "MMD"
+                "MMD(实验性)",
+                "VideoRecord"
             };
             pageGUIActions = new Action[]
             {
@@ -54,7 +55,8 @@ namespace VRoidXYTool
                 GuideTool.OnGUI,
                 LinkTextureTool.OnGUI,
                 PosePersetTool.OnGUI,
-                MMDTool.OnGUI
+                MMDTool.OnGUI,
+                VideoTool.OnGUI
             };
 
             // 小窗口
@@ -240,7 +242,7 @@ namespace VRoidXYTool
             GUILayout.BeginVertical(GUI.skin.box);
             if (GUILayout.Button("Test"))
             {
-
+                
             }
             GUILayout.EndVertical();
         }

@@ -27,5 +27,23 @@ namespace VRoidXYTool
                 }
             }
         }
+
+        public static void LogPath()
+        {
+            var pathInfo = VRoid.Studio.Saving.SavingManager.Instance.PathInfo;
+            Debug.Log($"ApplicationDirectoryPath:{pathInfo.ApplicationDirectoryPath}");
+            Debug.Log($"ApplicationPreferencesFilePath:{pathInfo.ApplicationPreferencesFilePath}");
+            Debug.Log($"AutoCleanupTempDirectoryPath:{pathInfo.AutoCleanupTempDirectoryPath}");
+            Debug.Log($"AvatarDirectoryPath:{pathInfo.AvatarDirectoryPath}");
+            Debug.Log($"CustomItemBaseDirectoryPath:{pathInfo.CustomItemBaseDirectoryPath}");
+            Debug.Log($"HairPresetBaseDirectoryPath:{pathInfo.HairPresetBaseDirectoryPath}");
+            Debug.Log($"PreferencesDirectoryPath:{pathInfo.PreferencesDirectoryPath}");
+            Debug.Log($"SampleAvatarDirectoryPath:{pathInfo.SampleAvatarDirectoryPath}");
+            Debug.Log($"TempAvatarDirectoryBasePath:{pathInfo.TempAvatarDirectoryBasePath}");
+            Debug.Log($"TempDirectoryBasePath:{pathInfo.TempDirectoryBasePath}");
+            Debug.Log($"VRoidHubAccountFilePath:{pathInfo.VRoidHubAccountFilePath}");
+            Debug.Log($"VRoidHubDirectoryPath:{pathInfo.VRoidHubDirectoryPath}");
+            Debug.Log($"VRoidHubRelationFilePath:{pathInfo.VRoidHubRelationFilePath}");
+        }
     }
 }

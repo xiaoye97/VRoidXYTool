@@ -67,7 +67,7 @@ namespace VRoidXYTool
             MiniWindow.WindowRect = new Rect(Screen.width / 2 - 150, Screen.height / 2, 300, 10);
             MiniWindow.OnWinodwGUI = MiniWindowFunc;
 
-            LanguageSelectGUI = new EnumSelectGUI(typeof(SystemLanguage), "XYTool.Language");
+            LanguageSelectGUI = new EnumSelectGUI(typeof(SystemLanguage), "XYTool.Language".Translate());
             LanguageSelectGUI.NowSelectedIndex = (int)I18N.NowLanguage;
         }
 
@@ -217,7 +217,7 @@ namespace VRoidXYTool
         private void LanguageGUI()
         {
             GUI.contentColor = HeadColor;
-            GUILayout.BeginVertical("XYTool.Language", GUI.skin.window);
+            GUILayout.BeginVertical("XYTool.Language".Translate(), GUI.skin.window);
             GUI.contentColor = Color.white;
             GUILayout.Label($"{"XYTool.SystemLanguage".Translate()}:{Application.systemLanguage}");
             if (GUILayout.Button("XYTool.LanguageGuide".Translate()))

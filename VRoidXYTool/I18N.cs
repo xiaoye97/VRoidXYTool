@@ -70,6 +70,10 @@ namespace VRoidXYTool
             dict = new Dictionary<string, string>();
             // 检查外部路径是否有语言文件，如果有，则读取外部路径的文件，如果没有，则读取内置的
             FileInfo langFile = new FileInfo($"{Paths.ConfigPath}/XYToolI18N/{language}.txt");
+            if (!langFile.Directory.Exists)
+            {
+                langFile.Directory.Create();
+            }
             if (langFile.Exists)
             {
                 try

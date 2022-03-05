@@ -222,7 +222,7 @@ namespace VRoidXYTool
             GUILayout.Label($"{"XYTool.SystemLanguage".Translate()}:{Application.systemLanguage}");
             if (GUILayout.Button("XYTool.LanguageGuide".Translate()))
             {
-
+                System.Diagnostics.Process.Start("https://github.com/xiaoye97/VRoidXYTool/wiki/I18N-Tutorial-EN");
             }
             languageSV = GUILayout.BeginScrollView(languageSV, GUILayout.Height(150));
             LanguageSelectGUI.VerticalGUI();

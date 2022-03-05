@@ -36,7 +36,7 @@ namespace VRoidXYTool
 
         public VideoTool()
         {
-            VideoRecordHotkey = XYTool.Inst.Config.Bind<KeyCode>("VideoTool", "VideoRecordHotkey", KeyCode.G, "视频录制快捷键");
+            VideoRecordHotkey = XYTool.Inst.Config.Bind<KeyCode>("VideoTool", "VideoRecordHotkey", KeyCode.G, "VideoTool.RecordHotkey".Translate());
             LoadLib();
         }
 
@@ -97,22 +97,22 @@ namespace VRoidXYTool
             switch (state)
             {
                 case VedioToolState.NeedInstallLib:
-                    GUILayout.Label("未检测到视频编码库，请点击安装编码库然后重启软件。");
-                    if (GUILayout.Button("安装编码库"))
+                    GUILayout.Label("VideoTool.NoVideoLib".Translate());
+                    if (GUILayout.Button("VideoTool.InstallVideoLib".Translate()))
                     {
                         InstallLib();
                     }
                     break;
                 case VedioToolState.NeedReset:
-                    GUILayout.Label("需要重启软件才能生效。");
+                    GUILayout.Label("VideoTool.NeedReset".Translate());
                     break;
                 case VedioToolState.HasException:
-                    GUILayout.Label($"出现异常:{exLog}");
+                    GUILayout.Label($"{"Common.HasException".Translate()}:{exLog}");
                     break;
                 case VedioToolState.OK:
                     if (XYTool.Inst.PhotoBoothVM == null || !XYTool.Inst.PhotoBoothVM.IsActive)
                     {
-                        GUILayout.Label("必须开启摄影棚才能使用此工具");
+                        GUILayout.Label("VideoTool.MustPhotoBooth".Translate());
                     }
                     else
                     {
@@ -120,41 +120,41 @@ namespace VRoidXYTool
                         int height = XYTool.Inst.PhotoBoothVM.CaptureSizeSetting.VerticalResolution;
                         if (width % 2 != 0 || height % 2 != 0)
                         {
-                            GUILayout.Label($"当前相机的宽高设置({width}x{height})不满足录像需求，宽高必须是2的倍数，请先设置再继续");
+                            GUILayout.Label(string.Format("VideoTool.ResolutionError".Translate(), width, height));
                         }
                         else
                         {
-                            GUILayout.Label($"录制分辨率:{width}x{height}");
+                            GUILayout.Label(string.Format("VideoTool.RecordResolution".Translate(), width, height));
                             GUILayout.BeginHorizontal();
-                            GUILayout.Label("帧率:");
+                            GUILayout.Label("VideoTool.FrameRate".Translate());
                             GUILayout.FlexibleSpace();
                             frameRate = GUIHelper.IntTextGUI(frameRate, "frameRate", 200, 1, 240);
                             GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
-                            GUILayout.Label("比特率(kbps):");
+                            GUILayout.Label("VideoTool.BitRate".Translate());
                             GUILayout.FlexibleSpace();
                             videoBitRate = GUIHelper.IntTextGUI(videoBitRate, "videoBitRate", 200, 1000, 1000000);
                             GUILayout.EndHorizontal();
                             if (isRecording)
                             {
-                                GUILayout.Label("录制中...");
-                                if (GUILayout.Button($"结束录制({VideoRecordHotkey.Value})"))
+                                GUILayout.Label("VideoTool.Recording".Translate());
+                                if (GUILayout.Button($"{"VideoTool.StopRecord".Translate()}({VideoRecordHotkey.Value})"))
                                 {
                                     StopRecord();
                                 }
                             }
                             else
                             {
-                                if (GUILayout.Button($"开始录制({VideoRecordHotkey.Value})"))
+                                if (GUILayout.Button($"{"VideoTool.StartRecord".Translate()}({VideoRecordHotkey.Value})"))
                                 {
                                     StartRecord();
                                 }
                             }
                             GUILayout.FlexibleSpace();
                             GUILayout.BeginVertical(GUI.skin.box);
-                            GUILayout.Label("录制需要消耗CPU性能，推荐录制1080p 30帧的视频。如果点击开始录制之后有明显卡顿，可以适当降低帧率，提高比特率。");
+                            GUILayout.Label("VideoTool.Tips".Translate());
                             GUILayout.EndVertical();
-                            if (GUILayout.Button("打开输出文件夹"))
+                            if (GUILayout.Button("VideoTool.OpenOutputDir".Translate()))
                             {
                                 System.Diagnostics.Process.Start($"{VRoid.Studio.Saving.SavingManager.Instance.PathInfo.CustomItemBaseDirectoryPath}/..");
                             }
@@ -181,7 +181,7 @@ namespace VRoidXYTool
                     int height = XYTool.Inst.PhotoBoothVM.CaptureSizeSetting.VerticalResolution;
                     if (width % 2 != 0 || height % 2 != 0)
                     {
-                        Debug.LogWarning($"当前相机的宽高设置({width}x{height})不满足录像需求，宽高必须是2的倍数，请先设置再继续");
+                        Debug.LogWarning(string.Format("VideoTool.ResolutionError".Translate(), width, height));
                     }
                     else
                     {

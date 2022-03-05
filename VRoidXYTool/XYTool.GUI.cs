@@ -20,6 +20,9 @@ namespace VRoidXYTool
 
         private Texture2D headTex;
 
+        private EnumSelectGUI LanguageSelectGUI;
+        private Vector2 languageSV;
+
         /// <summary>
         /// 初始化UI窗口
         /// </summary>
@@ -27,11 +30,11 @@ namespace VRoidXYTool
         {
             if (Window == null)
             {
-                Window = new UIWindow(string.Format("PluginWindowTitle".Translate(), PluginVersion));
+                Window = new UIWindow(string.Format("XYTool.PluginWindowTitle".Translate(), PluginVersion));
             }
             else
             {
-                Window.Name = string.Format("PluginWindowTitle".Translate(), PluginVersion);
+                Window.Name = string.Format("XYTool.PluginWindowTitle".Translate(), PluginVersion);
             }
             // 窗口尺寸
             Window.WindowRect = new Rect(Screen.width / 2 - 250, Screen.height / 2 - 200, 500, 400);
@@ -40,13 +43,13 @@ namespace VRoidXYTool
             // 分页信息
             pageNames = new string[]
             {
-                "Home".Translate(),
-                "CameraTool".Translate(),
-                "GuideTool".Translate(),
-                "LinkTextureTool".Translate(),
-                "PosePersetTool".Translate(),
-                "MMD(实验性)",
-                "VideoRecord"
+                "XYTool.Home".Translate(),
+                "CameraTool.Title".Translate(),
+                "GuideTool.Title".Translate(),
+                "LinkTextureTool.Title".Translate(),
+                "PosePersetTool.Title".Translate(),
+                "MMDTool.Title".Translate(),
+                "VideoTool.Title".Translate()
             };
             pageGUIActions = new Action[]
             {
@@ -63,6 +66,9 @@ namespace VRoidXYTool
             MiniWindow = new UIWindow("MiniWindow");
             MiniWindow.WindowRect = new Rect(Screen.width / 2 - 150, Screen.height / 2, 300, 10);
             MiniWindow.OnWinodwGUI = MiniWindowFunc;
+
+            LanguageSelectGUI = new EnumSelectGUI(typeof(SystemLanguage), "XYTool.Language");
+            LanguageSelectGUI.NowSelectedIndex = (int)I18N.NowLanguage;
         }
 
         private void OnGUI()
@@ -174,12 +180,12 @@ namespace VRoidXYTool
         {
             GUILayout.BeginHorizontal(GUI.skin.box);
             GUILayout.BeginVertical();
-            GUILayout.Label("Author".Translate());
-            if (GUILayout.Button("TutorialVideo".Translate()))
+            GUILayout.Label("XYTool.Author".Translate());
+            if (GUILayout.Button("XYTool.TutorialVideo".Translate()))
             {
                 System.Diagnostics.Process.Start("https://space.bilibili.com/1306433");
             }
-            if (GUILayout.Button("PluginUpdate".Translate()))
+            if (GUILayout.Button("XYTool.PluginUpdate".Translate()))
             {
                 System.Diagnostics.Process.Start("https://github.com/xiaoye97/VRoidXYTool/releases/latest");
             }
@@ -195,13 +201,13 @@ namespace VRoidXYTool
         private void ConfigGUI()
         {
             GUILayout.BeginVertical(GUI.skin.box);
-            if (GUILayout.Button("OpenConfigFile".Translate()))
+            if (GUILayout.Button("XYTool.OpenConfigFile".Translate()))
             {
                 System.Diagnostics.Process.Start("NotePad.exe", $"{Paths.BepInExRootPath}/config/{PluginID}.cfg");
             }
-            GUILayout.Label("GUIHotKey".Translate() + ":" + GUIHotkey.Value);
-            RunInBG.Value = GUILayout.Toggle(RunInBG.Value, "RunInBG".Translate());
-            CameraTool.AntiAliasing.Value = GUILayout.Toggle(CameraTool.AntiAliasing.Value, "AntiAliasing".Translate());
+            GUILayout.Label("XYTool.GUIHotkey".Translate() + ":" + GUIHotkey.Value);
+            RunInBG.Value = GUILayout.Toggle(RunInBG.Value, "XYTool.RunInBG".Translate());
+            CameraTool.AntiAliasing.Value = GUILayout.Toggle(CameraTool.AntiAliasing.Value, "XYTool.AntiAliasing".Translate());
             GUILayout.EndVertical();
         }
 
@@ -211,16 +217,23 @@ namespace VRoidXYTool
         private void LanguageGUI()
         {
             GUI.contentColor = HeadColor;
-            GUILayout.BeginVertical("Language", GUI.skin.window);
+            GUILayout.BeginVertical("XYTool.Language", GUI.skin.window);
             GUI.contentColor = Color.white;
-            if (GUILayout.Button("切换到简体中文"))
+            GUILayout.Label($"{"XYTool.SystemLanguage".Translate()}:{Application.systemLanguage}");
+            if (GUILayout.Button("XYTool.LanguageGuide".Translate()))
             {
-                SetLanguage(SystemLanguage.ChineseSimplified);
+
             }
-            if (GUILayout.Button("Switch to English"))
+            languageSV = GUILayout.BeginScrollView(languageSV, GUILayout.Height(150));
+            LanguageSelectGUI.VerticalGUI();
+            // 如果选择的语言与当前语言不一致，则设置语言
+            if (LanguageSelectGUI.NowSelectedIndex != (int)I18N.NowLanguage)
             {
-                SetLanguage(SystemLanguage.English);
+                SetLanguage((SystemLanguage)LanguageSelectGUI.NowSelectedIndex);
+                // 设置语言有可能失败，则使用当前语言
+                LanguageSelectGUI.NowSelectedIndex = (int)I18N.NowLanguage;
             }
+            GUILayout.EndScrollView();
             GUILayout.EndVertical();
         }
 

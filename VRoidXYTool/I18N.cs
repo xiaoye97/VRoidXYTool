@@ -3,6 +3,8 @@ using System.IO;
 using UnityEngine;
 using System.Reflection;
 using System.Collections.Generic;
+using BepInEx;
+using System.Linq;
 
 namespace VRoidXYTool
 {
@@ -66,11 +68,27 @@ namespace VRoidXYTool
         private static bool TryLoadLanguage(SystemLanguage language, out Dictionary<string, string> dict)
         {
             dict = new Dictionary<string, string>();
+            // 检查外部路径是否有语言文件，如果有，则读取外部路径的文件，如果没有，则读取内置的
+            FileInfo langFile = new FileInfo($"{Paths.ConfigPath}/XYToolI18N/{language}.txt");
+            if (langFile.Exists)
+            {
+                try
+                {
+                    var lines = File.ReadAllLines(langFile.FullName);
+                    dict = CreateDictByLines(lines.ToList());
+                    return true;
+                }
+                catch
+                {
+                    // 如果出现异常，则跳过并读取内置的
+                }
+            }
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"VRoidXYTool.PluginI18N.{language}.txt");
             if (stream != null)
             {
                 try
                 {
+                    List<string> list = new List<string>();
                     using (StreamReader sr = new StreamReader(stream))
                     {
                         while (true)
@@ -81,18 +99,10 @@ namespace VRoidXYTool
                             {
                                 break;
                             }
-                            string[] kv = line.Split(new char[] { '=' }, 2);
-                            // 如果当前行的分割结果长度不为2，则忽略
-                            if (kv.Length != 2)
-                            {
-                                continue;
-                            }
-                            // 转换换行符
-                            string value = kv[1].Replace("\\n", "\n");
-                            // 添加文本到字典
-                            dict[kv[0]] = value;
+                            list.Add(line);
                         }
                     }
+                    dict = CreateDictByLines(list);
                     return true;
                 }
                 catch
@@ -101,6 +111,28 @@ namespace VRoidXYTool
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// 创建语言字典
+        /// </summary>
+        private static Dictionary<string, string> CreateDictByLines(List<string> lines)
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            foreach (string line in lines)
+            {
+                string[] kv = line.Split(new char[] { '=' }, 2);
+                // 如果当前行的分割结果长度不为2，则忽略
+                if (kv.Length != 2)
+                {
+                    continue;
+                }
+                // 转换换行符
+                string value = kv[1].Replace("\\n", "\n");
+                // 添加文本到字典
+                dict[kv[0]] = value;
+            }
+            return dict;
         }
 
         /// <summary>

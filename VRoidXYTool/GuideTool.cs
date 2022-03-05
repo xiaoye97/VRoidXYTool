@@ -51,23 +51,23 @@ namespace VRoidXYTool
             if (XYTool.Inst.IsModelNull)
             {
                 GUI.contentColor = Color.yellow;
-                GUILayout.Label("NowNotLoadModel".Translate());
+                GUILayout.Label("Common.NowNotLoadModel".Translate());
                 GUI.contentColor = Color.white;
             }
             else
             {
                 GridBoxGUI();
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button("LoadPreset".Translate()))
+                if (GUILayout.Button("GuideTool.LoadPreset".Translate()))
                 {
                     LoadPreset();
                 }
-                if (GUILayout.Button("SavePreset".Translate()))
+                if (GUILayout.Button("GuideTool.SavePreset".Translate()))
                 {
                     SavePreset();
                 }
                 GUILayout.EndHorizontal();
-                if (GUILayout.Button("AddGuideImage".Translate()))
+                if (GUILayout.Button("GuideTool.AddGuideImage".Translate()))
                 {
                     AddGuideImage();
                 }
@@ -90,15 +90,15 @@ namespace VRoidXYTool
                     GUILayout.FlexibleSpace();
                     if (obj.IsVaild)
                     {
-                        obj.NowEdit = GUILayout.Toggle(obj.NowEdit, "EditGuideParameters".Translate());
-                        if (GUILayout.Button("DeleteGuideObject".Translate()))
+                        obj.NowEdit = GUILayout.Toggle(obj.NowEdit, "GuideTool.EditGuideParameters".Translate());
+                        if (GUILayout.Button("GuideTool.DeleteGuideObject".Translate()))
                         {
                             needRemoveObjects.Add(obj);
                         }
                     }
                     else
                     {
-                        GUILayout.Label("LoadFail".Translate());
+                        GUILayout.Label("GuideTool.LoadFail".Translate());
                     }
                     GUILayout.EndHorizontal();
                     if (obj.IsVaild)
@@ -118,7 +118,7 @@ namespace VRoidXYTool
         /// </summary>
         public async void LoadPreset()
         {
-            var path = await FileDialogUtil.OpenFilePanel("SelectPresetFile".Translate(), null, FileHelper.GetJsonFilters(), false);
+            var path = await FileDialogUtil.OpenFilePanel("GuideTool.SelectPresetFile".Translate(), null, FileHelper.GetJsonFilters(), false);
             if (path == null) return;
             GuidePresetData data = FileHelper.LoadJson<GuidePresetData>(path[0]);
             if (data == null) return;
@@ -146,7 +146,7 @@ namespace VRoidXYTool
         /// </summary>
         public async void SavePreset()
         {
-            var path = await FileDialogUtil.SaveFilePanel("SelectSavePath".Translate(), null, "XYToolPreset.json", FileHelper.GetJsonFilters());
+            var path = await FileDialogUtil.SaveFilePanel("GuideTool.SelectSavePath".Translate(), null, "XYToolPreset.json", FileHelper.GetJsonFilters());
             if (path == null) return;
             if (string.IsNullOrEmpty(path)) return;
             foreach (var obj in nowObjects)
@@ -161,7 +161,7 @@ namespace VRoidXYTool
         /// </summary>
         private async void AddGuideImage()
         {
-            var path = await FileDialogUtil.OpenFilePanel("SelectImage".Translate(), null, FileHelper.GetImageFilters(), false);
+            var path = await FileDialogUtil.OpenFilePanel("GuideTool.SelectImage".Translate(), null, FileHelper.GetImageFilters(), false);
             if (path == null) return;
             GuideImageData data = new GuideImageData();
             var tex = FileHelper.LoadTexture2D(path[0]);
@@ -225,7 +225,7 @@ namespace VRoidXYTool
         {
             if (GridBox == null)
             {
-                if (GUILayout.Button("CreateGuideGrid".Translate()))
+                if (GUILayout.Button("GuideTool.CreateGuideGrid".Translate()))
                 {
                     GridBox = GameObject.Instantiate(boxPrefab);
                     GridBox.transform.localScale = new Vector3(0.36f, 0.36f, 0.36f);
@@ -236,14 +236,14 @@ namespace VRoidXYTool
             {
                 if (GridBox.activeSelf)
                 {
-                    if (GUILayout.Button("HideGuideGrid".Translate()))
+                    if (GUILayout.Button("GuideTool.HideGuideGrid".Translate()))
                     {
                         GridBox.SetActive(false);
                     }
                 }
                 else
                 {
-                    if (GUILayout.Button("ShowGuideGrid".Translate()))
+                    if (GUILayout.Button("GuideTool.ShowGuideGrid".Translate()))
                     {
                         GridBox.SetActive(true);
                     }

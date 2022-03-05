@@ -71,8 +71,8 @@ namespace VRoidXYTool
 
         public CameraTool()
         {
-            AntiAliasing = XYTool.Inst.Config.Bind<bool>("CameraTool", "AntiAliasing", true, "AntiAliasing".Translate());
-            AntiAliasingLevel = XYTool.Inst.Config.Bind<int>("CameraTool", "AntiAliasingLevel", 8, "AntiAliasingLevelDesc".Translate());
+            AntiAliasing = XYTool.Inst.Config.Bind<bool>("CameraTool", "AntiAliasing", true, "XYTool.AntiAliasing".Translate());
+            AntiAliasingLevel = XYTool.Inst.Config.Bind<int>("CameraTool", "AntiAliasingLevel", 8, "CameraTool.AntiAliasingLevelDesc".Translate());
             if (AntiAliasingLevel.Value != 2 && AntiAliasingLevel.Value != 4 && AntiAliasingLevel.Value != 8)
             {
                 AntiAliasingLevel.Value = 8;
@@ -102,7 +102,7 @@ namespace VRoidXYTool
             if (MRTcamera == null || MainCamera == null)
             {
                 // 没找到相机
-                GUILayout.Label("CameraNotFound".Translate());
+                GUILayout.Label("CameraTool.CameraNotFound".Translate());
             }
             else
             {
@@ -130,52 +130,52 @@ namespace VRoidXYTool
         /// </summary>
         public void NormalGUI()
         {
-            if (GUILayout.Button("SetCameraOrthographic".Translate()))
+            if (GUILayout.Button("CameraTool.SetCameraOrthographic".Translate()))
             {
                 MainCamera.orthographic = true;
             }
             GUILayout.BeginHorizontal();
             // 身体位置预设
-            GUILayout.BeginHorizontal("CameraPosBody".Translate(), GUI.skin.window);
-            if (GUILayout.Button("DirFront".Translate()))
+            GUILayout.BeginHorizontal("CameraTool.CameraPosBody".Translate(), GUI.skin.window);
+            if (GUILayout.Button("CameraTool.DirFront".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 4)[0], GetAroundAngles()[0]);
             }
-            if (GUILayout.Button("DirBack".Translate()))
+            if (GUILayout.Button("CameraTool.DirBack".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 4)[1], GetAroundAngles()[1]);
             }
-            if (GUILayout.Button("DirLeft".Translate()))
+            if (GUILayout.Button("CameraTool.DirLeft".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 4)[2], GetAroundAngles()[2]);
             }
-            if (GUILayout.Button("DirRight".Translate()))
+            if (GUILayout.Button("CameraTool.DirRight".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 4)[3], GetAroundAngles()[3]);
             }
             GUILayout.EndHorizontal();
             // 头部位置预设
-            GUILayout.BeginHorizontal("CameraPosHead".Translate(), GUI.skin.window);
-            if (GUILayout.Button("DirFront".Translate()))
+            GUILayout.BeginHorizontal("CameraTool.CameraPosHead".Translate(), GUI.skin.window);
+            if (GUILayout.Button("CameraTool.DirFront".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[0], GetAroundAngles()[0]);
             }
-            if (GUILayout.Button("DirBack".Translate()))
+            if (GUILayout.Button("CameraTool.DirBack".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[1], GetAroundAngles()[1]);
             }
-            if (GUILayout.Button("DirLeft".Translate()))
+            if (GUILayout.Button("CameraTool.DirLeft".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[2], GetAroundAngles()[2]);
             }
-            if (GUILayout.Button("DirRight".Translate()))
+            if (GUILayout.Button("CameraTool.DirRight".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[3], GetAroundAngles()[3]);
             }
             GUILayout.EndHorizontal();
             GUILayout.EndHorizontal();
             // 自定义预设
-            GUILayout.BeginHorizontal("PerspectiveCameraPosPreset".Translate(), GUI.skin.window);
+            GUILayout.BeginHorizontal("CameraTool.PerspectiveCameraPosPreset".Translate(), GUI.skin.window);
             for (int i = 0; i < CameraPosPresetData.PresetCount; i++)
             {
                 GUILayout.BeginVertical();
@@ -187,7 +187,7 @@ namespace VRoidXYTool
                     {
                     }
                     GUI.contentColor = Color.white;
-                    if (GUILayout.Button($"Save".Translate()))
+                    if (GUILayout.Button($"Common.Save".Translate()))
                     {
                         PerspectiveCameraPosPreset preset = new PerspectiveCameraPosPreset();
                         preset.Pos = new V3(MRTcamera.transform.position);
@@ -204,7 +204,7 @@ namespace VRoidXYTool
                         SetCameraPos(posData.Pos.ToVector3(), posData.Rot.ToVector3());
                     }
                     GUI.contentColor = Color.white;
-                    if (GUILayout.Button($"Clear".Translate()))
+                    if (GUILayout.Button($"Common.Clear".Translate()))
                     {
                         CameraPosPresetData.PerspectiveCameraPosPresets[i] = null;
                         SavePreset();
@@ -220,12 +220,12 @@ namespace VRoidXYTool
         /// </summary>
         public void OrthoGUI()
         {
-            if (GUILayout.Button("SetCameraPerspective".Translate()))
+            if (GUILayout.Button("CameraTool.SetCameraPerspective".Translate()))
             {
                 MainCamera.orthographic = false;
             }
             GUILayout.BeginHorizontal();
-            GUILayout.BeginVertical("OrthographicSize".Translate(), GUI.skin.window);
+            GUILayout.BeginVertical("CameraTool.OrthographicSize".Translate(), GUI.skin.window);
             GUILayout.Label($"{MainCamera.orthographicSize}");
             MainCamera.orthographicSize = GUILayout.HorizontalSlider(MainCamera.orthographicSize, 0.1f, 2f);
             GUILayout.BeginHorizontal();
@@ -236,45 +236,45 @@ namespace VRoidXYTool
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
 
-            GUILayout.BeginHorizontal("CameraPosBody".Translate(), GUI.skin.window);
-            if (GUILayout.Button("DirFront".Translate()))
+            GUILayout.BeginHorizontal("CameraTool.CameraPosBody".Translate(), GUI.skin.window);
+            if (GUILayout.Button("CameraTool.DirFront".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 1)[0], GetAroundAngles()[0]);
                 MainCamera.orthographicSize = 0.8f;
             }
-            if (GUILayout.Button("DirBack".Translate()))
+            if (GUILayout.Button("CameraTool.DirBack".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 1)[1], GetAroundAngles()[1]);
                 MainCamera.orthographicSize = 0.8f;
             }
-            if (GUILayout.Button("DirLeft".Translate()))
+            if (GUILayout.Button("CameraTool.DirLeft".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 1)[2], GetAroundAngles()[2]);
                 MainCamera.orthographicSize = 0.8f;
             }
-            if (GUILayout.Button("DirRight".Translate()))
+            if (GUILayout.Button("CameraTool.DirRight".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHipsPos(), 1)[3], GetAroundAngles()[3]);
                 MainCamera.orthographicSize = 0.8f;
             }
             GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal("CameraPosHead".Translate(), GUI.skin.window);
-            if (GUILayout.Button("DirFront".Translate()))
+            GUILayout.BeginHorizontal("CameraTool.CameraPosHead".Translate(), GUI.skin.window);
+            if (GUILayout.Button("CameraTool.DirFront".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[0], GetAroundAngles()[0]);
                 MainCamera.orthographicSize = 0.15f;
             }
-            if (GUILayout.Button("DirBack".Translate()))
+            if (GUILayout.Button("CameraTool.DirBack".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[1], GetAroundAngles()[1]);
                 MainCamera.orthographicSize = 0.15f;
             }
-            if (GUILayout.Button("DirLeft".Translate()))
+            if (GUILayout.Button("CameraTool.DirLeft".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[2], GetAroundAngles()[2]);
                 MainCamera.orthographicSize = 0.15f;
             }
-            if (GUILayout.Button("DirRight".Translate()))
+            if (GUILayout.Button("CameraTool.DirRight".Translate()))
             {
                 SetCameraPos(GetAroundPos(PosHelper.GetHeadPos(), 1)[3], GetAroundAngles()[3]);
                 MainCamera.orthographicSize = 0.15f;
@@ -282,7 +282,7 @@ namespace VRoidXYTool
             GUILayout.EndHorizontal();
             GUILayout.EndHorizontal();
             // 自定义预设
-            GUILayout.BeginHorizontal("OrthographicCameraPosPreset".Translate(), GUI.skin.window);
+            GUILayout.BeginHorizontal("CameraTool.OrthographicCameraPosPreset".Translate(), GUI.skin.window);
             for (int i = 0; i < CameraPosPresetData.PresetCount; i++)
             {
                 GUILayout.BeginVertical();
@@ -294,7 +294,7 @@ namespace VRoidXYTool
                     {
                     }
                     GUI.contentColor = Color.white;
-                    if (GUILayout.Button($"Save".Translate()))
+                    if (GUILayout.Button($"Common.Save".Translate()))
                     {
                         OrthographicCameraPosPreset preset = new OrthographicCameraPosPreset();
                         preset.Pos = new V3(MRTcamera.transform.position);
@@ -313,7 +313,7 @@ namespace VRoidXYTool
                         MainCamera.orthographicSize = posData.OrthographicSize;
                     }
                     GUI.contentColor = Color.white;
-                    if (GUILayout.Button($"Clear".Translate()))
+                    if (GUILayout.Button($"Common.Clear".Translate()))
                     {
                         CameraPosPresetData.OrthographicCameraPosPresets[i] = null;
                         SavePreset();

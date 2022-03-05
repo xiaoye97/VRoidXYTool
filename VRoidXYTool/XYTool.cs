@@ -110,7 +110,6 @@ namespace VRoidXYTool
         #endregion
 
         #region 配置
-        public ConfigEntry<bool> UseCustomLanguage;
         public ConfigEntry<SystemLanguage> PluginLanguage;
         public ConfigEntry<bool> RunInBG;
         public ConfigEntry<KeyCode> GUIHotkey;
@@ -125,7 +124,6 @@ namespace VRoidXYTool
             PluginLanguage = Config.Bind<SystemLanguage>("Common", "Language", Application.systemLanguage, "Plugin language");
             I18N.SetLanguage(PluginLanguage.Value);
             // 绑定配置
-            UseCustomLanguage = Config.Bind<bool>("Common", "UseCustomLanguage", false, "UseCustomLanguage".Translate());
             RunInBG = Config.Bind<bool>("Common", "RunInBG", true, "RunInBGDesc".Translate());
             GUIHotkey = Config.Bind<KeyCode>("Common", "GUIHotkey", KeyCode.Tab, "GUIHotkey".Translate());
             MiniGUIHotkey = Config.Bind<KeyCode>("Common", "MiniGUIHotkey", KeyCode.BackQuote, "MiniGUIHotkey".Translate());

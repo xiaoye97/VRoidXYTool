@@ -46,11 +46,11 @@ namespace VRoidXYTool
                 && PosesViewModel._posesModel._poseController.enabled)
             {
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button("ResetPose".Translate()))
+                if (GUILayout.Button("PosePersetTool.ResetPose".Translate()))
                 {
                     ResetPose();
                 }
-                if (GUILayout.Button("SaveNowPose".Translate()))
+                if (GUILayout.Button("PosePersetTool.SaveNowPose".Translate()))
                 {
                     SaveNowPoseAsync();
                 }
@@ -61,11 +61,11 @@ namespace VRoidXYTool
                     GUILayout.BeginHorizontal();
                     GUILayout.Label(pose);
                     GUILayout.FlexibleSpace();
-                    if (GUILayout.Button("Load".Translate()))
+                    if (GUILayout.Button("Common.Load".Translate()))
                     {
                         LoadPose(pose);
                     }
-                    if (GUILayout.Button("Delete".Translate()))
+                    if (GUILayout.Button("Common.Delete".Translate()))
                     {
                         DeletePose(pose);
                     }
@@ -76,7 +76,7 @@ namespace VRoidXYTool
             else
             {
                 GUI.contentColor = Color.yellow;
-                GUILayout.Label("MustPoseMode".Translate());
+                GUILayout.Label("PosePersetTool.MustPoseMode".Translate());
                 GUI.contentColor = Color.white;
             }
         }

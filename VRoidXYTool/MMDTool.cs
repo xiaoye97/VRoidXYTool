@@ -30,13 +30,13 @@ namespace VRoidXYTool
         {
             if (XYTool.Inst.PhotoBoothVM == null || !XYTool.Inst.PhotoBoothVM.IsActive)
             {
-                GUILayout.Label("必须开启摄影棚才能使用此工具");
+                GUILayout.Label("MMDTool.MustPhotoBooth".Translate());
             }
             else
             {
                 if (player == null)
                 {
-                    if (GUILayout.Button("添加播放器"))
+                    if (GUILayout.Button("MMDTool.AddPlayer".Translate()))
                     {
                         player = XYTool.Inst.PhotoBoothVM.animator.GetComponent<UnityVMDPlayer>();
                         if (player == null)
@@ -47,14 +47,14 @@ namespace VRoidXYTool
                 }
                 else
                 {
-                    if (GUILayout.Button("加载VMD文件"))
+                    if (GUILayout.Button("MMDTool.LoadVMDFile".Translate()))
                     {
                         SelectVMDFile();
                     }
                     if (player != null && player.VMDReader != null)
                     {
                         GUILayout.BeginVertical(GUI.skin.box);
-                        GUILayout.Label($"当前文件:{vmdAnimPath}");
+                        GUILayout.Label($"{"MMDTool.NowFile".Translate()}:{vmdAnimPath}");
                         GUILayout.EndVertical();
 
                         GUILayout.BeginVertical(GUI.skin.box);
@@ -95,13 +95,13 @@ namespace VRoidXYTool
                             {
                                 player.Stop();
                             }
-                            player.IsLoop = GUILayout.Toggle(player.IsLoop, "循环播放");
+                            player.IsLoop = GUILayout.Toggle(player.IsLoop, "MMDTool.Loop".Translate());
                             GUILayout.FlexibleSpace();
                             GUILayout.EndHorizontal();
                         }
                         else
                         {
-                            GUILayout.Label($"数据异常，无法播放");
+                            GUILayout.Label("MMDTool.DataError".Translate());
                         }
                         GUILayout.EndVertical();
                     }

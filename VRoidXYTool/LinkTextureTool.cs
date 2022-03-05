@@ -50,9 +50,9 @@ namespace VRoidXYTool
             Harmony.CreateAndPatchAll(typeof(LinkTextureTool));
             LinkTextures = new List<LinkTexture>();
             // 链接纹理路径
-            LinkTextureDirectory = XYTool.Inst.Config.Bind<string>("LinkTextureTool", "LinkTextureDirectory", "", "LinkTextureDirectoryDesc".Translate());
-            UseBaseDir = XYTool.Inst.Config.Bind<bool>("LinkTextureTool", "UseBaseDirectory", false, "UseBaseDirectoryDesc".Translate());
-            LinkTextureSyncInterval = XYTool.Inst.Config.Bind<float>("LinkTextureTool", "LinkTextureSyncInterval", 0.2f, "LinkTextureSyncIntervalDesc".Translate());
+            LinkTextureDirectory = XYTool.Inst.Config.Bind<string>("LinkTextureTool", "LinkTextureDirectory", "", "LinkTextureTool.LinkTextureDirectoryDesc".Translate());
+            UseBaseDir = XYTool.Inst.Config.Bind<bool>("LinkTextureTool", "UseBaseDirectory", false, "LinkTextureTool.UseBaseDirectoryDesc".Translate());
+            LinkTextureSyncInterval = XYTool.Inst.Config.Bind<float>("LinkTextureTool", "LinkTextureSyncInterval", 0.2f, "LinkTextureTool.LinkTextureSyncIntervalDesc".Translate());
             LinkTextureSyncInterval.Value = Mathf.Max(0.1f, LinkTextureSyncInterval.Value);
             useConfigDir = false;
             if (!string.IsNullOrWhiteSpace(LinkTextureDirectory.Value))
@@ -80,14 +80,14 @@ namespace VRoidXYTool
             {
                 if (linkDir != null && linkDir.Exists)
                 {
-                    GUILayout.Label(string.Format("NowUseLinkTextureDir".Translate(), linkDir.FullName));
+                    GUILayout.Label(string.Format("LinkTextureTool.NowUseLinkTextureDir".Translate(), linkDir.FullName));
                 }
                 else
                 {
-                    GUILayout.Label(string.Format("NowUseLinkTextureDir".Translate(), baseDir.FullName));
+                    GUILayout.Label(string.Format("LinkTextureTool.NowUseLinkTextureDir".Translate(), baseDir.FullName));
                 }
             }
-            if (GUILayout.Button("OpenLinkTextureDir".Translate()))
+            if (GUILayout.Button("LinkTextureTool.OpenLinkTextureDir".Translate()))
             {
                 if (XYTool.Inst.IsModelNull)
                 {
@@ -115,25 +115,25 @@ namespace VRoidXYTool
                         GUILayout.FlexibleSpace();
                         if (HasDuplicateName(lt))
                         {
-                            GUILayout.Label("HasDuplicateNameCantExport".Translate());
-                            if (GUILayout.Button("RandomName".Translate()))
+                            GUILayout.Label("LinkTextureTool.HasDuplicateNameCantExport".Translate());
+                            if (GUILayout.Button("LinkTextureTool.RandomName".Translate()))
                             {
                                 RandomTextureName(lt);
                             }
                         }
                         else
                         {
-                            if (GUILayout.Button("ImportNow".Translate()))
+                            if (GUILayout.Button("LinkTextureTool.ImportNow".Translate()))
                             {
                                 ImportTexture(lt, false);
                             }
-                            if (GUILayout.Button("ExportTexture".Translate()))
+                            if (GUILayout.Button("LinkTextureTool.ExportTexture".Translate()))
                             {
                                 ExportTexture(lt);
                             }
                             if (lt.CanExportUV)
                             {
-                                if (GUILayout.Button("ExportGuide".Translate()))
+                                if (GUILayout.Button("LinkTextureTool.ExportGuide".Translate()))
                                 {
                                     ExportUV(lt);
                                 }
@@ -150,12 +150,12 @@ namespace VRoidXYTool
             {
                 if (CanUseTool())
                 {
-                    GUILayout.Label("NowNotEditingTexture".Translate());
+                    GUILayout.Label("LinkTextureTool.NowNotEditingTexture".Translate());
                 }
                 else
                 {
                     GUI.contentColor = UnityEngine.Color.yellow;
-                    GUILayout.Label("NowNotLoadOrSaveModel".Translate());
+                    GUILayout.Label("LinkTextureTool.NowNotLoadOrSaveModel".Translate());
                     GUI.contentColor = UnityEngine.Color.white;
                 }
             }

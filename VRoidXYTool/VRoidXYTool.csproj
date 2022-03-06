@@ -212,5 +212,8 @@
     <EmbeddedResource Include="NatCorderLibDLL" />
     <EmbeddedResource Include="NatSuiteRecordersDLL" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PluginI18N\Japanese.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

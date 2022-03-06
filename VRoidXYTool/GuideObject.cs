@@ -61,16 +61,16 @@ namespace VRoidXYTool
         {
             GUILayout.BeginVertical();
             GUILayout.BeginHorizontal();
-            InputMode = GUILayout.Toggle(InputMode, "InputMode".Translate());
+            InputMode = GUILayout.Toggle(InputMode, "GuideTool.InputMode".Translate());
 
             if (InputMode)
             {
                 if (ObjectType == GuideObjectType.Image)
                 {
-                    ImageData.Scale = FloatGUIInput(ImageData.Scale, "Scale".Translate(), "scl");
+                    ImageData.Scale = FloatGUIInput(ImageData.Scale, "Common.Scale".Translate(), "scl");
                     Transform.localScale = new Vector3(ImageData.Scale * ImageData.Width / 1000f, ImageData.Scale * ImageData.Height / 1000f, 0);
                     float lastOpacity = ImageData.Alpha;
-                    ImageData.Alpha = FloatGUIInput(ImageData.Alpha, "Alpha".Translate(), "alpha");
+                    ImageData.Alpha = FloatGUIInput(ImageData.Alpha, "Common.Alpha".Translate(), "alpha");
                     if (lastOpacity != ImageData.Alpha)
                     {
                         Renderer.material.SetColor("_Color", new Color(1, 1, 1, ImageData.Alpha));
@@ -78,7 +78,7 @@ namespace VRoidXYTool
                 }
                 else if (ObjectType == GuideObjectType.Model)
                 {
-                    Transform.localScale = Vector3GUIInput(Transform.localScale, "Scale".Translate(), "scl");
+                    Transform.localScale = Vector3GUIInput(Transform.localScale, "Common.Scale".Translate(), "scl");
                 }
                 GUILayout.EndHorizontal();
                 TransformGUIInput();
@@ -88,10 +88,10 @@ namespace VRoidXYTool
                 floatCache.Clear();
                 if (ObjectType == GuideObjectType.Image)
                 {
-                    ImageData.Scale = FloatGUISlider(ImageData.Scale, "Scale".Translate(), 0, 5);
+                    ImageData.Scale = FloatGUISlider(ImageData.Scale, "Common.Scale".Translate(), 0, 5);
                     Transform.localScale = new Vector3(ImageData.Scale * ImageData.Width / 1000f, ImageData.Scale * ImageData.Height / 1000f, 0);
                     float lastOpacity = ImageData.Alpha;
-                    ImageData.Alpha = FloatGUISlider(ImageData.Alpha, "Alpha".Translate(), 0, 1, 100);
+                    ImageData.Alpha = FloatGUISlider(ImageData.Alpha, "Common.Alpha".Translate(), 0, 1, 100);
                     if (lastOpacity != ImageData.Alpha)
                     {
                         Renderer.material.SetColor("_Color", new Color(1, 1, 1, ImageData.Alpha));
@@ -99,7 +99,7 @@ namespace VRoidXYTool
                 }
                 else if (ObjectType == GuideObjectType.Model)
                 {
-                    Transform.localScale = Vector3GUISlider(Transform.localScale, "Scale".Translate(), 0, 5);
+                    Transform.localScale = Vector3GUISlider(Transform.localScale, "Common.Scale".Translate(), 0, 5);
                 }
                 GUILayout.EndHorizontal();
                 TransformGUISlider();
@@ -113,8 +113,8 @@ namespace VRoidXYTool
         private void TransformGUIInput()
         {
             GUILayout.BeginHorizontal();
-            Transform.position = Vector3GUIInput(Transform.position, "Pos".Translate(), "pos");
-            Transform.localEulerAngles = Vector3GUIInput(Transform.localEulerAngles, "Rot".Translate(), "rot");
+            Transform.position = Vector3GUIInput(Transform.position, "Common.Pos".Translate(), "pos");
+            Transform.localEulerAngles = Vector3GUIInput(Transform.localEulerAngles, "Common.Rot".Translate(), "rot");
             GUILayout.EndHorizontal();
         }
 
@@ -158,8 +158,8 @@ namespace VRoidXYTool
         private void TransformGUISlider()
         {
             GUILayout.BeginHorizontal();
-            Transform.position = Vector3GUISlider(Transform.position, "Pos".Translate(), -3, 3);
-            Transform.localEulerAngles = Vector3GUISlider(Transform.localEulerAngles, "Rot".Translate(), 0, 360);
+            Transform.position = Vector3GUISlider(Transform.position, "Common.Pos".Translate(), -3, 3);
+            Transform.localEulerAngles = Vector3GUISlider(Transform.localEulerAngles, "Common.Rot".Translate(), 0, 360);
             GUILayout.EndHorizontal();
         }
 

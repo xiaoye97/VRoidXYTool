@@ -122,7 +122,7 @@ namespace VRoidXYTool
         {
             return new FileDialogUtil.ExtensionFilter[]
             {
-                new FileDialogUtil.ExtensionFilter("Image".Translate(), new string[]
+                new FileDialogUtil.ExtensionFilter("Common.Image".Translate(), new string[]
                 {
                     "png",
                     "jpg"

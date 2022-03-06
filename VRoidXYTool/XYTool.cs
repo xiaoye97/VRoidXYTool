@@ -15,7 +15,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.7.0";
+        public const string PluginVersion = "0.7.1";
 
         public static XYTool Inst;
 
@@ -124,9 +124,9 @@ namespace VRoidXYTool
             PluginLanguage = Config.Bind<SystemLanguage>("Common", "Language", Application.systemLanguage, "Plugin language");
             I18N.SetLanguage(PluginLanguage.Value);
             // 绑定配置
-            RunInBG = Config.Bind<bool>("Common", "RunInBG", true, "RunInBGDesc".Translate());
-            GUIHotkey = Config.Bind<KeyCode>("Common", "GUIHotkey", KeyCode.Tab, "GUIHotkey".Translate());
-            MiniGUIHotkey = Config.Bind<KeyCode>("Common", "MiniGUIHotkey", KeyCode.BackQuote, "MiniGUIHotkey".Translate());
+            RunInBG = Config.Bind<bool>("Common", "RunInBG", true, "XYTool.RunInBGDesc".Translate());
+            GUIHotkey = Config.Bind<KeyCode>("Common", "GUIHotkey", KeyCode.Tab, "XYTool.GUIHotkey".Translate());
+            MiniGUIHotkey = Config.Bind<KeyCode>("Common", "MiniGUIHotkey", KeyCode.BackQuote, "XYTool.MiniGUIHotkey".Translate());
 
             Logger.LogInfo("XYTool启动");
         }

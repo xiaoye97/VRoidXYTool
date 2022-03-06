@@ -12,8 +12,12 @@ Extension Plugin for VRoid Studio
 - Guide Tool. Add grid and guide image to VRoid Studio.
 - Pose Perset Tool. In the PhotoBooth and pose mode, you can save and load custom pose perset.
 - Anti-Aliasing.
+- MMD Player(WIP). You can import VMD  files in the VRoid Studio for play
+- Video Record. Do not rely on external software to record HD video in vroidstudio
 
 ![Preview](LinkTexturePreview.gif)
+
+![Preview](MMDPreview.gif)
 
 ## Tutorial
 

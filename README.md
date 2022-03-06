@@ -7,6 +7,9 @@
 ## 免费声明
 本插件为完全免费插件，禁止任何形式的售卖，近日看到有淘宝无良卖家在贩卖VRoidStudio软件本体和汉化插件，请大家注意警惕，如果看到请帮忙举报一下，谢谢。
 
+## 下载
+[最新版本][4]
+
 ## 简介
 
 - 基于[BeplnEx][1]
@@ -15,8 +18,12 @@
 - 参考工具，可以添加标尺和参考图
 - 姿势预设，可以在摄影棚中的姿势模式中，保存和加载自定义的姿势预设
 - 抗锯齿，除了在摄影棚中可以抗锯齿之外，在编辑模式下也可以开启抗锯齿
+- MMD播放器(实验性)，可以在摄影棚中导入VMD动画文件进行播放
+- 视频录制，在VRoid内进行视频录制高清视频
 
 ![图示](https://cdn.jsdelivr.net/gh/xiaoye97/VRoidXYTool@master/LinkTexturePreview.gif)
+
+![图示](MMDPreview.gif)
 
 ## 教程
 
@@ -48,3 +55,4 @@
 [1]: https://github.com/BepInEx/BepInEx/releases
 [2]: https://www.bilibili.com/video/BV1TP4y1V7Qn/
 [3]: https://www.bilibili.com/video/BV1BL41137Tc/
+[4]: https://github.com/xiaoye97/VRoidXYTool/releases

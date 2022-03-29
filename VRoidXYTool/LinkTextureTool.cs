@@ -222,6 +222,7 @@ namespace VRoidXYTool
                     {
                         string path = $"{linkDir}/{lt.layer.TranslatedDisplayName}.png";
                         File.WriteAllBytes(path, bytes);
+                        Debug.Log($"导出了纹理到{path}");
                     }
                     catch (Exception e)
                     {
@@ -240,9 +241,11 @@ namespace VRoidXYTool
             try
             {
                 TexturePath referringTexturePath = lt.layer._parent.ReferringTexturePaths.FirstOrDefault<TexturePath>();
-                var bytes = await XYTool.Inst.CurrentFileVM.Engine.GetUVGuideTexturePNGBytes(referringTexturePath);
+                var bytesCollection = await XYTool.Inst.CurrentFileVM.Engine.GetUVGuideTexturePNGBytes(referringTexturePath);
+                var bytes = bytesCollection.ToArray();
                 string path = $"{linkDir}/{lt.layer.TranslatedDisplayName}_UV.png";
                 File.WriteAllBytes(path, bytes);
+                Debug.Log($"导出了参考图到{path}");
             }
             catch (Exception e)
             {

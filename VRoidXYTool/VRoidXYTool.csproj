@@ -118,8 +118,8 @@
       <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\UnityTablet.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VRoid.Studio">
-      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\ExDll\VRoid.Studio.dll</HintPath>
+    <Reference Include="VRoid.Studio-nstrip">
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\ExDll\VRoid.Studio-nstrip.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VRoid.UI">

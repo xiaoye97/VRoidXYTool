@@ -14,10 +14,13 @@ Extension Plugin for VRoid Studio
 - Anti-Aliasing.
 - MMD Player(WIP). You can import VMD  files in the VRoid Studio for play
 - Video Record. Do not rely on external software to record HD video in vroidstudio
+- Wireframe Mode.
 
 ![Preview](LinkTexturePreview.gif)
 
 ![Preview](MMDPreview.gif)
+
+![Preview](WireframePreview.png)
 
 ## Tutorial
 
@@ -31,7 +34,7 @@ Extension Plugin for VRoid Studio
 
 `Q:` I installed the plugin. How can I open it in the VRoid Studio?
 
-`A:` Tab or edit hotkey in BepInEx/config/me.xiaoye97.plugin.VRoidStudio.VRoidXYTool.cfg, `Hotkey = You want key`
+`A:` Tab or edit hotkey in BepInEx/config/me.xiaoye97.plugin.VRoidStudio.VRoidXYTool.cfg, `Hotkey = Tab`
 
 `Q:` How can I contact you?
 

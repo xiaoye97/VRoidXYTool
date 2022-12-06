@@ -49,7 +49,8 @@ namespace VRoidXYTool
                 "LinkTextureTool.Title".Translate(),
                 "PosePersetTool.Title".Translate(),
                 "MMDTool.Title".Translate(),
-                "VideoTool.Title".Translate()
+                "VideoTool.Title".Translate(),
+                "WireframeTool.Title".Translate()
             };
             pageGUIActions = new Action[]
             {
@@ -59,7 +60,8 @@ namespace VRoidXYTool
                 LinkTextureTool.OnGUI,
                 PosePersetTool.OnGUI,
                 MMDTool.OnGUI,
-                VideoTool.OnGUI
+                VideoTool.OnGUI,
+                WireframeTool.OnGUI
             };
 
             // 小窗口

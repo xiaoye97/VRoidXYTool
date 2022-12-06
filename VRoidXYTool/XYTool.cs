@@ -15,7 +15,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.7.2";
+        public const string PluginVersion = "0.8.0";
 
         public static XYTool Inst;
 
@@ -26,6 +26,7 @@ namespace VRoidXYTool
         public PosePersetTool PosePersetTool;
         public MMDTool MMDTool;
         public VideoTool VideoTool;
+        public WireframeTool WireframeTool;
         #endregion
 
         #region 引用
@@ -142,6 +143,7 @@ namespace VRoidXYTool
             PosePersetTool = new PosePersetTool();
             MMDTool = new MMDTool();
             VideoTool = new VideoTool();
+            WireframeTool = new WireframeTool();
             // UI窗口
             InitWindow();
             headTex = XYModLib.ResourceUtils.GetTex("head_xiaoye.png");
@@ -167,6 +169,7 @@ namespace VRoidXYTool
             CameraTool.Update();
             LinkTextureTool.Update();
             VideoTool.Update();
+            WireframeTool.Update();
         }
 
         /// <summary>

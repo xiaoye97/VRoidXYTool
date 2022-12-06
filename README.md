@@ -20,10 +20,13 @@
 - 抗锯齿，除了在摄影棚中可以抗锯齿之外，在编辑模式下也可以开启抗锯齿
 - MMD播放器(实验性)，可以在摄影棚中导入VMD动画文件进行播放
 - 视频录制，在VRoid内进行视频录制高清视频
+- 线框模式，用于观察模型的布线
 
 ![图示](https://cdn.jsdelivr.net/gh/xiaoye97/VRoidXYTool@master/LinkTexturePreview.gif)
 
 ![图示](MMDPreview.gif)
+
+![图示](WireframePreview.png)
 
 ## 教程
 

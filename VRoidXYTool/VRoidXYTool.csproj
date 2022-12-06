@@ -42,7 +42,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MToon">
-      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\ExDll\MToon.dll</HintPath>
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\MToon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -119,15 +119,15 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="VRoid.Studio-nstrip">
-      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\ExDll\VRoid.Studio-nstrip.dll</HintPath>
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\VRoid.Studio-nstrip.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VRoid.UI">
-      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\ExDll\VRoid.UI.dll</HintPath>
+    <Reference Include="VRoid.UI-nstrip">
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\VRoid.UI-nstrip.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VRoidCore-nstrip">
-      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\ExDll\VRoidCore-nstrip.dll</HintPath>
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\VRoidCore-nstrip.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VRoidCore.Protobuf">
@@ -139,7 +139,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="VRoidStudio-nstrip">
-      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\ExDll\VRoidStudio-nstrip.dll</HintPath>
+      <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\VRoid Studio\VRoidStudio_Data\Managed\VRoidStudio-nstrip.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -165,6 +165,7 @@
     <Compile Include="PosePersetTool.cs" />
     <Compile Include="TypeHelper.cs" />
     <Compile Include="VideoTool.cs" />
+    <Compile Include="WireframeTool.cs" />
     <Compile Include="XYModLib\GUI\EnumSelectGUI.cs" />
     <Compile Include="XYModLib\GUI\GUIHelper.cs" />
     <Compile Include="XYModLib\GUI\ModSkin.cs" />

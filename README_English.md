@@ -4,6 +4,9 @@
 
 Extension Plugin for VRoid Studio
 
+## Why is the plug-in unavailable after VRoid Studio 1.18?
+You can edit VRoid Studio\BepInEx\config\BepInEx.cfg, change `HideManagerGameObject = false` to `HideManagerGameObject = true`, then VRoidXYTool can work on the new version VRoid Studio.
+
 ## Introduce
 
 - Base on [BeplnEx][1]

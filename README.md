@@ -7,6 +7,10 @@
 ## 免费声明
 本插件为完全免费插件，禁止任何形式的售卖，近日看到有淘宝无良卖家在贩卖VRoidStudio软件本体和汉化插件，请大家注意警惕，如果看到请帮忙举报一下，谢谢。
 
+## 为什么在VRoid Studio 1.18版本之后用不了了？
+因为此版本的更新导致出现了一点问题，只需要改动一个设置即可。
+打开VRoid Studio\BepInEx\config\BepInEx.cfg文件，将`HideManagerGameObject = false`修改为`HideManagerGameObject = true`，然后重启软件即可。
+
 ## 下载
 [最新版本][4]
 

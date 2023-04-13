@@ -118,7 +118,7 @@ namespace VRoidXYTool
         /// </summary>
         public async void LoadPreset()
         {
-            var path = await FileDialogUtil.OpenFilePanel("GuideTool.SelectPresetFile".Translate(), null, FileHelper.GetJsonFilters(), false);
+            var path = await OpenFileDialogUtil.OpenFilePanel("GuideTool.SelectPresetFile".Translate(), null, FileHelper.GetJsonFilters(), false);
             if (path == null) return;
             GuidePresetData data = FileHelper.LoadJson<GuidePresetData>(path[0]);
             if (data == null) return;
@@ -146,7 +146,7 @@ namespace VRoidXYTool
         /// </summary>
         public async void SavePreset()
         {
-            var path = await FileDialogUtil.SaveFilePanel("GuideTool.SelectSavePath".Translate(), null, "XYToolPreset.json", FileHelper.GetJsonFilters());
+            var path = await SaveFileDialogUtil.SaveFilePanel("GuideTool.SelectSavePath".Translate(), null, "XYToolPreset.json", FileHelper.GetJsonFilters());
             if (path == null) return;
             if (string.IsNullOrEmpty(path)) return;
             foreach (var obj in nowObjects)
@@ -161,7 +161,7 @@ namespace VRoidXYTool
         /// </summary>
         private async void AddGuideImage()
         {
-            var path = await FileDialogUtil.OpenFilePanel("GuideTool.SelectImage".Translate(), null, FileHelper.GetImageFilters(), false);
+            var path = await OpenFileDialogUtil.OpenFilePanel("GuideTool.SelectImage".Translate(), null, FileHelper.GetImageFilters(), false);
             if (path == null) return;
             GuideImageData data = new GuideImageData();
             var tex = FileHelper.LoadTexture2D(path[0]);

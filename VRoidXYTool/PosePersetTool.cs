@@ -10,7 +10,7 @@ using HarmonyLib;
 using System.IO;
 using VRoid.Studio.Util;
 using System.Collections;
-
+/*
 namespace VRoidXYTool
 {
     public class PosePersetTool
@@ -97,7 +97,7 @@ namespace VRoidXYTool
         /// </summary>
         public async void SaveNowPoseAsync()
         {
-            var path = await FileDialogUtil.SaveFilePanel("GuideTool.SelectSavePath".Translate(), WorkDirPath, "PoseFile.posejson", FileHelper.GetPoseJsonFilters());
+            var path = await SaveFileDialogUtil.SaveFilePanel("GuideTool.SelectSavePath".Translate(), WorkDirPath, "PoseFile.posejson", FileHelper.GetPoseJsonFilters());
             if (path == null) return;
             if (string.IsNullOrEmpty(path)) return;
             // 导出Pose数据
@@ -172,3 +172,4 @@ namespace VRoidXYTool
         }
     }
 }
+*/

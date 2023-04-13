@@ -47,7 +47,7 @@ namespace VRoidXYTool
                 "CameraTool.Title".Translate(),
                 "GuideTool.Title".Translate(),
                 "LinkTextureTool.Title".Translate(),
-                "PosePersetTool.Title".Translate(),
+                //"PosePersetTool.Title".Translate(),
                 "MMDTool.Title".Translate(),
                 "VideoTool.Title".Translate(),
                 "WireframeTool.Title".Translate()
@@ -58,7 +58,7 @@ namespace VRoidXYTool
                 CameraTool.OnGUI,
                 GuideTool.OnGUI,
                 LinkTextureTool.OnGUI,
-                PosePersetTool.OnGUI,
+                //PosePersetTool.OnGUI,
                 MMDTool.OnGUI,
                 VideoTool.OnGUI,
                 WireframeTool.OnGUI

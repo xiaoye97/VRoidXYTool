@@ -118,11 +118,11 @@ namespace VRoidXYTool
         /// <summary>
         /// 图片的后缀名
         /// </summary>
-        public static FileDialogUtil.ExtensionFilter[] GetImageFilters()
+        public static FileDialogCommonUtil.ExtensionFilter[] GetImageFilters()
         {
-            return new FileDialogUtil.ExtensionFilter[]
+            return new FileDialogCommonUtil.ExtensionFilter[]
             {
-                new FileDialogUtil.ExtensionFilter("Common.Image".Translate(), new string[]
+                new FileDialogCommonUtil.ExtensionFilter("Common.Image".Translate(), new string[]
                 {
                     "png",
                     "jpg"
@@ -133,11 +133,11 @@ namespace VRoidXYTool
         /// <summary>
         /// json的后缀名
         /// </summary>
-        public static FileDialogUtil.ExtensionFilter[] GetJsonFilters()
+        public static FileDialogCommonUtil.ExtensionFilter[] GetJsonFilters()
         {
-            return new FileDialogUtil.ExtensionFilter[]
+            return new FileDialogCommonUtil.ExtensionFilter[]
             {
-                new FileDialogUtil.ExtensionFilter("Json", new string[]
+                new FileDialogCommonUtil.ExtensionFilter("Json", new string[]
                 {
                     "json"
                 })
@@ -147,11 +147,11 @@ namespace VRoidXYTool
         /// <summary>
         /// 姿势json的后缀名
         /// </summary>
-        public static FileDialogUtil.ExtensionFilter[] GetPoseJsonFilters()
+        public static FileDialogCommonUtil.ExtensionFilter[] GetPoseJsonFilters()
         {
-            return new FileDialogUtil.ExtensionFilter[]
+            return new FileDialogCommonUtil.ExtensionFilter[]
             {
-                new FileDialogUtil.ExtensionFilter("PoseJson", new string[]
+                new FileDialogCommonUtil.ExtensionFilter("PoseJson", new string[]
                 {
                     "posejson"
                 })
@@ -161,11 +161,11 @@ namespace VRoidXYTool
         /// <summary>
         /// MMD动作的后缀名
         /// </summary>
-        public static FileDialogUtil.ExtensionFilter[] GetVMDFilters()
+        public static FileDialogCommonUtil.ExtensionFilter[] GetVMDFilters()
         {
-            return new FileDialogUtil.ExtensionFilter[]
+            return new FileDialogCommonUtil.ExtensionFilter[]
             {
-                new FileDialogUtil.ExtensionFilter("Vocaloid Motion Data", new string[]
+                new FileDialogCommonUtil.ExtensionFilter("Vocaloid Motion Data", new string[]
                 {
                     "vmd"
                 })

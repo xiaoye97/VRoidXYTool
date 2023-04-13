@@ -23,7 +23,7 @@ namespace VRoidXYTool
         public CameraTool CameraTool;
         public GuideTool GuideTool;
         public LinkTextureTool LinkTextureTool;
-        public PosePersetTool PosePersetTool;
+        //public PosePersetTool PosePersetTool;
         public MMDTool MMDTool;
         public VideoTool VideoTool;
         public WireframeTool WireframeTool;
@@ -140,7 +140,7 @@ namespace VRoidXYTool
             CameraTool = new CameraTool();
             GuideTool = new GuideTool();
             LinkTextureTool = new LinkTextureTool();
-            PosePersetTool = new PosePersetTool();
+            //PosePersetTool = new PosePersetTool();
             MMDTool = new MMDTool();
             VideoTool = new VideoTool();
             WireframeTool = new WireframeTool();

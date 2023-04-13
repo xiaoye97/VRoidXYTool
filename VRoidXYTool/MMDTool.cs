@@ -111,7 +111,7 @@ namespace VRoidXYTool
 
         public async void SelectVMDFile()
         {
-            var result = await FileDialogUtil.OpenFilePanel("VMD", null, FileHelper.GetVMDFilters(), false);
+            var result = await OpenFileDialogUtil.OpenFilePanel("VMD", null, FileHelper.GetVMDFilters(), false);
             if (result != null && result.Length > 0)
             {
                 vmdAnimPath = result[0];

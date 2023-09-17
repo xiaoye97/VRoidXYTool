@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using VRoid.Studio.Util;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace VRoidXYTool
 {
@@ -16,10 +17,12 @@ namespace VRoidXYTool
         /// 标尺盒子预制体
         /// </summary>
         private GameObject boxPrefab;
+
         /// <summary>
         /// 参考图预制体
         /// </summary>
         private GameObject guideImagePrefab;
+
         /// <summary>
         /// 参考图材质
         /// </summary>
@@ -146,14 +149,19 @@ namespace VRoidXYTool
         /// </summary>
         public async void SavePreset()
         {
-            var path = await SaveFileDialogUtil.SaveFilePanel("GuideTool.SelectSavePath".Translate(), null, "XYToolPreset.json", FileHelper.GetJsonFilters());
-            if (path == null) return;
-            if (string.IsNullOrEmpty(path)) return;
-            foreach (var obj in nowObjects)
+            var path = await SaveFileDialogUtil.SaveFileSingleAsync("GuideTool.SelectSavePath".Translate(), null, "XYToolPreset.json", FileHelper.GetJsonFilter(), (tmpPath) =>
             {
-                obj.Save();
-            }
-            FileHelper.SaveJson(path, nowPreset);
+                if (string.IsNullOrEmpty(tmpPath))
+                {
+                    return Task.FromResult<bool>(false);
+                }
+                foreach (var obj in nowObjects)
+                {
+                    obj.Save();
+                }
+                FileHelper.SaveJson(tmpPath, nowPreset);
+                return Task.FromResult<bool>(true);
+            });
         }
 
         /// <summary>

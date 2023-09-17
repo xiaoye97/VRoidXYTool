@@ -15,7 +15,7 @@ namespace VRoidXYTool
     {
         public const string PluginID = "me.xiaoye97.plugin.VRoidStudio.VRoidXYTool";
         public const string PluginName = "VRoidXYTool";
-        public const string PluginVersion = "0.8.1";
+        public const string PluginVersion = "0.8.2";
 
         public static XYTool Inst;
 

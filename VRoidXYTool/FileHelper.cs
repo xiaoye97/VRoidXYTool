@@ -137,11 +137,16 @@ namespace VRoidXYTool
         {
             return new FileDialogCommonUtil.ExtensionFilter[]
             {
-                new FileDialogCommonUtil.ExtensionFilter("Json", new string[]
+                GetJsonFilter()
+            };
+        }
+
+        public static FileDialogCommonUtil.ExtensionFilter GetJsonFilter()
+        {
+            return new FileDialogCommonUtil.ExtensionFilter("Json", new string[]
                 {
                     "json"
-                })
-            };
+                });
         }
 
         /// <summary>

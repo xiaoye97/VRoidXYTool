@@ -7,6 +7,9 @@
 ## 免费声明
 本插件为完全免费插件，禁止任何形式的售卖，近日看到有淘宝无良卖家在贩卖VRoidStudio软件本体和汉化插件，请大家注意警惕，如果看到请帮忙举报一下，谢谢。
 
+## 为什么在VRoid Studio 1.26.1版本之后用不了了？
+从1.26.1版本开始, VroidStudio从mono切换到了il2cpp, 所有的插件都失效了. 并且因为il2cpp的插件开发较为麻烦并且本人最近也没有什么时间. 所以, 如果你想继续使用插件, 可以先从官网下载1.26.0版本后安装插件. 或者在QQ交流群684544577下载1.26.0带插件版本整合包.
+
 ## 为什么在VRoid Studio 1.18版本之后用不了了？
 因为此版本的更新导致出现了一点问题，只需要改动一个设置即可。
 打开VRoid Studio\BepInEx\config\BepInEx.cfg文件，将`HideManagerGameObject = false`修改为`HideManagerGameObject = true`，然后重启软件即可。

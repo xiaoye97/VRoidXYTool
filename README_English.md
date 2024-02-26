@@ -4,6 +4,10 @@
 
 Extension Plugin for VRoid Studio
 
+## Why is the plug-in unavailable after VRoid Studio 1.26.1?
+
+Starting from 1.26.1, vroid studio changed mono to il2cpp, which resulted in all plugins becoming invalid and difficult to fix. I will try to remake the plugin under il2cpp, but it is also possible to permanently stop updating. If you want to continue using plugins, you can download version 1.26.0 of vroid studio from the official website.
+
 ## Why is the plug-in unavailable after VRoid Studio 1.18?
 You can edit VRoid Studio\BepInEx\config\BepInEx.cfg, change `HideManagerGameObject = false` to `HideManagerGameObject = true`, then VRoidXYTool can work on the new version VRoid Studio.
 
